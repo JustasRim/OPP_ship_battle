@@ -15,32 +15,8 @@ Library, technologies, tools
 ----------------------------
 - C#,
 - .NET framework 4.5.2,
-- WFA,
-- Microsoft Visual Studio Enterprise 2017.
+- WFA
 
-Selected application windows
-----------------------------
-<p align="center"><img src="https://github.com/gradzka/BattleShip/blob/master/Screenshots/Server.png"></p>
-<p align="center"><em>Figure 1. Server window</em></p>
-
-<p align="center"><img src="https://github.com/gradzka/BattleShip/blob/master/Screenshots/Connection.png"></p>
-<p align="center"><em>Figure 2. Connection window</em></p>
-
-<p align="center"><img src="https://github.com/gradzka/BattleShip/blob/master/Screenshots/SearchEnemy.png"></p>
-<p align="center"><em>Figure 3. The enemy search window</em></p>
-
-<p align="center"><img src="https://github.com/gradzka/BattleShip/blob/master/Screenshots/Setting.png"></p>
-<p align="center"><em>Figure 4. Ships setting window</em></p>
-
-<p align="center"><img src="https://github.com/gradzka/BattleShip/blob/master/Screenshots/Game.png"></p>
-<p align="center"><em>Figure 5. Game window</em></p>
-
-TODO
-----
-Project requires several improvements:
-- securing the loss of connection between clients and server,
-- encryption of communication between clients and server,
-- coding/decoding of sent/received messages.
 
 How to run
 ----------
@@ -52,5 +28,3 @@ Attributions
 - https://msdn.microsoft.com/pl-pl/library/fx6588te(v=vs.110).aspx,
 - https://msdn.microsoft.com/en-us/library/kb5kfec7(v=vs.85).aspx,
 - https://pixabay.com/pl/.
-
-Thanks for https://github.com/kazimierczak-robert/ for idea and help with unblocking the application GUI :)
