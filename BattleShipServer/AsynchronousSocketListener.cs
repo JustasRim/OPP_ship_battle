@@ -94,6 +94,7 @@ namespace BattleShipServer
         public static void ReadCallback(IAsyncResult ar)
         {
             String content = String.Empty;
+            var systemWideSettings = SystemWideStorage.Instance;
 
             // Retrieve the state object and the handler socket
             // from the asynchronous state object.
@@ -144,33 +145,33 @@ namespace BattleShipServer
                                 //Get nick
                                 whomSent = parameters[2];
 
-                                if (Program.loggedplayingNicks.ContainsKey(whomSent))
+                                if (systemWideSettings.loggedplayingNicks.ContainsKey(whomSent))
                                 {
                                     //Check if whomSent has sent message earlier
 
                                     //Check if whom+who is on whowhomSentStart & whowhomSentGiveUp
-                                    if (!Program.whowhomSentStart.Contains(whomSent + whoSent) && !Program.whowhomSentGiveUp.Contains(whomSent + whoSent))
+                                    if (!systemWideSettings.whowhomSentStart.Contains(whomSent + whoSent) && !systemWideSettings.whowhomSentGiveUp.Contains(whomSent + whoSent))
                                     {
-                                        Program.whowhomSentStart.Add(whoSent + whomSent);
+                                        systemWideSettings.whowhomSentStart.Add(whoSent + whomSent);
                                         state.buffer = new byte[1024];
                                         state.sb = new StringBuilder();
                                         handler.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0,
                                         new AsyncCallback(ReadCallback), state);
                                         break;
                                     }
-                                    else if (Program.whowhomSentStart.Contains(whomSent + whoSent))//Check if whom+who is on whowhomSentStart
+                                    else if (systemWideSettings.whowhomSentStart.Contains(whomSent + whoSent))//Check if whom+who is on whowhomSentStart
                                     {
                                         //Send OK to both players
-                                        if (Program.loggedplayingNicks.ContainsKey(whoSent))
+                                        if (systemWideSettings.loggedplayingNicks.ContainsKey(whoSent))
                                         {
-                                            Send(Program.loggedplayingNicks[whoSent], ((char)16).ToString() + " <EOF>");
+                                            Send(systemWideSettings.loggedplayingNicks[whoSent], ((char)16).ToString() + " <EOF>");
                                         }
-                                        if (Program.loggedplayingNicks.ContainsKey(whomSent))
+                                        if (systemWideSettings.loggedplayingNicks.ContainsKey(whomSent))
                                         {
-                                            Send(Program.loggedplayingNicks[whomSent], ((char)0).ToString() + " <EOF>");
+                                            Send(systemWideSettings.loggedplayingNicks[whomSent], ((char)0).ToString() + " <EOF>");
                                         }
                                         //Remove both players from whowhomSentStart
-                                        Program.whowhomSentStart.Remove(whomSent + whoSent);
+                                        systemWideSettings.whowhomSentStart.Remove(whomSent + whoSent);
                                         state.buffer = new byte[1024];
                                         state.sb = new StringBuilder();
                                         handler.BeginReceive(state.buffer, 0, StateObject.BufferSize, 0,
@@ -178,24 +179,24 @@ namespace BattleShipServer
                                         break;
 
                                     }
-                                    else if (Program.whowhomSentGiveUp.Contains(whomSent + whoSent))//Check if whom+who is on whowhomSentGiveUp
+                                    else if (systemWideSettings.whowhomSentGiveUp.Contains(whomSent + whoSent))//Check if whom+who is on whowhomSentGiveUp
                                     {
-                                        if (Program.loggedplayingNicks.ContainsKey(whoSent))
+                                        if (systemWideSettings.loggedplayingNicks.ContainsKey(whoSent))
                                         {
-                                            Send(Program.loggedplayingNicks[whoSent], ((char)17).ToString() + " <EOF>");
+                                            Send(systemWideSettings.loggedplayingNicks[whoSent], ((char)17).ToString() + " <EOF>");
                                         }
-                                        Program.whowhomSentGiveUp.Remove(whomSent + whoSent);
+                                        systemWideSettings.whowhomSentGiveUp.Remove(whomSent + whoSent);
                                     }
                                 }
-                                else if (Program.loggedplayingNicks.ContainsKey(whoSent))
+                                else if (systemWideSettings.loggedplayingNicks.ContainsKey(whoSent))
                                 {
-                                    Send(Program.loggedplayingNicks[whoSent], ((char)17).ToString() + " <EOF>");
-                                    Program.loggedNicks.Add(whoSent, Program.loggedplayingNicks[whoSent]);
-                                    Program.loggedplayingNicks.Remove(whoSent);
+                                    Send(systemWideSettings.loggedplayingNicks[whoSent], ((char)17).ToString() + " <EOF>");
+                                    systemWideSettings.loggedNicks.Add(whoSent, systemWideSettings.loggedplayingNicks[whoSent]);
+                                    systemWideSettings.loggedplayingNicks.Remove(whoSent);
                                 }
-                                else if (Program.loggedNicks.ContainsKey(whoSent))
+                                else if (systemWideSettings.loggedNicks.ContainsKey(whoSent))
                                 {
-                                    Send(Program.loggedNicks[whoSent], ((char)17).ToString() + " <EOF>");
+                                    Send(systemWideSettings.loggedNicks[whoSent], ((char)17).ToString() + " <EOF>");
                                 }
                                 state.buffer = new byte[1024];
                                 state.sb = new StringBuilder();
@@ -208,21 +209,21 @@ namespace BattleShipServer
                                 nick = parameters[1];
                                 enemyNick = parameters[2];
 
-                                if (Program.loggedplayingNicks.ContainsKey(nick))
+                                if (systemWideSettings.loggedplayingNicks.ContainsKey(nick))
                                 {
-                                    if (!Program.loggedNicks.ContainsKey(nick))
+                                    if (!systemWideSettings.loggedNicks.ContainsKey(nick))
                                     {
-                                        Program.loggedNicks.Add(nick, Program.loggedplayingNicks[nick]);
-                                        Program.loggedplayingNicks.Remove(nick);
+                                        systemWideSettings.loggedNicks.Add(nick, systemWideSettings.loggedplayingNicks[nick]);
+                                        systemWideSettings.loggedplayingNicks.Remove(nick);
                                     }
                                 }
-                                if (Program.loggedplayingNicks.ContainsKey(enemyNick))
+                                if (systemWideSettings.loggedplayingNicks.ContainsKey(enemyNick))
                                 {
-                                    if (!Program.loggedNicks.ContainsKey(enemyNick))
+                                    if (!systemWideSettings.loggedNicks.ContainsKey(enemyNick))
                                     {
-                                        Program.loggedNicks.Add(enemyNick, Program.loggedplayingNicks[enemyNick]);
-                                        Program.loggedplayingNicks.Remove(enemyNick);
-                                        Send(Program.loggedNicks[enemyNick], ((char)1).ToString() + " <EOF>");
+                                        systemWideSettings.loggedNicks.Add(enemyNick, systemWideSettings.loggedplayingNicks[enemyNick]);
+                                        systemWideSettings.loggedplayingNicks.Remove(enemyNick);
+                                        Send(systemWideSettings.loggedNicks[enemyNick], ((char)1).ToString() + " <EOF>");
                                     }
                                 }
                                 state.buffer = new byte[1024];
@@ -240,16 +241,16 @@ namespace BattleShipServer
                                 //Check if whomSent has sent message earlier
                                
                                 //Check if whom+who is on whowhomSentStart & whowhomSentGiveUp
-                                if (!Program.whowhomSentStart.Contains(whomSent + whoSent) && !Program.whowhomSentGiveUp.Contains(whomSent + whoSent))
+                                if (!systemWideSettings.whowhomSentStart.Contains(whomSent + whoSent) && !systemWideSettings.whowhomSentGiveUp.Contains(whomSent + whoSent))
                                 {
-                                    Program.whowhomSentGiveUp.Add(whoSent + whomSent);
-                                    if (Program.loggedplayingNicks.ContainsKey(whoSent))
+                                    systemWideSettings.whowhomSentGiveUp.Add(whoSent + whomSent);
+                                    if (systemWideSettings.loggedplayingNicks.ContainsKey(whoSent))
                                     {
-                                        if (!Program.loggedNicks.ContainsKey(whoSent))
+                                        if (!systemWideSettings.loggedNicks.ContainsKey(whoSent))
                                         {
-                                            Program.loggedNicks.Add(whoSent, Program.loggedplayingNicks[whoSent]);
-                                            Program.loggedplayingNicks.Remove(whoSent);
-                                            Send(Program.loggedNicks[whoSent], ((char)10).ToString() + " <EOF>");
+                                            systemWideSettings.loggedNicks.Add(whoSent, systemWideSettings.loggedplayingNicks[whoSent]);
+                                            systemWideSettings.loggedplayingNicks.Remove(whoSent);
+                                            Send(systemWideSettings.loggedNicks[whoSent], ((char)10).ToString() + " <EOF>");
                                         }
                                     }
                                     state.buffer = new byte[1024];
@@ -258,32 +259,32 @@ namespace BattleShipServer
                                     new AsyncCallback(ReadCallback), state);
                                     break;
                                 }
-                                else if (Program.whowhomSentStart.Contains(whomSent + whoSent))//Check if whom+who is on whowhomSentStart
+                                else if (systemWideSettings.whowhomSentStart.Contains(whomSent + whoSent))//Check if whom+who is on whowhomSentStart
                                 {
                                     //Send Fail to whom player
-                                    if (Program.loggedplayingNicks.ContainsKey(whomSent))
+                                    if (systemWideSettings.loggedplayingNicks.ContainsKey(whomSent))
                                     {
-                                        Send(Program.loggedplayingNicks[whomSent], ((char)9).ToString() + " <EOF>");
+                                        Send(systemWideSettings.loggedplayingNicks[whomSent], ((char)9).ToString() + " <EOF>");
                                     }
                                     //Remove both players from whowhomSentStart
-                                    Program.whowhomSentStart.Remove(whomSent + whoSent);
+                                    systemWideSettings.whowhomSentStart.Remove(whomSent + whoSent);
 
                                     //Remove both players from loggedplayingNicks
-                                    if (Program.loggedplayingNicks.ContainsKey(whomSent))
+                                    if (systemWideSettings.loggedplayingNicks.ContainsKey(whomSent))
                                     {
-                                        if (!Program.loggedNicks.ContainsKey(whomSent))
+                                        if (!systemWideSettings.loggedNicks.ContainsKey(whomSent))
                                         {
-                                            Program.loggedNicks.Add(whoSent, Program.loggedplayingNicks[whomSent]);
-                                            Program.loggedplayingNicks.Remove(whomSent);                                         
+                                            systemWideSettings.loggedNicks.Add(whoSent, systemWideSettings.loggedplayingNicks[whomSent]);
+                                            systemWideSettings.loggedplayingNicks.Remove(whomSent);                                         
                                         }
                                     }
-                                    if (Program.loggedplayingNicks.ContainsKey(whoSent))
+                                    if (systemWideSettings.loggedplayingNicks.ContainsKey(whoSent))
                                     {
-                                        if (!Program.loggedNicks.ContainsKey(whoSent))
+                                        if (!systemWideSettings.loggedNicks.ContainsKey(whoSent))
                                         {
-                                            Program.loggedNicks.Add(whoSent, Program.loggedplayingNicks[whoSent]);
-                                            Program.loggedplayingNicks.Remove(whoSent);
-                                            Send(Program.loggedNicks[whoSent], ((char)10).ToString() + " <EOF>");
+                                            systemWideSettings.loggedNicks.Add(whoSent, systemWideSettings.loggedplayingNicks[whoSent]);
+                                            systemWideSettings.loggedplayingNicks.Remove(whoSent);
+                                            Send(systemWideSettings.loggedNicks[whoSent], ((char)10).ToString() + " <EOF>");
                                         }
                                     }
                                     state.buffer = new byte[1024];
@@ -292,16 +293,16 @@ namespace BattleShipServer
                                     new AsyncCallback(ReadCallback), state);
                                     break;
                                 }
-                                else if (Program.whowhomSentGiveUp.Contains(whomSent + whoSent))//Check if whom+who is on whowhomSentGiveUp
+                                else if (systemWideSettings.whowhomSentGiveUp.Contains(whomSent + whoSent))//Check if whom+who is on whowhomSentGiveUp
                                 {
-                                    Program.whowhomSentGiveUp.Remove(whomSent + whoSent);
-                                    if (Program.loggedplayingNicks.ContainsKey(whoSent))
+                                    systemWideSettings.whowhomSentGiveUp.Remove(whomSent + whoSent);
+                                    if (systemWideSettings.loggedplayingNicks.ContainsKey(whoSent))
                                     {
-                                        if (!Program.loggedNicks.ContainsKey(whoSent))
+                                        if (!systemWideSettings.loggedNicks.ContainsKey(whoSent))
                                         {
-                                            Program.loggedNicks.Add(whoSent, Program.loggedplayingNicks[whoSent]);
-                                            Program.loggedplayingNicks.Remove(whoSent);
-                                            Send(Program.loggedNicks[whoSent], ((char)10).ToString() + " <EOF>");
+                                            systemWideSettings.loggedNicks.Add(whoSent, systemWideSettings.loggedplayingNicks[whoSent]);
+                                            systemWideSettings.loggedplayingNicks.Remove(whoSent);
+                                            Send(systemWideSettings.loggedNicks[whoSent], ((char)10).ToString() + " <EOF>");
                                         }
                                         
                                     }
@@ -321,10 +322,10 @@ namespace BattleShipServer
                         case 4: //Miss
                             {
                                 enemyNick = parameters[1];
-                                if (Program.loggedplayingNicks.ContainsKey(enemyNick))
+                                if (systemWideSettings.loggedplayingNicks.ContainsKey(enemyNick))
                                 {
                                     string message = ((char)4).ToString() + " <EOF>";
-                                    Send(Program.loggedplayingNicks[enemyNick], message);
+                                    Send(systemWideSettings.loggedplayingNicks[enemyNick], message);
                                 }
                                 state.buffer = new byte[1024];
                                 state.sb = new StringBuilder();
@@ -335,10 +336,10 @@ namespace BattleShipServer
                         case 5: //Hit
                             {
                                 enemyNick = parameters[1];
-                                if (Program.loggedplayingNicks.ContainsKey(enemyNick))
+                                if (systemWideSettings.loggedplayingNicks.ContainsKey(enemyNick))
                                 {
                                     string message = ((char)5).ToString() +  " <EOF>";
-                                    Send(Program.loggedplayingNicks[enemyNick], message);
+                                    Send(systemWideSettings.loggedplayingNicks[enemyNick], message);
                                 }
                                 state.buffer = new byte[1024];
                                 state.sb = new StringBuilder();
@@ -351,10 +352,10 @@ namespace BattleShipServer
                                 enemyNick = parameters[1];
                                 string x = parameters[2];
                                 string y = parameters[3];
-                                if (Program.loggedplayingNicks.ContainsKey(enemyNick))
+                                if (systemWideSettings.loggedplayingNicks.ContainsKey(enemyNick))
                                 {
                                     string message = ((char)6).ToString() +" " + x +" " + y + " <EOF>";
-                                    Send(Program.loggedplayingNicks[enemyNick], message);
+                                    Send(systemWideSettings.loggedplayingNicks[enemyNick], message);
                                 }
                                 state.buffer = new byte[1024];
                                 state.sb = new StringBuilder();
@@ -367,11 +368,11 @@ namespace BattleShipServer
                                 //Get nick
                                 nick = parameters[1];
                                 //enemiesoffers
-                                if (Program.enemiesoffers.ContainsKey(nick))
+                                if (systemWideSettings.enemiesoffers.ContainsKey(nick))
                                 {
                                     //enemy1 enemy 2 ... enemy3
                                     string enemiesString ="";
-                                    foreach (var item in Program.enemiesoffers[nick])
+                                    foreach (var item in systemWideSettings.enemiesoffers[nick])
                                     {
                                         enemiesString += item + " ";
                                     }
@@ -395,9 +396,9 @@ namespace BattleShipServer
                                 //whom he offers
                                 enemyNick = parameters[2];
                                 bool nickOffers = false;
-                                if (Program.enemiesoffers.ContainsKey(nick))
+                                if (systemWideSettings.enemiesoffers.ContainsKey(nick))
                                 {
-                                    if (Program.enemiesoffers[nick].Contains(enemyNick))
+                                    if (systemWideSettings.enemiesoffers[nick].Contains(enemyNick))
                                     {
                                         Send(handler, ((char)10).ToString() + " <EOF>");
                                         nickOffers = true;
@@ -405,13 +406,13 @@ namespace BattleShipServer
                                 }
                                 if (nickOffers == false)
                                 {
-                                    if (Program.enemiesoffers.ContainsKey(enemyNick))
+                                    if (systemWideSettings.enemiesoffers.ContainsKey(enemyNick))
                                     {
-                                        Program.enemiesoffers[enemyNick].Add(nick);
+                                        systemWideSettings.enemiesoffers[enemyNick].Add(nick);
                                     }
                                     else
                                     {
-                                        Program.enemiesoffers.Add(enemyNick, new List<string>() { nick });
+                                        systemWideSettings.enemiesoffers.Add(enemyNick, new List<string>() { nick });
                                     }
                                 }
                                 state.buffer = new byte[1024];
@@ -450,7 +451,7 @@ namespace BattleShipServer
                                 port = parameters[2];
                                 IPport += ":" + port;
                                 //Check if nick is in dictionary
-                                if (Program.loggedNicks.ContainsKey(nick)) //nick is occupied
+                                if (systemWideSettings.loggedNicks.ContainsKey(nick)) //nick is occupied
                                 {
                                     //Send Fail
                                     Send(handler, ((char)9).ToString() + " <EOF>");
@@ -458,7 +459,7 @@ namespace BattleShipServer
                                 else //User can join to server
                                 {
                                     //Add to players dictionary <nick, IP>
-                                    Program.loggedNicks.Add(nick, handler);
+                                    systemWideSettings.loggedNicks.Add(nick, handler);
                                     //If everything OK send OK
                                     Send(handler, ((char)10).ToString() + " <EOF>");
                                 }
@@ -474,50 +475,50 @@ namespace BattleShipServer
                                 nick = parameters[1];
                                 enemyNick = parameters[2];              
                                 //Send OK to enemy you want to play
-                                if (Program.enemiesoffers.ContainsKey(nick))
+                                if (systemWideSettings.enemiesoffers.ContainsKey(nick))
                                 {
                                     if (nick != enemyNick) //If i don't decline
                                     {
-                                        if (Program.enemiesoffers[nick].Contains(enemyNick))
+                                        if (systemWideSettings.enemiesoffers[nick].Contains(enemyNick))
                                         {
-                                            if (Program.loggedNicks.ContainsKey(enemyNick))
+                                            if (systemWideSettings.loggedNicks.ContainsKey(enemyNick))
                                             {
-                                                Send(Program.loggedNicks[enemyNick], ((char)10).ToString() + " <EOF>");
-                                                Program.loggedplayingNicks.Add(nick, Program.loggedNicks[nick]);
-                                                Program.loggedplayingNicks.Add(enemyNick, Program.loggedNicks[enemyNick]);
-                                                if (Program.enemiesoffers.ContainsKey(enemyNick))
+                                                Send(systemWideSettings.loggedNicks[enemyNick], ((char)10).ToString() + " <EOF>");
+                                                systemWideSettings.loggedplayingNicks.Add(nick, systemWideSettings.loggedNicks[nick]);
+                                                systemWideSettings.loggedplayingNicks.Add(enemyNick, systemWideSettings.loggedNicks[enemyNick]);
+                                                if (systemWideSettings.enemiesoffers.ContainsKey(enemyNick))
                                                 {
                                                     //decline offers to enemy
-                                                    foreach (var item in Program.enemiesoffers[enemyNick])
+                                                    foreach (var item in systemWideSettings.enemiesoffers[enemyNick])
                                                     {
                                                         //Send Fail to Rest
-                                                        if (Program.loggedNicks.ContainsKey(item))
+                                                        if (systemWideSettings.loggedNicks.ContainsKey(item))
                                                         {
-                                                            Send(Program.loggedNicks[item], ((char)9).ToString() + " <EOF>");
+                                                            Send(systemWideSettings.loggedNicks[item], ((char)9).ToString() + " <EOF>");
                                                         }
                                                     }
                                                 }
-                                                Program.loggedNicks.Remove(nick);
-                                                Program.loggedNicks.Remove(enemyNick);
+                                                systemWideSettings.loggedNicks.Remove(nick);
+                                                systemWideSettings.loggedNicks.Remove(enemyNick);
                                             }
                                             else
                                             {
                                                 //Enemy Give up! You win!
-                                                Send(Program.loggedNicks[nick], ((char)17).ToString() + " <EOF>");
+                                                Send(systemWideSettings.loggedNicks[nick], ((char)17).ToString() + " <EOF>");
                                             }
-                                            Program.enemiesoffers[nick].Remove(enemyNick);
+                                            systemWideSettings.enemiesoffers[nick].Remove(enemyNick);
                                             //Program.loggedNicks.Remove(enemyNick);
                                         }
                                     }
-                                    foreach (var item in Program.enemiesoffers[nick])
+                                    foreach (var item in systemWideSettings.enemiesoffers[nick])
                                     {
                                         //Send Fail to Rest
-                                        if (Program.loggedNicks.ContainsKey(item))
+                                        if (systemWideSettings.loggedNicks.ContainsKey(item))
                                         {
-                                            Send(Program.loggedNicks[item], ((char)9).ToString() + " <EOF>");
+                                            Send(systemWideSettings.loggedNicks[item], ((char)9).ToString() + " <EOF>");
                                         }                                     
                                     }
-                                    Program.enemiesoffers[nick].Clear(); //Clear list
+                                    systemWideSettings.enemiesoffers[nick].Clear(); //Clear list
                                 }
                                 
                                 state.buffer = new byte[1024];
@@ -532,7 +533,7 @@ namespace BattleShipServer
                                 //Get nick
                                 nick = parameters[1];
                                 //Check if nick is in dict
-                                result = Program.loggedNicks.ContainsKey(nick);
+                                result = systemWideSettings.loggedNicks.ContainsKey(nick);
                                 if (result == false) //If not in dictionary send Fail Communique to person
                                 {                          
                                     Send(handler, ((char)12).ToString() + " <EOF>");
@@ -542,7 +543,7 @@ namespace BattleShipServer
                                     //Get players from dictionary: only nicks!
                                     players = "";
                                     //"nick_1;ipv4_1:portNo_1 nick_2;ipv4_2:portNo_2 ... nick_n:ipv4_n:portNo_n "
-                                    foreach (var item in Program.loggedNicks)
+                                    foreach (var item in systemWideSettings.loggedNicks)
                                     {
                                         //omit person with <nick>
                                         if (!item.Key.Equals(nick))
@@ -576,25 +577,25 @@ namespace BattleShipServer
                                 //
 
                                 //Check if nick is in dict
-                                if (Program.loggedNicks.ContainsKey(whoSent) ==true)
+                                if (systemWideSettings.loggedNicks.ContainsKey(whoSent) ==true)
                                 {
                                     //Program.whowhomSentGiveUp.Add(whoSent + whomSent);
-                                    Program.loggedNicks.Remove(whoSent);
+                                    systemWideSettings.loggedNicks.Remove(whoSent);
                                 }
-                                if (Program.loggedplayingNicks.ContainsKey(whoSent) == true)
+                                if (systemWideSettings.loggedplayingNicks.ContainsKey(whoSent) == true)
                                 {
-                                    Program.loggedplayingNicks.Remove(whoSent);
+                                    systemWideSettings.loggedplayingNicks.Remove(whoSent);
                                 }
 
-                                if (Program.enemiesoffers.ContainsKey(whoSent))
+                                if (systemWideSettings.enemiesoffers.ContainsKey(whoSent))
                                 {
                                     //decline offers to enemy
-                                    foreach (var item in Program.enemiesoffers[whoSent])
+                                    foreach (var item in systemWideSettings.enemiesoffers[whoSent])
                                     {
                                         //Send Fail to Rest
-                                        if (Program.loggedNicks.ContainsKey(item))
+                                        if (systemWideSettings.loggedNicks.ContainsKey(item))
                                         {
-                                            Send(Program.loggedNicks[item], ((char)9).ToString() + " <EOF>");
+                                            Send(systemWideSettings.loggedNicks[item], ((char)9).ToString() + " <EOF>");
                                         }
                                     }
                                 }
@@ -608,21 +609,21 @@ namespace BattleShipServer
                                 nick = parameters[1];
                                 enemyNick = parameters[2];
 
-                                if (Program.loggedplayingNicks.ContainsKey(nick))
+                                if (systemWideSettings.loggedplayingNicks.ContainsKey(nick))
                                 {
-                                    if (!Program.loggedNicks.ContainsKey(nick))
+                                    if (!systemWideSettings.loggedNicks.ContainsKey(nick))
                                     {
-                                        Program.loggedNicks.Add(nick, Program.loggedplayingNicks[nick]);
-                                        Program.loggedplayingNicks.Remove(nick);
+                                        systemWideSettings.loggedNicks.Add(nick, systemWideSettings.loggedplayingNicks[nick]);
+                                        systemWideSettings.loggedplayingNicks.Remove(nick);
                                     }
                                 }
-                                if (Program.loggedplayingNicks.ContainsKey(enemyNick))
+                                if (systemWideSettings.loggedplayingNicks.ContainsKey(enemyNick))
                                 {
-                                    if (!Program.loggedNicks.ContainsKey(enemyNick))
+                                    if (!systemWideSettings.loggedNicks.ContainsKey(enemyNick))
                                     {
-                                        Program.loggedNicks.Add(enemyNick, Program.loggedplayingNicks[enemyNick]);
-                                        Program.loggedplayingNicks.Remove(enemyNick);
-                                        Send(Program.loggedNicks[enemyNick], ((char)17).ToString() + " <EOF>");
+                                        systemWideSettings.loggedNicks.Add(enemyNick, systemWideSettings.loggedplayingNicks[enemyNick]);
+                                        systemWideSettings.loggedplayingNicks.Remove(enemyNick);
+                                        Send(systemWideSettings.loggedNicks[enemyNick], ((char)17).ToString() + " <EOF>");
                                     }
                                 }
                                 state.buffer = new byte[1024];
