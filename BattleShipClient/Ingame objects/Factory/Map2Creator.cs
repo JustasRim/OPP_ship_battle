@@ -3,14 +3,14 @@ class Map2Creator : Map
     // Factory Method implementation
     public override void CreateTiles()
     {
-        for(int i = 0; i< 100;i++)
+        for (int i = 0; i < 10; i++)
         {
-            if(i % 10 < 5){
-                Tiles.Add(new GroundTile());
-            }
-            else
+            for (int j = 0; j < 10; i++)
             {
-                Tiles.Add(new WaterTile());
+                if(j<5)
+                 Tiles.Add(new GroundTile(i, j));
+                else
+                 Tiles.Add(new WaterTile(i, j));
             }
         }
     }
