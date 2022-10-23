@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Media;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -25,6 +26,9 @@ namespace BattleShipClient
             DoubleBuffered = true;
             this.enemyNick = enemyNick;
         }
+        public Map2Creator your_map = new Map2Creator();
+        public Map2Creator your_map_tmp = new Map2Creator();
+        public Map2Creator enemy_map = new Map2Creator();
 
         public bool[,] yourMap = new bool[10, 10];
         public bool[,] yourMapTmp = new bool[10, 10];
@@ -40,7 +44,7 @@ namespace BattleShipClient
                 }
             }
         }
-        private void GenerateMap(string name, int xStartPos, int yStartPos)
+        private void GenerateMap(string name, int xStartPos, int yStartPos, Map map)
         {
             Panel buttonPanel = new Panel();
             buttonPanel.Name = name;
@@ -65,10 +69,12 @@ namespace BattleShipClient
                         button.Font = new Font(button.Font.FontFamily, 6);
                         if (name == "PYou")
                         {
+                            button.BackColor = map.GetTile(i - 1, j - 1).Color;
                             button.Click += new System.EventHandler(this.setMastbuttonClick);
                         }
                         else if (name== "PEnemy")
                         {
+                            button.BackColor = map.GetTile(i - 1, j - 1).Color;
                             button.Click += new System.EventHandler(this.buttonClick);
                         }
                     }
@@ -95,7 +101,7 @@ namespace BattleShipClient
         }
         private void SetShips()
         {
-            GenerateMap("PYou",204, 190);
+            GenerateMap("PYou",204, 190, your_map);
             setDefaultValuesInMap(false, yourMap);
             for (int i = 0; i < yourMapTmp.GetLength(1); i++)
             {
@@ -378,7 +384,7 @@ namespace BattleShipClient
             }
             matched.Visible = true;
             //for enemy
-            GenerateMap("PEnemy", 360, 190);
+            GenerateMap("PEnemy", 360, 190, enemy_map);
             //Make visible mast tip panel
             PMast.Visible = true;
             Array.Clear(yourMapTmp, 0, yourMapTmp.Length);
@@ -493,7 +499,7 @@ namespace BattleShipClient
             }
             else
             {
-                clickedButton.BackColor = Color.Transparent;
+                clickedButton.BackColor = your_map.GetTile(x, y).Color;
                 //enable corners
                 DisableOrEnableAllCorners((Panel)clickedButton.Parent, x, y, true);
                 //remove from dictionary

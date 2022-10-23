@@ -1,20 +1,12 @@
+using System.Drawing;
 class WaterTile : ITile
 {
-    public byte Red
+    public Color Color
     {
-        get { return 0; }
+        get { return Color.LightCyan; }
         set { }
     }
-    public byte Green
-    {
-        get { return 0; }
-        set { }
-    }
-    public byte Blue
-    {
-        get { return 255; }
-        set { }
-    }
+    public bool HasEnemy { get; set; }
     public int X { get; set; }
     public int Y { get; set; }
 
@@ -22,5 +14,6 @@ class WaterTile : ITile
     {
         X = x;
         Y = y;
+        HasEnemy = false;
     }
 }
