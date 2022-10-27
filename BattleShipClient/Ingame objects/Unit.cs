@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace BattleShipClient.Ingame_objects
 {
-    public class Unit
+    public class Unit : ICloneable
     {
         public float Health { get; set; }
         public bool CanTakeDamage { get; set; }
@@ -32,6 +33,19 @@ namespace BattleShipClient.Ingame_objects
                 }
             }
             DamageReduction = damageReduction;
+        }
+
+        public Object Clone()
+        {
+            return (Unit)this.MemberwiseClone();
+        }
+
+        public Unit CopyDeep()
+        {
+            Unit copy = (Unit)this.Clone();
+            copy.PowerUps = new List<PowerUp>();
+            copy.PowerUps.AddRange(PowerUps);
+            return copy;
         }
     }
 

@@ -1,4 +1,6 @@
 ﻿
+using System;
+
 namespace BattleShipClient.Ingame_objects
 {
     public enum PowerUpType
@@ -7,7 +9,7 @@ namespace BattleShipClient.Ingame_objects
         Invulnerability,
     }
 
-    public class PowerUp
+    public class PowerUp : ICloneable
     {
         public int RoundsLeft { get; set; }
         public PowerUpType Type{ get; set; }
@@ -16,5 +18,11 @@ namespace BattleShipClient.Ingame_objects
         {
             return 0;
         }
+
+        public Object Clone()
+        {
+            return (PowerUp)this.MemberwiseClone();
+        }
+
     }
 }

@@ -60,6 +60,23 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Ingame objects\DecoratorBalance.cs" />
+    <Compile Include="Ingame objects\DecoratorName.cs" />
+    <Compile Include="Ingame objects\Factory\GroundTile.cs" />
+    <Compile Include="Ingame objects\Invulnerability.cs" />
+    <Compile Include="Ingame objects\Factory\Map.cs" />
+    <Compile Include="Ingame objects\Factory\Map1Creator.cs" />
+    <Compile Include="Ingame objects\Factory\Map2Creator.cs" />
+    <Compile Include="Ingame objects\ITellInfo.cs" />
+    <Compile Include="Ingame objects\Player.cs" />
+    <Compile Include="Ingame objects\PowerUp.cs" />
+    <Compile Include="Ingame objects\Shield.cs" />
+    <Compile Include="Ingame objects\Ship.cs" />
+    <Compile Include="Ingame objects\Tank.cs" />
+    <Compile Include="Ingame objects\Factory\Tile.cs" />
+    <Compile Include="Ingame objects\TellInfoDecorator.cs" />
+    <Compile Include="Ingame objects\Unit.cs" />
+    <Compile Include="Ingame objects\Factory\WaterTile.cs" />
     <Compile Include="OfferingGame.cs">
       <SubType>Form</SubType>
     </Compile>
