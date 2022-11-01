@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BattleShipClient.Ingame_objects;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -247,7 +248,7 @@ namespace BattleShipClient
                                 {
                                     int x = Int32.Parse(main.clickedButton.Name.Substring(0, 1)); //get x button co-ordinates
                                     int y = Int32.Parse(main.clickedButton.Name.Substring(1, 1)); //get y button co-ordinates
-                                    main.enemyMap.GetTile(x, y).HasUnit = true;
+                                    main.enemyMap.GetTile(x, y).Unit = new Unit();
                                     main.clickedButton.BackColor = Color.Crimson;
                                     ((Panel)main.Controls.Find("PEnemy", true).FirstOrDefault()).Enabled = true;
                                 }; main.Invoke(inv);
@@ -260,7 +261,7 @@ namespace BattleShipClient
                                 {
                                     int x = Int32.Parse(main.clickedButton.Name.Substring(0, 1)); //get x button co-ordinates
                                     int y = Int32.Parse(main.clickedButton.Name.Substring(1, 1)); //get y button co-ordinates
-                                    main.enemyMap.GetTile(x, y).HasUnit = true;
+                                    main.enemyMap.GetTile(x, y).Unit = new Unit();
                                     main.clickedButton.BackColor = Color.Tomato;
                                     ((Panel)main.Controls.Find("PEnemy", true).FirstOrDefault()).Enabled = true;
                                 }; main.Invoke(inv);
@@ -273,7 +274,7 @@ namespace BattleShipClient
                                 {
                                     int x = Int32.Parse(main.clickedButton.Name.Substring(0, 1)); //get x button co-ordinates
                                     int y = Int32.Parse(main.clickedButton.Name.Substring(1, 1)); //get y button co-ordinates
-                                    main.enemyMap.GetTile(x, y).HasUnit = true;
+                                    main.enemyMap.GetTile(x, y).Unit = new Unit();
                                     main.clickedButton.BackColor = Color.Crimson;
                                     ((Panel)main.Controls.Find("PEnemy", true).FirstOrDefault()).Enabled = false;
                                     MessageBox.Show("You win!", "Success!");

@@ -13,7 +13,7 @@ public abstract class Map
 
     public void ResetTiles()
     {
-        _tiles.ForEach(q => q.HasUnit = false);
+        _tiles.ForEach(q => q.Unit = null);
     }
 
     // Factory Method

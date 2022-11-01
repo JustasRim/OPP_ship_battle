@@ -1,4 +1,6 @@
-﻿using System;
+﻿using BattleShipClient.Ingame_objects;
+using BattleShipClient.Ingame_objects.Builder;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -24,6 +26,8 @@ namespace BattleShipClient
         public Map2Creator yourMap = new Map2Creator();
         public Map2Creator yourMapTmp = new Map2Creator();
         public Map2Creator enemyMap = new Map2Creator();
+
+        public Director director = new Director();
 
         List<Button> selectedButtons = new List<Button>();
         private void setDefaultValuesInMap(bool value, bool [,] Map)
@@ -94,14 +98,9 @@ namespace BattleShipClient
         private void SetShips()
         {
             GenerateMap("PYou",204, 190, yourMap);
-            for (int i = 0; i < 10; i++)
-            {
-                for (int j = 0; j < 10; j++)
-                {
-                    yourMapTmp.GetTile(i, j).HasUnit = false;
-                }
-            }
+            yourMapTmp.ResetTiles();
         }
+
         private void DisableOrEnableButtonIfExists(Panel panel, int x1, int y1, bool DisOrEn)
         {
             Button button;
@@ -118,6 +117,7 @@ namespace BattleShipClient
                 }
             }
         }
+
         private int IsLeftNeighbour(int x, int y)
         {
             int x1=x;
@@ -225,7 +225,11 @@ namespace BattleShipClient
                         downNo = IsDownNeighbour(i, j);
                         if (leftNo==0 && rightNo==0 && downNo ==0 && upNo==0)
                         {
-                            yourMapTmp.GetTile(i, j).HasUnit = true;
+                            var destroyerBuilder = new DestroyerShipBuilder();
+                            director.Construct(destroyerBuilder);
+                            var ship = destroyerBuilder.GetShip();
+                            yourMapTmp.GetTile(i, j).Unit = ship;
+                            yourMap.GetTile(i, j).Unit = ship;
                             counter++;
                         }
                         if (counter > 4) return false;
@@ -254,8 +258,14 @@ namespace BattleShipClient
                         upNo = IsUpNeighbour(i, j);
                         if (downNo == 1 && upNo==0)
                         {
-                            yourMapTmp.GetTile(i, j).HasUnit = true;
-                            yourMapTmp.GetTile(i + 1, j).HasUnit = true;
+                            var destroyerBuilder = new DestroyerShipBuilder();
+                            director.Construct(destroyerBuilder);
+                            var ship = destroyerBuilder.GetShip();
+                            yourMapTmp.GetTile(i, j).Unit = ship;
+                            yourMapTmp.GetTile(i + 1, j).Unit = ship;
+
+                            yourMap.GetTile(i, j).Unit = ship;
+                            yourMap.GetTile(i + 1, j).Unit = ship;
                             counter++;
                         }
                         else if (downNo==0 && upNo==0)
@@ -264,8 +274,15 @@ namespace BattleShipClient
                             leftNo = IsLeftNeighbour(i, j);
                             if (rightNo==1 && leftNo==0)
                             {
-                                yourMapTmp.GetTile(i, j).HasUnit = true;
-                                yourMapTmp.GetTile(i, j + 1).HasUnit = true;
+                                var destroyerBuilder = new DestroyerShipBuilder();
+                                director.Construct(destroyerBuilder);
+                                var ship = destroyerBuilder.GetShip();
+
+                                yourMapTmp.GetTile(i, j).Unit = ship;
+                                yourMapTmp.GetTile(i, j + 1).Unit = ship;
+
+                                yourMap.GetTile(i, j).Unit = ship;
+                                yourMap.GetTile(i, j + 1).Unit = ship;
                                 counter++;
                             }
                         }
@@ -294,9 +311,16 @@ namespace BattleShipClient
                         upNo = IsUpNeighbour(i, j);
                         if (downNo == 2 && upNo == 0)
                         {
-                            yourMapTmp.GetTile(i, j).HasUnit = true;
-                            yourMapTmp.GetTile(i + 1, j).HasUnit = true;
-                            yourMapTmp.GetTile(i + 2, j).HasUnit = true;
+                            var builder = new BattleShipBuilder();
+                            director.Construct(builder);
+                            var ship = builder.GetShip();
+                            yourMapTmp.GetTile(i, j).Unit = ship;
+                            yourMapTmp.GetTile(i + 1, j).Unit = ship;
+                            yourMapTmp.GetTile(i + 2, j).Unit = ship;
+
+                            yourMap.GetTile(i, j).Unit = ship;
+                            yourMap.GetTile(i + 1, j).Unit = ship;
+                            yourMap.GetTile(i + 2, j).Unit = ship;
                             counter++;
                         }
                         else if (downNo == 0 && upNo == 0)
@@ -305,9 +329,16 @@ namespace BattleShipClient
                             leftNo = IsLeftNeighbour(i, j);
                             if (rightNo == 2 && leftNo == 0)
                             {
-                                yourMapTmp.GetTile(i, j).HasUnit = true;
-                                yourMapTmp.GetTile(i, j + 1).HasUnit = true;
-                                yourMapTmp.GetTile(i, j + 2).HasUnit = true;
+                                var builder = new BattleShipBuilder();
+                                director.Construct(builder);
+                                var ship = builder.GetShip();
+                                yourMapTmp.GetTile(i, j).Unit = ship;
+                                yourMapTmp.GetTile(i, j + 1).Unit = ship;
+                                yourMapTmp.GetTile(i, j + 2).Unit = ship;
+
+                                yourMap.GetTile(i, j).Unit = ship;
+                                yourMap.GetTile(i, j + 1).Unit = ship;
+                                yourMap.GetTile(i, j + 2).Unit = ship;
                                 counter++;
                             }
                         }
@@ -336,10 +367,18 @@ namespace BattleShipClient
                         upNo = IsUpNeighbour(i, j);
                         if (downNo == 3 && upNo == 0)
                         {
-                            yourMapTmp.GetTile(i, j).HasUnit = true;
-                            yourMapTmp.GetTile(i + 1, j).HasUnit = true;
-                            yourMapTmp.GetTile(i + 2, j).HasUnit = true;
-                            yourMapTmp.GetTile(i + 3, j).HasUnit = true;
+                            var builder = new BattleShipBuilder();
+                            director.Construct(builder);
+                            var ship = builder.GetShip();
+                            yourMapTmp.GetTile(i, j).Unit = ship;
+                            yourMapTmp.GetTile(i + 1, j).Unit = ship;
+                            yourMapTmp.GetTile(i + 2, j).Unit = ship;
+                            yourMapTmp.GetTile(i + 3, j).Unit = ship;
+
+                            yourMap.GetTile(i, j).Unit = ship;
+                            yourMap.GetTile(i + 1, j).Unit = ship;
+                            yourMap.GetTile(i + 2, j).Unit = ship;
+                            yourMap.GetTile(i + 3, j).Unit = ship;
                             counter++;
                         }
                         else if (downNo == 0 && upNo == 0)
@@ -348,10 +387,18 @@ namespace BattleShipClient
                             leftNo = IsLeftNeighbour(i, j);
                             if (rightNo == 3 && leftNo == 0)
                             {
-                                yourMapTmp.GetTile(i, j).HasUnit = true;
-                                yourMapTmp.GetTile(i, j + 1).HasUnit = true;
-                                yourMapTmp.GetTile(i, j + 2).HasUnit = true;
-                                yourMapTmp.GetTile(i, j + 3).HasUnit = true;
+                                var builder = new BattleShipBuilder();
+                                director.Construct(builder);
+                                var ship = builder.GetShip();
+                                yourMapTmp.GetTile(i, j).Unit = ship;
+                                yourMapTmp.GetTile(i, j + 1).Unit = ship;
+                                yourMapTmp.GetTile(i, j + 2).Unit = ship;
+                                yourMapTmp.GetTile(i, j + 3).Unit = ship;
+
+                                yourMap.GetTile(i, j).Unit = ship;
+                                yourMap.GetTile(i, j + 1).Unit = ship;
+                                yourMap.GetTile(i, j + 2).Unit = ship;
+                                yourMap.GetTile(i, j + 3).Unit = ship;
                                 counter++;
                             }
                         }
@@ -419,6 +466,7 @@ namespace BattleShipClient
             //Receive answer in Program's thread
             clickedButton.Enabled = false;
         }
+
         public void GetShotAndResponse(int x, int y)
         {
             Button button;
@@ -428,9 +476,6 @@ namespace BattleShipClient
             //Ship is hit
             if (yourMap.GetTile(x, y).HasUnit)
             {
-                yourMapTmp.GetTile(x, y).HasUnit = true;
-
-                //else
                 masts--;
 
                 //If ship to sink
@@ -485,7 +530,7 @@ namespace BattleShipClient
                     //disable corners
                     DisableOrEnableAllCorners((Panel)clickedButton.Parent, x, y, false);
                     //set true in game table
-                    yourMap.GetTile(x, y).HasUnit = true;
+                    yourMap.GetTile(x, y).Unit = new Unit();
                 }
             }
             else
@@ -501,10 +546,11 @@ namespace BattleShipClient
                     DisableOrEnableAllCorners((Panel)btn.Parent, Int32.Parse(btn.Name[0].ToString()), Int32.Parse(btn.Name[1].ToString()), false);
                 }
                 //set false in game table
-                yourMap.GetTile(x, y).HasUnit = false;
+                yourMap.GetTile(x, y).Unit = null;
             }
             //Check
         }
+
         void buttonClick(object sender, EventArgs e)
         {
             clickedButton = (Button)sender;//detect which button has been pressed
@@ -517,6 +563,7 @@ namespace BattleShipClient
             Program.client.Send(message);
             //Get answer form Program's thread       
         }
+
         private void Form1_Load(object sender, EventArgs e)
         {
             this.Text = "Battleship - you're playing with " + enemyNick;

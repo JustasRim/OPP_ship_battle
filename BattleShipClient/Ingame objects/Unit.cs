@@ -8,7 +8,7 @@ namespace BattleShipClient.Ingame_objects
         public float Health { get; set; }
         public bool CanTakeDamage { get; set; }
         public float DamageReduction { get; set; }
-        public List<Part> Parts { get; set; }
+        public List<Part> Parts { get; set; } = new List<Part>();
         public List<PowerUp> PowerUps { get; set; }
 
         public void RefreshPowerUps()
