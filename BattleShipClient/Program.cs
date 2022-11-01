@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -248,8 +249,21 @@ namespace BattleShipClient
                                 {
                                     int x = Int32.Parse(main.clickedButton.Name.Substring(0, 1)); //get x button co-ordinates
                                     int y = Int32.Parse(main.clickedButton.Name.Substring(1, 1)); //get y button co-ordinates
-                                    main.enemyMap.GetTile(x, y).Unit = new Unit();
-                                    main.clickedButton.BackColor = Color.Crimson;
+                                    int health = Int32.Parse(answer.Split(' ')[1]);
+                                    var unit = new Unit
+                                    {
+                                        Parts = new List<Part> { new Part("Hull", 0, health, 0, 0) }
+                                    };
+                                    main.enemyMap.GetTile(x, y).Unit = unit;
+                                    if (unit.Health > 0)
+                                    {
+                                        main.clickedButton.BackColor = Color.Pink;
+                                    }
+                                    else
+                                    {
+                                        main.clickedButton.BackColor = Color.Crimson;
+                                    }
+
                                     ((Panel)main.Controls.Find("PEnemy", true).FirstOrDefault()).Enabled = true;
                                 }; main.Invoke(inv);
                                 break;
@@ -295,7 +309,8 @@ namespace BattleShipClient
                                     {
                                         x = Int32.Parse(answer.Split(' ')[1]);
                                         y = Int32.Parse(answer.Split(' ')[2]);
-                                        main.GetShotAndResponse(x, y);
+                                        int damage = Int32.Parse(answer.Split(' ')[3]);
+                                        main.GetShotAndResponse(x, y, damage);
                                         if (main.masts == 0)
                                         {
                                             ((Panel)main.Controls.Find("PEnemy", true).FirstOrDefault()).Enabled = false;

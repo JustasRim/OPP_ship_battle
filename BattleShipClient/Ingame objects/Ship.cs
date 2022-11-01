@@ -7,7 +7,7 @@ namespace BattleShipClient.Ingame_objects
     {
         public void Sink()
         {
-            Health = 0;
+            Parts.ForEach(q => q.Health = 0);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using BattleShipClient.Ingame_objects;
+using BattleShipClient.Ingame_objects.Adapter;
 using BattleShipClient.Ingame_objects.Builder;
 using System;
 using System.Collections.Generic;
@@ -467,22 +468,39 @@ namespace BattleShipClient
             clickedButton.Enabled = false;
         }
 
-        public void GetShotAndResponse(int x, int y)
+        public void GetShotAndResponse(int x, int y, int damage)
         {
             Button button;
             Panel panel = (Panel)this.Controls.Find("PYou", true).FirstOrDefault();
             button = (Button)panel.Controls.Find(x.ToString() + y.ToString(), true).FirstOrDefault();
-            string message = "";           
+            string message = "";
             //Ship is hit
-            if (yourMap.GetTile(x, y).HasUnit)
+            var tile = yourMap.GetTile(x, y);
+            if (tile.HasUnit)
             {
-                masts--;
+                var unit = tile.Unit;
+                unit.TakeDamage(damage);
+                if (unit.Health <= 0)
+                {
+                    masts--;
+                    if (unit is Ship sinkable)
+                    {
+                        Die(sinkable);
+                    } 
+                    else
+                    {
+                        var tank = unit as Tank;
+                        var adapter = new ShipTankAdapter(tank);
+                        Die(adapter);
+                    }
 
-                //If ship to sink
-                //Send SinkShip
-                //yourMapTmp[x, y] = true;            
-                //Change color on your map
-                button.BackColor = Color.Tomato;
+                    button.BackColor = Color.Tomato;
+                } 
+                else
+                {
+                    button.BackColor = Color.Purple;
+                }
+                
                 Application.DoEvents();
                 if (masts == 0)
                 {
@@ -492,7 +510,7 @@ namespace BattleShipClient
                 else
                 {
                     //Send Hit
-                    message = (char)5 + " " + enemyNick + " <EOF>";
+                    message = (char)5 + " " + enemyNick + " " + unit.Health + " <EOF>";
                     Program.client.Send(message);
                     //Your turn
                     ((Panel)this.Controls.Find("PEnemy", true).FirstOrDefault()).Enabled = false;
@@ -508,6 +526,12 @@ namespace BattleShipClient
             }
             Application.DoEvents();
         }
+
+        private void Die(ISinkable sinkable)
+        {
+            sinkable.Sink();
+        }
+
         void setMastbuttonClick(object sender, EventArgs e)
         {
             var clickedButton = (Button)sender;//detect which button has been pressed
@@ -559,7 +583,8 @@ namespace BattleShipClient
             int y = Int32.Parse(clickedButton.Name.Substring(1, 1)); //get y button co-ordinates
             //Send Shot
             string message = "";
-            message = (char)6 + " " + enemyNick + " " + x.ToString() +" " + y.ToString() + " <EOF>";
+            var damage = yourMap.Tiles.Where(q => q.HasUnit).SelectMany(q => q.Unit.Parts).Sum(q => q.Damage);
+            message = (char)6 + " " + enemyNick + " " + x.ToString() + " " + y.ToString() + " " + damage + " <EOF>";
             Program.client.Send(message);
             //Get answer form Program's thread       
         }

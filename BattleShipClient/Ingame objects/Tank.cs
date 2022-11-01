@@ -5,7 +5,7 @@ namespace BattleShipClient.Ingame_objects
     {
         public void Explode()
         {
-            Health = 0;
+            Parts.ForEach(q => q.Health = 0);
         }
 
         public void TakeCover()

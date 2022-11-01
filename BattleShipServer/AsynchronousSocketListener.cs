@@ -336,9 +336,10 @@ namespace BattleShipServer
                         case 5: //Hit
                             {
                                 enemyNick = parameters[1];
+                                string health = parameters[2];
                                 if (systemWideSettings.loggedplayingNicks.ContainsKey(enemyNick))
                                 {
-                                    string message = ((char)5).ToString() +  " <EOF>";
+                                    string message = ((char)5).ToString() + " " + health + " <EOF>";
                                     Send(systemWideSettings.loggedplayingNicks[enemyNick], message);
                                 }
                                 state.buffer = new byte[1024];
@@ -352,9 +353,10 @@ namespace BattleShipServer
                                 enemyNick = parameters[1];
                                 string x = parameters[2];
                                 string y = parameters[3];
+                                string damage = parameters[4];
                                 if (systemWideSettings.loggedplayingNicks.ContainsKey(enemyNick))
                                 {
-                                    string message = ((char)6).ToString() +" " + x +" " + y + " <EOF>";
+                                    string message = ((char)6).ToString() +" " + x + " " + y + " " + damage + " <EOF>";
                                     Send(systemWideSettings.loggedplayingNicks[enemyNick], message);
                                 }
                                 state.buffer = new byte[1024];

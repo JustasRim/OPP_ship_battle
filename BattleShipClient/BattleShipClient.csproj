@@ -60,6 +60,7 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Ingame objects\Adapter\IDieable.cs" />
     <Compile Include="Ingame objects\Builder\BattleShipBuilder.cs" />
     <Compile Include="Ingame objects\Builder\Director.cs" />
     <Compile Include="Ingame objects\Builder\IBuilder.cs" />
@@ -77,6 +78,7 @@
     <Compile Include="Ingame objects\PowerUp.cs" />
     <Compile Include="Ingame objects\Shield.cs" />
     <Compile Include="Ingame objects\Ship.cs" />
+    <Compile Include="Ingame objects\Adapter\ShipTankAdapter.cs" />
     <Compile Include="Ingame objects\Tank.cs" />
     <Compile Include="Ingame objects\Factory\Tile.cs" />
     <Compile Include="Ingame objects\TellInfoDecorator.cs" />

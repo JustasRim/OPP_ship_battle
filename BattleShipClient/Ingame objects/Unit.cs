@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace BattleShipClient.Ingame_objects
 {
     public class Unit : ICloneable
     {
-        public int Health { get; set; }
+        public int Health { get => Parts.Sum(q => q.Health); }
         public bool CanTakeDamage { get; set; }
         public float DamageReduction { get; set; } = 0;
         public List<Part> Parts { get; set; } = new List<Part>();
@@ -13,7 +14,16 @@ namespace BattleShipClient.Ingame_objects
 
         public virtual void TakeDamage(int damage)
         {
-            Health -= (int)(damage * (1 - DamageReduction));
+            var damageAfterReduction = (int)(damage * (1 - DamageReduction));
+            var rnd = new Random();
+            var partIndex = rnd.Next(0, Parts.Count);
+            var damageDealt = damageAfterReduction - Parts[partIndex].Armor;
+            if (damageDealt < 0)
+            {
+                damageDealt = 0;
+            }
+
+            Parts[partIndex].Health -= damageDealt;
         }
 
         public void RefreshPowerUps()
