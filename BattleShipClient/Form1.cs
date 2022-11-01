@@ -1,12 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Media;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace BattleShipClient
@@ -26,13 +21,10 @@ namespace BattleShipClient
             DoubleBuffered = true;
             this.enemyNick = enemyNick;
         }
-        public Map2Creator your_map = new Map2Creator();
-        public Map2Creator your_map_tmp = new Map2Creator();
-        public Map2Creator enemy_map = new Map2Creator();
+        public Map2Creator yourMap = new Map2Creator();
+        public Map2Creator yourMapTmp = new Map2Creator();
+        public Map2Creator enemyMap = new Map2Creator();
 
-        public bool[,] yourMap = new bool[10, 10];
-        public bool[,] yourMapTmp = new bool[10, 10];
-        public bool[,] enemyMap = new bool[10, 10];
         List<Button> selectedButtons = new List<Button>();
         private void setDefaultValuesInMap(bool value, bool [,] Map)
         {
@@ -101,13 +93,12 @@ namespace BattleShipClient
         }
         private void SetShips()
         {
-            GenerateMap("PYou",204, 190, your_map);
-            setDefaultValuesInMap(false, yourMap);
-            for (int i = 0; i < yourMapTmp.GetLength(1); i++)
+            GenerateMap("PYou",204, 190, yourMap);
+            for (int i = 0; i < 10; i++)
             {
-                for (int j = 0; j < yourMapTmp.GetLength(0); j++)
+                for (int j = 0; j < 10; j++)
                 {
-                    yourMapTmp[i, j] = false;
+                    yourMapTmp.GetTile(i, j).HasUnit = false;
                 }
             }
         }
@@ -133,7 +124,7 @@ namespace BattleShipClient
             int y1=y-1;
             if (y1>-1)
             {
-                if (yourMap[x1,y1]==true) //check if neighbour has neighbour
+                if (yourMap.GetTile(x1, y1).HasUnit) //check if neighbour has neighbour
                 {
                     return 1 + IsLeftNeighbour(x1, y1);
                 }
@@ -153,7 +144,7 @@ namespace BattleShipClient
             int y1 = y + 1;
             if (y1 < 10)
             {
-                if (yourMap[x1, y1] == true) //check if neighbour has neighbour
+                if (yourMap.GetTile(x1, y1).HasUnit) //check if neighbour has neighbour
                 {
                     return 1 + IsRightNeighbour(x1, y1);
                 }
@@ -173,7 +164,7 @@ namespace BattleShipClient
             int y1 = y;
             if (x1 > -1)
             {
-                if (yourMap[x1, y1] == true) //check if neighbour has neighbour
+                if (yourMap.GetTile(x1, y1).HasUnit) //check if neighbour has neighbour
                 {
                     return 1 + IsUpNeighbour(x1, y1);
                 }
@@ -193,7 +184,7 @@ namespace BattleShipClient
             int y1 = y;
             if (x1 < 10)
             {
-                if (yourMap[x1, y1] == true) //check if neighbour has neighbour
+                if (yourMap.GetTile(x1, y1).HasUnit) //check if neighbour has neighbour
                 {
                     return 1 + IsDownNeighbour(x1, y1);
                 }
@@ -226,7 +217,7 @@ namespace BattleShipClient
             {
                 for (int j = 0; j < 10; j++)
                 {
-                    if (yourMap[i, j] == true)
+                    if (yourMap.GetTile(i, j).HasUnit)
                     {
                         leftNo = IsLeftNeighbour(i, j);
                         rightNo = IsRightNeighbour(i, j);
@@ -234,7 +225,7 @@ namespace BattleShipClient
                         downNo = IsDownNeighbour(i, j);
                         if (leftNo==0 && rightNo==0 && downNo ==0 && upNo==0)
                         {
-                            yourMapTmp[i, j] = true;
+                            yourMapTmp.GetTile(i, j).HasUnit = true;
                             counter++;
                         }
                         if (counter > 4) return false;
@@ -256,15 +247,15 @@ namespace BattleShipClient
             {
                 for (int j = 0; j < 10; j++)
                 {
-                    if (yourMap[i, j] == true)
+                    if (yourMap.GetTile(i, j).HasUnit)
                     {
-                        if (yourMapTmp[i, j] == true) continue;
+                        if (yourMapTmp.GetTile(i, j).HasUnit == true) continue;
                         downNo = IsDownNeighbour(i, j);
                         upNo = IsUpNeighbour(i, j);
                         if (downNo == 1 && upNo==0)
                         {
-                            yourMapTmp[i, j] = true;
-                            yourMapTmp[i + 1, j] = true;
+                            yourMapTmp.GetTile(i, j).HasUnit = true;
+                            yourMapTmp.GetTile(i + 1, j).HasUnit = true;
                             counter++;
                         }
                         else if (downNo==0 && upNo==0)
@@ -273,8 +264,8 @@ namespace BattleShipClient
                             leftNo = IsLeftNeighbour(i, j);
                             if (rightNo==1 && leftNo==0)
                             {
-                                yourMapTmp[i, j] = true;
-                                yourMapTmp[i, j+1] = true;
+                                yourMapTmp.GetTile(i, j).HasUnit = true;
+                                yourMapTmp.GetTile(i, j + 1).HasUnit = true;
                                 counter++;
                             }
                         }
@@ -296,16 +287,16 @@ namespace BattleShipClient
             {
                 for (int j = 0; j < 10; j++)
                 {
-                    if (yourMap[i, j] == true)
+                    if (yourMap.GetTile(i, j).HasUnit)
                     {
-                        if (yourMapTmp[i, j] == true) continue;
+                        if (yourMapTmp.GetTile(i, j).HasUnit == true) continue;
                         downNo = IsDownNeighbour(i, j);
                         upNo = IsUpNeighbour(i, j);
                         if (downNo == 2 && upNo == 0)
                         {
-                            yourMapTmp[i, j] = true;
-                            yourMapTmp[i + 1, j] = true;
-                            yourMapTmp[i + 2, j] = true;
+                            yourMapTmp.GetTile(i, j).HasUnit = true;
+                            yourMapTmp.GetTile(i + 1, j).HasUnit = true;
+                            yourMapTmp.GetTile(i + 2, j).HasUnit = true;
                             counter++;
                         }
                         else if (downNo == 0 && upNo == 0)
@@ -314,9 +305,9 @@ namespace BattleShipClient
                             leftNo = IsLeftNeighbour(i, j);
                             if (rightNo == 2 && leftNo == 0)
                             {
-                                yourMapTmp[i, j] = true;
-                                yourMapTmp[i, j + 1] = true;
-                                yourMapTmp[i, j + 2] = true;
+                                yourMapTmp.GetTile(i, j).HasUnit = true;
+                                yourMapTmp.GetTile(i, j + 1).HasUnit = true;
+                                yourMapTmp.GetTile(i, j + 2).HasUnit = true;
                                 counter++;
                             }
                         }
@@ -338,17 +329,17 @@ namespace BattleShipClient
             {
                 for (int j = 0; j < 10; j++)
                 {
-                    if (yourMap[i, j] == true)
+                    if (yourMap.GetTile(i, j).HasUnit)
                     {
-                        if (yourMapTmp[i, j] == true) continue;
+                        if (yourMapTmp.GetTile(i, j).HasUnit == true) continue;
                         downNo = IsDownNeighbour(i, j);
                         upNo = IsUpNeighbour(i, j);
                         if (downNo == 3 && upNo == 0)
                         {
-                            yourMapTmp[i, j] = true;
-                            yourMapTmp[i + 1, j] = true;
-                            yourMapTmp[i + 2, j] = true;
-                            yourMapTmp[i + 3, j] = true;
+                            yourMapTmp.GetTile(i, j).HasUnit = true;
+                            yourMapTmp.GetTile(i + 1, j).HasUnit = true;
+                            yourMapTmp.GetTile(i + 2, j).HasUnit = true;
+                            yourMapTmp.GetTile(i + 3, j).HasUnit = true;
                             counter++;
                         }
                         else if (downNo == 0 && upNo == 0)
@@ -357,10 +348,10 @@ namespace BattleShipClient
                             leftNo = IsLeftNeighbour(i, j);
                             if (rightNo == 3 && leftNo == 0)
                             {
-                                yourMapTmp[i, j] = true;
-                                yourMapTmp[i, j + 1] = true;
-                                yourMapTmp[i, j + 2] = true;
-                                yourMapTmp[i, j + 3] = true;
+                                yourMapTmp.GetTile(i, j).HasUnit = true;
+                                yourMapTmp.GetTile(i, j + 1).HasUnit = true;
+                                yourMapTmp.GetTile(i, j + 2).HasUnit = true;
+                                yourMapTmp.GetTile(i, j + 3).HasUnit = true;
                                 counter++;
                             }
                         }
@@ -384,17 +375,17 @@ namespace BattleShipClient
             }
             matched.Visible = true;
             //for enemy
-            GenerateMap("PEnemy", 360, 190, enemy_map);
+            GenerateMap("PEnemy", 360, 190, enemyMap);
             //Make visible mast tip panel
             PMast.Visible = true;
-            Array.Clear(yourMapTmp, 0, yourMapTmp.Length);
+            yourMapTmp.ResetTiles();
         }
         void playbuttonClick(object sender, EventArgs e)
         {
             clickedButton = (Button)sender;
             //check masts
             bool checkResult = false;
-            Array.Clear(yourMapTmp, 0, yourMapTmp.Length);
+            yourMapTmp.ResetTiles();
             checkResult=Check1Masts();
             if (checkResult==false)
             {
@@ -435,9 +426,9 @@ namespace BattleShipClient
             button = (Button)panel.Controls.Find(x.ToString() + y.ToString(), true).FirstOrDefault();
             string message = "";           
             //Ship is hit
-            if (yourMap[x,y] == true)
+            if (yourMap.GetTile(x, y).HasUnit)
             {
-                yourMapTmp[x, y] = true;
+                yourMapTmp.GetTile(x, y).HasUnit = true;
 
                 //else
                 masts--;
@@ -494,12 +485,12 @@ namespace BattleShipClient
                     //disable corners
                     DisableOrEnableAllCorners((Panel)clickedButton.Parent, x, y, false);
                     //set true in game table
-                    yourMap[x, y] = true;
+                    yourMap.GetTile(x, y).HasUnit = true;
                 }
             }
             else
             {
-                clickedButton.BackColor = your_map.GetTile(x, y).Color;
+                clickedButton.BackColor = yourMap.GetTile(x, y).Color;
                 //enable corners
                 DisableOrEnableAllCorners((Panel)clickedButton.Parent, x, y, true);
                 //remove from dictionary
@@ -510,7 +501,7 @@ namespace BattleShipClient
                     DisableOrEnableAllCorners((Panel)btn.Parent, Int32.Parse(btn.Name[0].ToString()), Int32.Parse(btn.Name[1].ToString()), false);
                 }
                 //set false in game table
-                yourMap[x, y] = false;
+                yourMap.GetTile(x, y).HasUnit = false;
             }
             //Check
         }

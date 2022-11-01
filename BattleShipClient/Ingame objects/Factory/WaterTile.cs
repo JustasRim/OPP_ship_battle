@@ -6,7 +6,7 @@ class WaterTile : ITile
         get { return Color.LightCyan; }
         set { }
     }
-    public bool HasEnemy { get; set; }
+    public bool HasUnit { get; set; }
     public int X { get; set; }
     public int Y { get; set; }
 
@@ -14,6 +14,6 @@ class WaterTile : ITile
     {
         X = x;
         Y = y;
-        HasEnemy = false;
+        HasUnit = false;
     }
 }

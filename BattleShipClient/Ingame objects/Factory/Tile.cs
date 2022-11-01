@@ -4,5 +4,5 @@ public interface ITile
     Color Color { get; set; }
     int X { get; set; }
     int Y { get; set; }
-    bool HasEnemy { get; set; }
+    bool HasUnit { get; set; }
 }

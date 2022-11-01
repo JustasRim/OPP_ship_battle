@@ -9,11 +9,11 @@ class GroundTile : ITile
     }
     public int X { get; set; }
     public int Y { get; set; }
-    public bool HasEnemy { get; set; }
+    public bool HasUnit { get; set; }
     public GroundTile(int x, int y)
     {
         X = x;
         Y = y;
-        HasEnemy = false;
+        HasUnit = false;
     }
 }
