@@ -5,11 +5,16 @@ namespace BattleShipClient.Ingame_objects
 {
     public class Unit : ICloneable
     {
-        public float Health { get; set; }
+        public int Health { get; set; }
         public bool CanTakeDamage { get; set; }
-        public float DamageReduction { get; set; }
+        public float DamageReduction { get; set; } = 0;
         public List<Part> Parts { get; set; } = new List<Part>();
         public List<PowerUp> PowerUps { get; set; }
+
+        public virtual void TakeDamage(int damage)
+        {
+            Health -= (int)(damage * (1 - DamageReduction));
+        }
 
         public void RefreshPowerUps()
         {
