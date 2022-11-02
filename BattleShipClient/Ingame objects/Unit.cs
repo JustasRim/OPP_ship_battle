@@ -52,7 +52,7 @@ namespace BattleShipClient.Ingame_objects
             DamageReduction = damageReduction;
         }
 
-        public object DeepCopy()
+        public virtual object DeepCopy()
         {
             Unit copy = new Unit();
             copy.CanTakeDamage = this.CanTakeDamage;
@@ -64,7 +64,7 @@ namespace BattleShipClient.Ingame_objects
 
             return (Unit)copy;
         }
-        public object ShallowCopy()
+        public virtual object ShallowCopy()
         {
             return (Unit)this.MemberwiseClone();
         }
