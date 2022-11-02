@@ -1,5 +1,6 @@
 ﻿using BattleShipClient.Ingame_objects;
 using BattleShipClient.Ingame_objects.Builder;
+using BattleShipClient.Ingame_objects.Decorator;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -8,6 +9,7 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Message = BattleShipClient.Ingame_objects.Decorator.Message;
 
 namespace BattleShipClient
 {
@@ -29,6 +31,8 @@ namespace BattleShipClient
         [STAThread]
         static void Main()
         {
+            TestPrototype();
+            TestDecorator();
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             //Application.Run(new Form1());
@@ -70,6 +74,32 @@ namespace BattleShipClient
             }
         }
 
+        public static void TestDecorator()
+        {        
+            var message = new Message();
+
+            Console.WriteLine("-----------------------");
+            message.CreateEmptyMessage();
+
+            FrontDecorator decorator1 = new FrontDecorator(message, message);
+            EndDecorator decorator2 = new EndDecorator(decorator1, message);
+            WholeDecorator decorator3 = new WholeDecorator(decorator2, message);
+
+            char comm = (char)2;      
+            string testm = comm + " " + Program.userLogin + " " + Program.enemyNick + " <EOF>";
+
+            decorator3.CreateMessage(" " + Program.userLogin + " ");
+            decorator1.CreateMessage(comm.ToString());
+            decorator2.CreateEndMessage(Program.enemyNick + " <EOF>");
+
+            Console.WriteLine("-----------------------");
+            Console.WriteLine(message.ReturnMessage());
+            Console.WriteLine("-----------------------");
+            Console.WriteLine(testm);
+            Console.WriteLine("-----------------------");
+            Console.WriteLine(message.messageText);
+            Console.WriteLine("-----------------------");
+        }
         public static void TestPrototype()
         {
             Director director = new Director();
@@ -82,8 +112,19 @@ namespace BattleShipClient
             var ship = destroyerBuilder.GetShip();
             unitOne = ship;
 
+            Console.WriteLine("FIRST SHIP 1");
             Console.WriteLine($"{unitOne.Health} {unitOne.DamageReduction}");
+            //Console.WriteLine($"Memory address {(Unit)unitOne}");
             foreach (Part part in unitOne.Parts)
+            {
+                Console.WriteLine(part.Name);
+            }
+
+            var shipClone = (Ship)unitOne.DeepCopy();
+            Console.WriteLine("CLONED SHIP 1");
+            //Console.WriteLine($"Memory address {(Unit)shipClone}");
+            Console.WriteLine($"{shipClone.Health} {shipClone.DamageReduction}");
+            foreach (Part part in shipClone.Parts)
             {
                 Console.WriteLine(part.Name);
             }
