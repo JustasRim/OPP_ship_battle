@@ -5,6 +5,8 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Net.Security;
+using System.Reflection;
 using System.Windows.Forms;
 
 namespace BattleShipClient
@@ -27,6 +29,11 @@ namespace BattleShipClient
         public Map2Creator yourMap = new Map2Creator();
         public Map2Creator yourMapTmp = new Map2Creator();
         public Map2Creator enemyMap = new Map2Creator();
+
+        Ship unitOf1Masts;
+        Ship unitOf2Masts;
+        Ship unitOf3Masts;
+        Ship unitOf4Masts;
 
         public Director director = new Director();
 
@@ -226,12 +233,32 @@ namespace BattleShipClient
                         downNo = IsDownNeighbour(i, j);
                         if (leftNo==0 && rightNo==0 && downNo ==0 && upNo==0)
                         {
+                            //with prototype (if the first unit is being then creates with builder else creates with prototype)
+                            if(unitOf1Masts == null) { 
                             var destroyerBuilder = new DestroyerShipBuilder();
                             director.Construct(destroyerBuilder);
                             var ship = destroyerBuilder.GetShip();
                             yourMapTmp.GetTile(i, j).Unit = ship;
                             yourMap.GetTile(i, j).Unit = ship;
                             counter++;
+                            unitOf1Masts = ship;
+                            }
+                            else
+                            {
+                                var ship = (Ship)unitOf1Masts.DeepCopy();
+                                yourMapTmp.GetTile(i, j).Unit = ship;
+                                yourMap.GetTile(i, j).Unit = ship;
+                            }
+
+                            //before
+                            /*
+                            var destroyerBuilder = new DestroyerShipBuilder();
+                            director.Construct(destroyerBuilder);
+                            var ship = destroyerBuilder.GetShip();
+                            yourMapTmp.GetTile(i, j).Unit = ship;
+                            yourMap.GetTile(i, j).Unit = ship;
+                            counter++;
+                            */
                         }
                         if (counter > 4) return false;
                     }
@@ -259,6 +286,31 @@ namespace BattleShipClient
                         upNo = IsUpNeighbour(i, j);
                         if (downNo == 1 && upNo==0)
                         {
+                            if (unitOf2Masts == null)
+                            {
+                                var destroyerBuilder = new DestroyerShipBuilder();
+                                director.Construct(destroyerBuilder);
+                                var ship = destroyerBuilder.GetShip();
+                                yourMapTmp.GetTile(i, j).Unit = ship;
+                                yourMapTmp.GetTile(i + 1, j).Unit = ship;
+
+                                yourMap.GetTile(i, j).Unit = ship;
+                                yourMap.GetTile(i + 1, j).Unit = ship;
+                                counter++;
+                                unitOf2Masts = ship;
+                            }
+                            else
+                            {
+                                var ship = (Ship)unitOf2Masts.DeepCopy();
+                                yourMapTmp.GetTile(i, j).Unit = ship;
+                                yourMapTmp.GetTile(i + 1, j).Unit = ship;
+
+                                yourMap.GetTile(i, j).Unit = ship;
+                                yourMap.GetTile(i + 1, j).Unit = ship;
+                                counter++;
+                                unitOf2Masts = ship;
+                            }
+                            /* before
                             var destroyerBuilder = new DestroyerShipBuilder();
                             director.Construct(destroyerBuilder);
                             var ship = destroyerBuilder.GetShip();
@@ -268,23 +320,51 @@ namespace BattleShipClient
                             yourMap.GetTile(i, j).Unit = ship;
                             yourMap.GetTile(i + 1, j).Unit = ship;
                             counter++;
+                            */
                         }
                         else if (downNo==0 && upNo==0)
                         {
                             rightNo = IsRightNeighbour(i, j);
                             leftNo = IsLeftNeighbour(i, j);
                             if (rightNo==1 && leftNo==0)
-                            {
-                                var destroyerBuilder = new DestroyerShipBuilder();
-                                director.Construct(destroyerBuilder);
-                                var ship = destroyerBuilder.GetShip();
+                            {                      
+                                if (unitOf2Masts == null)
+                                {
+                                    var destroyerBuilder = new DestroyerShipBuilder();
+                                    director.Construct(destroyerBuilder);
+                                    var ship = destroyerBuilder.GetShip();
 
-                                yourMapTmp.GetTile(i, j).Unit = ship;
-                                yourMapTmp.GetTile(i, j + 1).Unit = ship;
+                                    yourMapTmp.GetTile(i, j).Unit = ship;
+                                    yourMapTmp.GetTile(i, j + 1).Unit = ship;
 
-                                yourMap.GetTile(i, j).Unit = ship;
-                                yourMap.GetTile(i, j + 1).Unit = ship;
-                                counter++;
+                                    yourMap.GetTile(i, j).Unit = ship;
+                                    yourMap.GetTile(i, j + 1).Unit = ship;
+                                    counter++;
+                                    unitOf2Masts = ship;
+                                }
+                                else
+                                {
+                                    var ship = (Unit)unitOf2Masts.DeepCopy();
+
+                                    yourMapTmp.GetTile(i, j).Unit = ship;
+                                    yourMapTmp.GetTile(i, j + 1).Unit = ship;
+
+                                    yourMap.GetTile(i, j).Unit = ship;
+                                    yourMap.GetTile(i, j + 1).Unit = ship;
+                                    counter++;
+                                }
+                                /* before
+                                 var destroyerBuilder = new DestroyerShipBuilder();
+                                 director.Construct(destroyerBuilder);
+                                 var ship = destroyerBuilder.GetShip();
+
+                                 yourMapTmp.GetTile(i, j).Unit = ship;
+                                 yourMapTmp.GetTile(i, j + 1).Unit = ship;
+
+                                 yourMap.GetTile(i, j).Unit = ship;
+                                 yourMap.GetTile(i, j + 1).Unit = ship;
+                                 counter++;
+                                 */
                             }
                         }
                         if (counter > 3) return false;
@@ -311,7 +391,35 @@ namespace BattleShipClient
                         downNo = IsDownNeighbour(i, j);
                         upNo = IsUpNeighbour(i, j);
                         if (downNo == 2 && upNo == 0)
-                        {
+                        {                      
+                            if (unitOf3Masts == null)
+                            {
+                                var builder = new BattleShipBuilder();
+                                director.Construct(builder);
+                                var ship = builder.GetShip();
+                                yourMapTmp.GetTile(i, j).Unit = ship;
+                                yourMapTmp.GetTile(i + 1, j).Unit = ship;
+                                yourMapTmp.GetTile(i + 2, j).Unit = ship;
+
+                                yourMap.GetTile(i, j).Unit = ship;
+                                yourMap.GetTile(i + 1, j).Unit = ship;
+                                yourMap.GetTile(i + 2, j).Unit = ship;
+                                counter++;
+                                unitOf3Masts = ship;
+                            }
+                            else
+                            {
+                                var ship = (Ship)unitOf3Masts.DeepCopy();
+                                yourMapTmp.GetTile(i, j).Unit = ship;
+                                yourMapTmp.GetTile(i + 1, j).Unit = ship;
+                                yourMapTmp.GetTile(i + 2, j).Unit = ship;
+
+                                yourMap.GetTile(i, j).Unit = ship;
+                                yourMap.GetTile(i + 1, j).Unit = ship;
+                                yourMap.GetTile(i + 2, j).Unit = ship;
+                                counter++;
+                            }
+                            /* before
                             var builder = new BattleShipBuilder();
                             director.Construct(builder);
                             var ship = builder.GetShip();
@@ -323,6 +431,7 @@ namespace BattleShipClient
                             yourMap.GetTile(i + 1, j).Unit = ship;
                             yourMap.GetTile(i + 2, j).Unit = ship;
                             counter++;
+                            */
                         }
                         else if (downNo == 0 && upNo == 0)
                         {
@@ -330,18 +439,47 @@ namespace BattleShipClient
                             leftNo = IsLeftNeighbour(i, j);
                             if (rightNo == 2 && leftNo == 0)
                             {
-                                var builder = new BattleShipBuilder();
-                                director.Construct(builder);
-                                var ship = builder.GetShip();
-                                yourMapTmp.GetTile(i, j).Unit = ship;
-                                yourMapTmp.GetTile(i, j + 1).Unit = ship;
-                                yourMapTmp.GetTile(i, j + 2).Unit = ship;
+                                if (unitOf3Masts == null)
+                                {
+                                    var builder = new BattleShipBuilder();
+                                    director.Construct(builder);
+                                    var ship = builder.GetShip();
+                                    yourMapTmp.GetTile(i, j).Unit = ship;
+                                    yourMapTmp.GetTile(i, j + 1).Unit = ship;
+                                    yourMapTmp.GetTile(i, j + 2).Unit = ship;
 
-                                yourMap.GetTile(i, j).Unit = ship;
-                                yourMap.GetTile(i, j + 1).Unit = ship;
-                                yourMap.GetTile(i, j + 2).Unit = ship;
-                                counter++;
+                                    yourMap.GetTile(i, j).Unit = ship;
+                                    yourMap.GetTile(i, j + 1).Unit = ship;
+                                    yourMap.GetTile(i, j + 2).Unit = ship;
+                                    counter++;
+                                }
+                                else
+                                {
+                                    var ship = (Ship)unitOf3Masts.DeepCopy();
+                                    yourMapTmp.GetTile(i, j).Unit = ship;
+                                    yourMapTmp.GetTile(i, j + 1).Unit = ship;
+                                    yourMapTmp.GetTile(i, j + 2).Unit = ship;
+
+                                    yourMap.GetTile(i, j).Unit = ship;
+                                    yourMap.GetTile(i, j + 1).Unit = ship;
+                                    yourMap.GetTile(i, j + 2).Unit = ship;
+                                    counter++;
+                                }
                             }
+
+                            /* before
+                            var builder = new BattleShipBuilder();
+                            director.Construct(builder);
+                            var ship = builder.GetShip();
+                            yourMapTmp.GetTile(i, j).Unit = ship;
+                            yourMapTmp.GetTile(i, j + 1).Unit = ship;
+                            yourMapTmp.GetTile(i, j + 2).Unit = ship;
+
+                            yourMap.GetTile(i, j).Unit = ship;
+                            yourMap.GetTile(i, j + 1).Unit = ship;
+                            yourMap.GetTile(i, j + 2).Unit = ship;
+                            counter++;
+                            */
                         }
                         if (counter > 2) return false;
                     }
@@ -368,6 +506,39 @@ namespace BattleShipClient
                         upNo = IsUpNeighbour(i, j);
                         if (downNo == 3 && upNo == 0)
                         {
+                            if (unitOf4Masts == null)
+                            {
+                                var builder = new BattleShipBuilder();
+                                director.Construct(builder);
+                                var ship = builder.GetShip();
+                                yourMapTmp.GetTile(i, j).Unit = ship;
+                                yourMapTmp.GetTile(i + 1, j).Unit = ship;
+                                yourMapTmp.GetTile(i + 2, j).Unit = ship;
+                                yourMapTmp.GetTile(i + 3, j).Unit = ship;
+
+                                yourMap.GetTile(i, j).Unit = ship;
+                                yourMap.GetTile(i + 1, j).Unit = ship;
+                                yourMap.GetTile(i + 2, j).Unit = ship;
+                                yourMap.GetTile(i + 3, j).Unit = ship;
+                                counter++;
+                                unitOf4Masts = ship;
+                            }
+                            else
+                            {
+                                var ship = (Ship)unitOf4Masts.DeepCopy();
+                                yourMapTmp.GetTile(i, j).Unit = ship;
+                                yourMapTmp.GetTile(i + 1, j).Unit = ship;
+                                yourMapTmp.GetTile(i + 2, j).Unit = ship;
+                                yourMapTmp.GetTile(i + 3, j).Unit = ship;
+
+                                yourMap.GetTile(i, j).Unit = ship;
+                                yourMap.GetTile(i + 1, j).Unit = ship;
+                                yourMap.GetTile(i + 2, j).Unit = ship;
+                                yourMap.GetTile(i + 3, j).Unit = ship;
+                                counter++;
+                            }
+
+                            /* before
                             var builder = new BattleShipBuilder();
                             director.Construct(builder);
                             var ship = builder.GetShip();
@@ -381,6 +552,7 @@ namespace BattleShipClient
                             yourMap.GetTile(i + 2, j).Unit = ship;
                             yourMap.GetTile(i + 3, j).Unit = ship;
                             counter++;
+                            */
                         }
                         else if (downNo == 0 && upNo == 0)
                         {
@@ -388,6 +560,39 @@ namespace BattleShipClient
                             leftNo = IsLeftNeighbour(i, j);
                             if (rightNo == 3 && leftNo == 0)
                             {
+                                if (unitOf4Masts == null)
+                                {
+                                    var builder = new BattleShipBuilder();
+                                    director.Construct(builder);
+                                    var ship = builder.GetShip();
+                                    yourMapTmp.GetTile(i, j).Unit = ship;
+                                    yourMapTmp.GetTile(i, j + 1).Unit = ship;
+                                    yourMapTmp.GetTile(i, j + 2).Unit = ship;
+                                    yourMapTmp.GetTile(i, j + 3).Unit = ship;
+
+                                    yourMap.GetTile(i, j).Unit = ship;
+                                    yourMap.GetTile(i, j + 1).Unit = ship;
+                                    yourMap.GetTile(i, j + 2).Unit = ship;
+                                    yourMap.GetTile(i, j + 3).Unit = ship;
+                                    counter++;
+                                    unitOf4Masts = ship;
+                                }
+                                else
+                                {
+                                    var ship = (Ship)unitOf4Masts.DeepCopy();
+                                    yourMapTmp.GetTile(i, j).Unit = ship;
+                                    yourMapTmp.GetTile(i, j + 1).Unit = ship;
+                                    yourMapTmp.GetTile(i, j + 2).Unit = ship;
+                                    yourMapTmp.GetTile(i, j + 3).Unit = ship;
+
+                                    yourMap.GetTile(i, j).Unit = ship;
+                                    yourMap.GetTile(i, j + 1).Unit = ship;
+                                    yourMap.GetTile(i, j + 2).Unit = ship;
+                                    yourMap.GetTile(i, j + 3).Unit = ship;
+                                    counter++;
+                                }
+
+                                /* before
                                 var builder = new BattleShipBuilder();
                                 director.Construct(builder);
                                 var ship = builder.GetShip();
@@ -401,6 +606,8 @@ namespace BattleShipClient
                                 yourMap.GetTile(i, j + 2).Unit = ship;
                                 yourMap.GetTile(i, j + 3).Unit = ship;
                                 counter++;
+
+                                */
                             }
                         }
                         if (counter > 1) return false;
