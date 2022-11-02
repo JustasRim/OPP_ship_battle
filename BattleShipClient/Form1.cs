@@ -2,6 +2,7 @@
 using BattleShipClient.Ingame_objects.Adapter;
 using BattleShipClient.Ingame_objects.Builder;
 using BattleShipClient.Ingame_objects.Prototype;
+using BattleShipClient.Ingame_objects.Strategy;
 using System;
 using System.Collections.Generic;
 using System.Drawing;

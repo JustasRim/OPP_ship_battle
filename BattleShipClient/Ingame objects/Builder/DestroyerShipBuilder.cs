@@ -1,8 +1,10 @@
-﻿namespace BattleShipClient.Ingame_objects.Builder
+﻿using BattleShipClient.Ingame_objects.Strategy;
+
+namespace BattleShipClient.Ingame_objects.Builder
 {
     public class DestroyerShipBuilder : IBuilder
     {
-        private Ship ship = new Ship();
+        private Ship ship = new Ship(new DestroyerDamageStrategy());
 
         public void AddCanon()
         {
@@ -22,6 +24,11 @@
         public void AddKeel()
         {
             ship.Parts.Add(new Part("Metal keel", 0, 100, 40, -6));
+        }
+
+        public void AddDamageStrategy()
+        {
+
         }
 
         public Ship GetShip()

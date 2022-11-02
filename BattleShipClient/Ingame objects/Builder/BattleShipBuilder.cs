@@ -1,8 +1,10 @@
-﻿namespace BattleShipClient.Ingame_objects.Builder
+﻿using BattleShipClient.Ingame_objects.Strategy;
+
+namespace BattleShipClient.Ingame_objects.Builder
 {
     internal class BattleShipBuilder : IBuilder
     {
-        private Ship ship = new Ship();
+        private Ship ship = new Ship(new BattleShipDamageStrategy());
 
         public void AddCanon()
         {
@@ -16,7 +18,7 @@
 
         public void AddHull()
         {
-            ship.Parts.Add(new Part("Metal hull", 0, 100, 50, -250));
+            ship.Parts.Add(new Part("Metal hull", 0, 1000, 50, -250));
         }
 
         public void AddKeel()
