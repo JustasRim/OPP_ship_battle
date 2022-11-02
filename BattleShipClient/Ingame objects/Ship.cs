@@ -11,9 +11,9 @@ namespace BattleShipClient.Ingame_objects
             _damageContext = new DamageContext(damageStrategy);
         }
 
-        private Ship(DamageContext damageContext)
+        public Ship()
         {
-            _damageContext = damageContext;
+
         }
 
         public void Sink()
@@ -23,7 +23,7 @@ namespace BattleShipClient.Ingame_objects
 
         public override object DeepCopy()
         {
-            Ship copy = new Ship(_damageContext);
+            Ship copy = new Ship();
             copy.CanTakeDamage = this.CanTakeDamage;
             copy.DamageReduction = this.DamageReduction;
             copy.Parts = new List<Part>();
