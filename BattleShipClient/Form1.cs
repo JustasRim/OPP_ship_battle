@@ -248,6 +248,7 @@ namespace BattleShipClient
                                 var ship = (Ship)unitOf1Masts.DeepCopy();
                                 yourMapTmp.GetTile(i, j).Unit = ship;
                                 yourMap.GetTile(i, j).Unit = ship;
+                                counter++;
                             }
 
                             //before
@@ -308,7 +309,6 @@ namespace BattleShipClient
                                 yourMap.GetTile(i, j).Unit = ship;
                                 yourMap.GetTile(i + 1, j).Unit = ship;
                                 counter++;
-                                unitOf2Masts = ship;
                             }
                             /* before
                             var destroyerBuilder = new DestroyerShipBuilder();
@@ -452,6 +452,7 @@ namespace BattleShipClient
                                     yourMap.GetTile(i, j + 1).Unit = ship;
                                     yourMap.GetTile(i, j + 2).Unit = ship;
                                     counter++;
+                                    unitOf3Masts = ship;
                                 }
                                 else
                                 {
