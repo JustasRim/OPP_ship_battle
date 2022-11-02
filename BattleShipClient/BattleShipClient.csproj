@@ -67,6 +67,12 @@
     <Compile Include="Ingame objects\Builder\DestroyerShipBuilder.cs" />
     <Compile Include="Ingame objects\DecoratorBalance.cs" />
     <Compile Include="Ingame objects\DecoratorName.cs" />
+    <Compile Include="Ingame objects\Decorator\Decorator.cs" />
+    <Compile Include="Ingame objects\Decorator\FrontDecorator.cs" />
+    <Compile Include="Ingame objects\Decorator\Component.cs" />
+    <Compile Include="Ingame objects\Decorator\Message.cs" />
+    <Compile Include="Ingame objects\Decorator\EndDecorator.cs" />
+    <Compile Include="Ingame objects\Decorator\WholeDecorator.cs" />
     <Compile Include="Ingame objects\Factory\GroundTile.cs" />
     <Compile Include="Ingame objects\Bridge\EvasionImplementor.cs" />
     <Compile Include="Ingame objects\Factory\Map.cs" />
