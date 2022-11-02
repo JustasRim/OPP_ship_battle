@@ -1,4 +1,5 @@
 ﻿using BattleShipClient.Ingame_objects.Prototype;
+using BattleShipClient.Ingame_objects.Strategy;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,24 +8,26 @@ namespace BattleShipClient.Ingame_objects
 {
     public class Unit : IPrototype
     {
+        protected DamageContext _damageContext;
+
         public int Health { get => Parts.Sum(q => q.Health); }
+
         public bool CanTakeDamage { get; set; }
+
         public float DamageReduction { get; set; } = 0;
+
         public List<Part> Parts { get; set; } = new List<Part>();
+
         public List<PowerUp> PowerUps { get; set; }
+
+        public Unit()
+        {
+            _damageContext = new DamageContext(new BaseDamageStrategy());
+        }
 
         public virtual void TakeDamage(int damage)
         {
-            var damageAfterReduction = (int)(damage * (1 - DamageReduction));
-            var rnd = new Random();
-            var partIndex = rnd.Next(0, Parts.Count);
-            var damageDealt = damageAfterReduction - Parts[partIndex].Armor;
-            if (damageDealt < 0)
-            {
-                damageDealt = 0;
-            }
-
-            Parts[partIndex].Health -= damageDealt;
+            _damageContext.TakeDamage(Parts, damage, DamageReduction);
         }
 
         public void RefreshPowerUps()
@@ -55,6 +58,7 @@ namespace BattleShipClient.Ingame_objects
         public virtual object DeepCopy()
         {
             Unit copy = new Unit();
+            copy._damageContext = this._damageContext;
             copy.CanTakeDamage = this.CanTakeDamage;
             copy.DamageReduction = this.DamageReduction;
             copy.Parts = new List<Part>();

@@ -1,11 +1,21 @@
-﻿
-using BattleShipClient.Ingame_objects.Adapter;
+﻿using BattleShipClient.Ingame_objects.Adapter;
+using BattleShipClient.Ingame_objects.Strategy;
 using System.Collections.Generic;
 
 namespace BattleShipClient.Ingame_objects
 {
     public class Ship : Unit, ISinkable
     {
+        public Ship(IDamageStrategy damageStrategy)
+        {
+            _damageContext = new DamageContext(damageStrategy);
+        }
+
+        private Ship(DamageContext damageContext)
+        {
+            _damageContext = damageContext;
+        }
+
         public void Sink()
         {
             Parts.ForEach(q => q.Health = 0);
@@ -13,7 +23,7 @@ namespace BattleShipClient.Ingame_objects
 
         public override object DeepCopy()
         {
-            Ship copy = new Ship();
+            Ship copy = new Ship(_damageContext);
             copy.CanTakeDamage = this.CanTakeDamage;
             copy.DamageReduction = this.DamageReduction;
             copy.Parts = new List<Part>();

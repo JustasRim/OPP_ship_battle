@@ -1,4 +1,5 @@
 ﻿
+using BattleShipClient.Ingame_objects.Strategy;
 using System.Collections.Generic;
 
 namespace BattleShipClient.Ingame_objects
@@ -20,10 +21,20 @@ namespace BattleShipClient.Ingame_objects
                 DamageReduction *= 10;
             }
         }
+        
+        public Tank(IDamageStrategy damageStrategy)
+        {
+            _damageContext = new DamageContext(damageStrategy);
+        }
+
+        private Tank(DamageContext damageContext)
+        {
+            _damageContext = damageContext;
+        }
 
         public override object DeepCopy()
         {
-            Tank copy = new Tank();
+            Tank copy = new Tank(_damageContext);
             copy.CanTakeDamage = CanTakeDamage;
             copy.DamageReduction = this.DamageReduction;
             copy.Parts = new List<Part>();

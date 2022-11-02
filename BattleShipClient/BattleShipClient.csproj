@@ -80,6 +80,13 @@
     <Compile Include="Ingame objects\Shield.cs" />
     <Compile Include="Ingame objects\Ship.cs" />
     <Compile Include="Ingame objects\Adapter\ShipTankAdapter.cs" />
+    <Compile Include="Ingame objects\Strategy\BaseDamageStrategy.cs" />
+    <Compile Include="Ingame objects\Strategy\BattleShipDamageStrategy.cs" />
+    <Compile Include="Ingame objects\Strategy\DamageContext.cs" />
+    <Compile Include="Ingame objects\Strategy\DestroyerDamageStrategy.cs" />
+    <Compile Include="Ingame objects\Strategy\IDamageStrategy.cs" />
+    <Compile Include="Ingame objects\Strategy\SubmarineDamageStrategy.cs" />
+    <Compile Include="Ingame objects\Strategy\TankDamageStrategy.cs" />
     <Compile Include="Ingame objects\Tank.cs" />
     <Compile Include="Ingame objects\Factory\Tile.cs" />
     <Compile Include="Ingame objects\TellInfoDecorator.cs" />
@@ -147,5 +154,6 @@
   <ItemGroup>
     <Content Include="sharkicon.ico" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
