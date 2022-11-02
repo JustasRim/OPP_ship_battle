@@ -17,9 +17,16 @@ namespace BattleShipClient.Ingame_objects
             copy.CanTakeDamage = this.CanTakeDamage;
             copy.DamageReduction = this.DamageReduction;
             copy.Parts = new List<Part>();
-            copy.Parts.AddRange(this.Parts);
-            copy.PowerUps = new List<PowerUp>();
-            copy.PowerUps.AddRange(this.PowerUps);
+            if (this.Parts != null)
+            {
+                copy.Parts.AddRange(this.Parts);
+            }
+            copy.PowerUps = new List<PowerUp>();//cannot be null
+
+            if (this.PowerUps != null)
+            {
+                copy.PowerUps.AddRange(this.PowerUps);
+            }
 
             return (Ship)copy;
         }
