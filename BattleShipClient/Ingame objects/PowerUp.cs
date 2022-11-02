@@ -10,7 +10,7 @@ namespace BattleShipClient.Ingame_objects
         Invulnerability,
     }
 
-    public class PowerUp : IPrototype
+    public class PowerUp
     {
         public int RoundsLeft { get; set; }
         public PowerUpType Type{ get; set; }
@@ -24,16 +24,6 @@ namespace BattleShipClient.Ingame_objects
         {
             this.RoundsLeft = roundsLeft;
             this.Type = type;
-        }
-        public object DeepCopy()
-        {
-             PowerUp copy = new PowerUp(this.RoundsLeft, this.Type);
-            return copy;
-        }
-
-        public object ShallowCopy()
-        {
-            return (PowerUp)this.MemberwiseClone();
         }
     }
 }

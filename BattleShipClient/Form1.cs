@@ -1,12 +1,14 @@
 ﻿using BattleShipClient.Ingame_objects;
 using BattleShipClient.Ingame_objects.Adapter;
 using BattleShipClient.Ingame_objects.Builder;
+using BattleShipClient.Ingame_objects.Prototype;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Net.Security;
 using System.Reflection;
+using System.Security.Cryptography.X509Certificates;
 using System.Windows.Forms;
 
 namespace BattleShipClient
@@ -525,7 +527,7 @@ namespace BattleShipClient
                                 unitOf4Masts = ship;
                             }
                             else
-                            {
+                            {                        
                                 var ship = (Ship)unitOf4Masts.DeepCopy();
                                 yourMapTmp.GetTile(i, j).Unit = ship;
                                 yourMapTmp.GetTile(i + 1, j).Unit = ship;
