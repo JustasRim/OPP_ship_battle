@@ -755,8 +755,7 @@ namespace BattleShipClient
             EndDecorator endDecorator = new EndDecorator(frontDecorator, signalMessage);
             WholeDecorator wholeDecorator = new WholeDecorator(endDecorator, signalMessage);
 
-            signalMessage.CreateEmptyMessage();
-           
+            signalMessage.CreateEmptyMessage();         
             char comm = (char)0;
             wholeDecorator.CreateMessage(Program.userLogin + " " + Program.enemyNick);
             frontDecorator.CreateMessage(comm + " ");
@@ -764,8 +763,7 @@ namespace BattleShipClient
             Program.client.Send(signalMessage.ReturnMessage());
             enemyGiveUpBeforeStart = true;
             //Receive answer in Program's thread
-            clickedButton.Enabled = false;
-            
+            clickedButton.Enabled = false;      
         }
 
         public void GetShotAndResponse(int x, int y, int damage)
@@ -775,16 +773,14 @@ namespace BattleShipClient
             button = (Button)panel.Controls.Find(x.ToString() + y.ToString(), true).FirstOrDefault();
             
             string message = "";
-
-            
+       
             SignalMessage signalMessage = new SignalMessage();
             signalMessage.CreateEmptyMessage();
 
             FrontDecorator frontDecorator = new FrontDecorator(signalMessage, signalMessage);
             EndDecorator endDecorator = new EndDecorator(frontDecorator, signalMessage);
             WholeDecorator wholeDecorator = new WholeDecorator(endDecorator, signalMessage);
-            
-
+           
             //Ship is hit
             var tile = yourMap.GetTile(x, y);
             if (tile.HasUnit)
@@ -843,8 +839,7 @@ namespace BattleShipClient
                     //Program.client.Send(message);
                     
                     wholeDecorator.CreateMessage((char)5 + " " + enemyNick + " " + unit.Health + " <EOF>");
-                    Program.client.Send(wholeDecorator.ReturnMessage());
-                    
+                    Program.client.Send(wholeDecorator.ReturnMessage());               
                     //Your turn
                     ((Panel)this.Controls.Find("PEnemy", true).FirstOrDefault()).Enabled = false;
                 }  
@@ -920,25 +915,21 @@ namespace BattleShipClient
             //Send Shot
             string message = "";
             var damage = yourMap.Tiles.Where(q => q.HasUnit).SelectMany(q => q.Unit.Parts).Sum(q => q.Damage);
-<<<<<<< Updated upstream
+            
             message = (char)6 + " " + enemyNick + " " + x.ToString() + " " + y.ToString() + " " + damage + " <EOF>";
-            Program.client.Send(message);
+            //Program.client.Send(message);
             //Get answer form Program's thread
-=======
 
             //message = (char)6 + " " + enemyNick + " " + x.ToString() + " " + y.ToString() + " " + damage + " <EOF>";
             //Program.client.Send(message);
-
-            
+    
             SignalMessage signalMessage = new SignalMessage();
             signalMessage.CreateEmptyMessage();
             FrontDecorator frontDecorator = new FrontDecorator(signalMessage, signalMessage);
             frontDecorator.CreateMessage((char)6 + " " + enemyNick + " " + x.ToString() + " " + y.ToString() + " " + damage + " <EOF>");
             Program.client.Send(frontDecorator.ReturnMessage());
-            
-
+           
             //Get answer form Program's thread       
->>>>>>> Stashed changes
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -970,8 +961,7 @@ namespace BattleShipClient
                 //<Who gives up> <with whom he plays>
                 //string message = comm + " " + Program.userLogin + " " + Program.enemyNick + " <EOF>";
                 //Program.client.Send(message);
-
-                
+            
                 SignalMessage signalMessage = new SignalMessage();
                 signalMessage.CreateEmptyMessage();
                 FrontDecorator frontDecorator = new FrontDecorator(signalMessage, signalMessage);
