@@ -6,19 +6,47 @@ using System.Linq;
 
 namespace BattleShipClient.Ingame_objects
 {
+    public enum PowerUpType
+    {
+        None,
+        Shield,
+        Evasion,
+    }
     public class Unit : IPrototype
     {
         protected DamageContext _damageContext;
 
-        public int Health { get => Parts.Sum(q => q.Health); }
+        protected PowerUpImplementor implementor;
 
-        public bool CanTakeDamage { get; set; }
+        public int Health { get => Parts.Sum(q => q.Health); }
 
         public float DamageReduction { get; set; } = 0;
 
         public List<Part> Parts { get; set; } = new List<Part>();
 
-        public List<PowerUp> PowerUps { get; set; }
+        public PowerUpType PowerUpType = PowerUpType.None;
+
+        public PowerUpImplementor PowerUpImplementor
+        {
+            set { implementor = value; }
+        }
+
+        public int PowerUpValue = 0;
+
+        public void AddPowerUp(int value)
+        {
+            PowerUpValue += value;
+        }
+
+        public virtual bool CanTakeDamage()
+        {
+            return implementor.CanTakeDamage(Health);
+        }
+
+        public virtual double GetDamageTaken(int damage)
+        {
+            return implementor.GetDamageTaken(damage);
+        }
 
         public Unit()
         {
@@ -30,47 +58,17 @@ namespace BattleShipClient.Ingame_objects
             _damageContext.TakeDamage(Parts, damage, DamageReduction);
         }
 
-        public void RefreshPowerUps()
-        {
-            float damageReduction = 0;
-            foreach (var powerUp in PowerUps)
-            {
-                if (powerUp.RoundsLeft == 0)
-                {
-                    if (powerUp.Type == PowerUpType.Invulnerability)
-                        CanTakeDamage = true;
-                    PowerUps.Remove(powerUp);
-                }
-
-                switch (powerUp.Type)
-                {
-                    case PowerUpType.Invulnerability:
-                        CanTakeDamage = false;
-                        break;
-                    case PowerUpType.Shield:
-                        damageReduction += powerUp.EffectValue();
-                        break;
-                }
-            }
-            DamageReduction = damageReduction;
-        }
-
         public virtual object DeepCopy()
         {
             Unit copy = new Unit();
             copy._damageContext = this._damageContext;
-            copy.CanTakeDamage = this.CanTakeDamage;
+            copy.PowerUpType = this.PowerUpType;
+            copy.PowerUpValue = this.PowerUpValue;
             copy.DamageReduction = this.DamageReduction;
             copy.Parts = new List<Part>();
             if (this.Parts != null)
             {
                 copy.Parts.AddRange(this.Parts);
-            }
-            copy.PowerUps = new List<PowerUp>();//cannot be null
-
-            if (this.PowerUps != null)
-            {
-                copy.PowerUps.AddRange(this.PowerUps);
             }
 
             return (Unit)copy;

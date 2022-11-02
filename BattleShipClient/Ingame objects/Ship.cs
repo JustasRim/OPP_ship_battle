@@ -24,18 +24,13 @@ namespace BattleShipClient.Ingame_objects
         public override object DeepCopy()
         {
             Ship copy = new Ship();
-            copy.CanTakeDamage = this.CanTakeDamage;
+            copy.PowerUpType = this.PowerUpType;
+            copy.PowerUpValue = this.PowerUpValue;
             copy.DamageReduction = this.DamageReduction;
             copy.Parts = new List<Part>();
             if (this.Parts != null)
             {
                 copy.Parts.AddRange(this.Parts);
-            }
-            copy.PowerUps = new List<PowerUp>();//cannot be null
-
-            if (this.PowerUps != null)
-            {
-                copy.PowerUps.AddRange(this.PowerUps);
             }
 
             return (Ship)copy;

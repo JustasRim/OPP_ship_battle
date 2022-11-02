@@ -75,7 +75,6 @@ namespace BattleShipClient
             Director director = new Director();
 
             Unit unitOne = new Unit();
-            unitOne.CanTakeDamage = false;
             unitOne.DamageReduction = 0f;
 
             var destroyerBuilder = new DestroyerShipBuilder();
