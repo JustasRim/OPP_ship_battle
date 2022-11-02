@@ -8,7 +8,7 @@ namespace BattleShipClient.Ingame_objects.Decorator
 {
     class WholeDecorator : Decorator
     {
-        public WholeDecorator(Component component, Message message) : base(component, message)
+        public WholeDecorator(Component component, SignalMessage message) : base(component, message)
         {
         }
         public override string ReturnMessage()

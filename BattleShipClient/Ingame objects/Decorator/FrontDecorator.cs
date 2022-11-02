@@ -9,7 +9,7 @@ namespace BattleShipClient.Ingame_objects.Decorator
 {
     class FrontDecorator : Decorator
     {
-        public FrontDecorator(Component component, Message message) : base(component, message)
+        public FrontDecorator(Component component, SignalMessage message) : base(component, message)
         {
         }
         public string ReturnMessageText()

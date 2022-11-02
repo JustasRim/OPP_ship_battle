@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Message = BattleShipClient.Ingame_objects.Decorator.Message;
+using Message = BattleShipClient.Ingame_objects.Decorator.SignalMessage;
 
 namespace BattleShipClient
 {
@@ -99,6 +99,7 @@ namespace BattleShipClient
             Console.WriteLine("-----------------------");
             Console.WriteLine(message.messageText);
             Console.WriteLine("-----------------------");
+        
         }
         public static void TestPrototype()
         {

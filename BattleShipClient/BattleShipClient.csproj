@@ -70,7 +70,7 @@
     <Compile Include="Ingame objects\Decorator\Decorator.cs" />
     <Compile Include="Ingame objects\Decorator\FrontDecorator.cs" />
     <Compile Include="Ingame objects\Decorator\Component.cs" />
-    <Compile Include="Ingame objects\Decorator\Message.cs" />
+    <Compile Include="Ingame objects\Decorator\SignalMessage.cs" />
     <Compile Include="Ingame objects\Decorator\EndDecorator.cs" />
     <Compile Include="Ingame objects\Decorator\WholeDecorator.cs" />
     <Compile Include="Ingame objects\Factory\GroundTile.cs" />

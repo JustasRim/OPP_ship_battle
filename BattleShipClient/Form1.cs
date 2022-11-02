@@ -1,6 +1,7 @@
 ﻿using BattleShipClient.Ingame_objects;
 using BattleShipClient.Ingame_objects.Adapter;
 using BattleShipClient.Ingame_objects.Builder;
+using BattleShipClient.Ingame_objects.Decorator;
 using BattleShipClient.Ingame_objects.Prototype;
 using BattleShipClient.Ingame_objects.Strategy;
 using System;
@@ -738,7 +739,8 @@ namespace BattleShipClient
                 MessageBox.Show("You have set wrong number of 4-masts", "Error");
                 return;
             }
-
+            
+            /*
             //Send StartGame communique
             char comm = (char)0;
             string message = comm + " " + Program.userLogin + " " + Program.enemyNick + " <EOF>";
@@ -746,6 +748,24 @@ namespace BattleShipClient
             enemyGiveUpBeforeStart = true;
             //Receive answer in Program's thread
             clickedButton.Enabled = false;
+             */
+        
+            var signalMessage = new SignalMessage();
+            FrontDecorator frontDecorator = new FrontDecorator(signalMessage, signalMessage);
+            EndDecorator endDecorator = new EndDecorator(frontDecorator, signalMessage);
+            WholeDecorator wholeDecorator = new WholeDecorator(endDecorator, signalMessage);
+
+            signalMessage.CreateEmptyMessage();
+           
+            char comm = (char)0;
+            wholeDecorator.CreateMessage(Program.userLogin + " " + Program.enemyNick);
+            frontDecorator.CreateMessage(comm + " ");
+            endDecorator.CreateEndMessage(" <EOF>");
+            Program.client.Send(signalMessage.ReturnMessage());
+            enemyGiveUpBeforeStart = true;
+            //Receive answer in Program's thread
+            clickedButton.Enabled = false;
+            
         }
 
         public void GetShotAndResponse(int x, int y, int damage)
@@ -753,7 +773,18 @@ namespace BattleShipClient
             Button button;
             Panel panel = (Panel)this.Controls.Find("PYou", true).FirstOrDefault();
             button = (Button)panel.Controls.Find(x.ToString() + y.ToString(), true).FirstOrDefault();
+            
             string message = "";
+
+            
+            SignalMessage signalMessage = new SignalMessage();
+            signalMessage.CreateEmptyMessage();
+
+            FrontDecorator frontDecorator = new FrontDecorator(signalMessage, signalMessage);
+            EndDecorator endDecorator = new EndDecorator(frontDecorator, signalMessage);
+            WholeDecorator wholeDecorator = new WholeDecorator(endDecorator, signalMessage);
+            
+
             //Ship is hit
             var tile = yourMap.GetTile(x, y);
             if (tile.HasUnit)
@@ -807,17 +838,26 @@ namespace BattleShipClient
                 else
                 {
                     //Send Hit
-                    message = (char)5 + " " + enemyNick + " " + unit.Health + " <EOF>";
-                    Program.client.Send(message);
+
+                    //message = (char)5 + " " + enemyNick + " " + unit.Health + " <EOF>";
+                    //Program.client.Send(message);
+                    
+                    wholeDecorator.CreateMessage((char)5 + " " + enemyNick + " " + unit.Health + " <EOF>");
+                    Program.client.Send(wholeDecorator.ReturnMessage());
+                    
                     //Your turn
                     ((Panel)this.Controls.Find("PEnemy", true).FirstOrDefault()).Enabled = false;
                 }  
             }
             else//Send Miss
             {
-                message = (char)4 + " " + enemyNick + " <EOF>";
-                Program.client.Send(message);
+                //message = (char)4 + " " + enemyNick + " <EOF>";
+                //Program.client.Send(message);
+
+                wholeDecorator.CreateMessage((char)4 + " " + enemyNick + " <EOF>");
+                Program.client.Send(wholeDecorator.ReturnMessage());
                 button.BackColor = Color.Silver;
+                
                 //Your turn
                 ((Panel)this.Controls.Find("PEnemy", true).FirstOrDefault()).Enabled = true;
             }
@@ -880,9 +920,25 @@ namespace BattleShipClient
             //Send Shot
             string message = "";
             var damage = yourMap.Tiles.Where(q => q.HasUnit).SelectMany(q => q.Unit.Parts).Sum(q => q.Damage);
+<<<<<<< Updated upstream
             message = (char)6 + " " + enemyNick + " " + x.ToString() + " " + y.ToString() + " " + damage + " <EOF>";
             Program.client.Send(message);
             //Get answer form Program's thread
+=======
+
+            //message = (char)6 + " " + enemyNick + " " + x.ToString() + " " + y.ToString() + " " + damage + " <EOF>";
+            //Program.client.Send(message);
+
+            
+            SignalMessage signalMessage = new SignalMessage();
+            signalMessage.CreateEmptyMessage();
+            FrontDecorator frontDecorator = new FrontDecorator(signalMessage, signalMessage);
+            frontDecorator.CreateMessage((char)6 + " " + enemyNick + " " + x.ToString() + " " + y.ToString() + " " + damage + " <EOF>");
+            Program.client.Send(frontDecorator.ReturnMessage());
+            
+
+            //Get answer form Program's thread       
+>>>>>>> Stashed changes
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -898,16 +954,30 @@ namespace BattleShipClient
                 //User must send GiveUp Communique
                 char comm = (char)2;
                 //<Who gives up> <with whom he plays>
-                string message = comm + " " + Program.userLogin + " " + Program.enemyNick + " <EOF>";
-                Program.client.Send(message);
-
+                //string message = comm + " " + Program.userLogin + " " + Program.enemyNick + " <EOF>";
+                //Program.client.Send(message);
+             
+                SignalMessage signalMessage = new SignalMessage();
+                signalMessage.CreateEmptyMessage();
+                FrontDecorator frontDecorator = new FrontDecorator(signalMessage, signalMessage);
+                frontDecorator.CreateMessage(comm + " " + Program.userLogin + " " + Program.enemyNick + " <EOF>");
+                Program.client.Send(frontDecorator.ReturnMessage());
+                
             }
             else if (normalEnd == false)
             {
                 char comm = (char)15;
                 //<Who gives up> <with whom he plays>
-                string message = comm + " " + Program.userLogin + " " + Program.enemyNick + " <EOF>";
-                Program.client.Send(message);
+                //string message = comm + " " + Program.userLogin + " " + Program.enemyNick + " <EOF>";
+                //Program.client.Send(message);
+
+                
+                SignalMessage signalMessage = new SignalMessage();
+                signalMessage.CreateEmptyMessage();
+                FrontDecorator frontDecorator = new FrontDecorator(signalMessage, signalMessage);
+                frontDecorator.CreateMessage(comm + " " + Program.userLogin + " " + Program.enemyNick + " <EOF>");
+                Program.client.Send(frontDecorator.ReturnMessage());
+                
             }
             //User Go to EnemySelectionPanel
             DialogResult = DialogResult.Yes;

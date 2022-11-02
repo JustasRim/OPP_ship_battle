@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BattleShipClient.Ingame_objects.Decorator
 {
-    public class Message : Component
+    public class SignalMessage : Component
     {
         public string messageText { get; set; }
 

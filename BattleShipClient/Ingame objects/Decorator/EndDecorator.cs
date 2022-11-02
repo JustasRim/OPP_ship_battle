@@ -9,7 +9,7 @@ namespace BattleShipClient.Ingame_objects.Decorator
 {
     class EndDecorator : Decorator
     {
-        public EndDecorator(Component component, Message message) : base(component, message)
+        public EndDecorator(Component component, SignalMessage message) : base(component, message)
         {
         }
         public override string ReturnMessage()

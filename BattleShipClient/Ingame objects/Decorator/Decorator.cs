@@ -10,9 +10,9 @@ namespace BattleShipClient.Ingame_objects.Decorator
     public abstract class Decorator : Component
     {
         protected Component _component;
-        public Message message;
+        public SignalMessage message;
 
-        public Decorator(Component component, Message message)
+        public Decorator(Component component, SignalMessage message)
         {
             this._component = component;
             this.message = message;
