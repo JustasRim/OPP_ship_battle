@@ -10,9 +10,9 @@ namespace BattleShipClient.Ingame_objects
             return ArmourValue;
         }
 
-        public Shield()
+        public Shield(int roundsLeft)
+            : base(roundsLeft, PowerUpType.Shield)
         {
-            Type = PowerUpType.Shield;
         }
     }
 }
