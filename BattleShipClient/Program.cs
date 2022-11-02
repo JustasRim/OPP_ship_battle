@@ -1,4 +1,5 @@
 ﻿using BattleShipClient.Ingame_objects;
+using BattleShipClient.Ingame_objects.Builder;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -66,6 +67,26 @@ namespace BattleShipClient
                     main = new Form1(enemyNick);
                     dialogResult = main.ShowDialog();
                 }
+            }
+        }
+
+        public static void TestPrototype()
+        {
+            Director director = new Director();
+
+            Unit unitOne = new Unit();
+            unitOne.CanTakeDamage = false;
+            unitOne.DamageReduction = 0f;
+
+            var destroyerBuilder = new DestroyerShipBuilder();
+            director.Construct(destroyerBuilder);
+            var ship = destroyerBuilder.GetShip();
+            unitOne = ship;
+
+            Console.WriteLine($"{unitOne.Health} {unitOne.DamageReduction}");
+            foreach (Part part in unitOne.Parts)
+            {
+                Console.WriteLine(part.Name);
             }
         }
         public static void ReceivingMessages()
@@ -332,6 +353,8 @@ namespace BattleShipClient
                     isThreadRunning = false;
                 }
             }
+         
         }
+        
     }
 }
