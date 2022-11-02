@@ -76,12 +76,16 @@ namespace BattleShipClient
                         button.Font = new Font(button.Font.FontFamily, 6);
                         if (name == "PYou")
                         {
-                            button.BackColor = map.GetTile(i - 1, j - 1).Color;
+                            var tile = map.GetTile(i - 1, j - 1);
+                            button.BackColor = tile.Color;
+                            tile.Button = button;
                             button.Click += new System.EventHandler(this.setMastbuttonClick);
                         }
                         else if (name== "PEnemy")
                         {
-                            button.BackColor = map.GetTile(i - 1, j - 1).Color;
+                            var tile = map.GetTile(i - 1, j - 1);
+                            button.BackColor = tile.Color;
+                            tile.Button = button;
                             button.Click += new System.EventHandler(this.buttonClick);
                         }
                     }
@@ -237,20 +241,28 @@ namespace BattleShipClient
                         if (leftNo==0 && rightNo==0 && downNo ==0 && upNo==0)
                         {
                             //with prototype (if the first unit is being then creates with builder else creates with prototype)
-                            if(unitOf1Masts == null) { 
-                            var destroyerBuilder = new DestroyerShipBuilder();
-                            director.Construct(destroyerBuilder);
-                            var ship = destroyerBuilder.GetShip();
-                            yourMapTmp.GetTile(i, j).Unit = ship;
-                            yourMap.GetTile(i, j).Unit = ship;
-                            counter++;
-                            unitOf1Masts = ship;
+                            if(unitOf1Masts == null)
+                            { 
+                                var destroyerBuilder = new DestroyerShipBuilder();
+                                director.Construct(destroyerBuilder);
+                                var ship = destroyerBuilder.GetShip();
+                                yourMapTmp.GetTile(i, j).Unit = ship;
+                                var tile = yourMap.GetTile(i, j);
+                                tile.Unit = ship;
+
+                                ship.Publisher.RegisterSubscriber(tile);
+                                counter++;
+                                unitOf1Masts = ship;
                             }
                             else
                             {
                                 var ship = (Ship)unitOf1Masts.DeepCopy();
                                 yourMapTmp.GetTile(i, j).Unit = ship;
-                                yourMap.GetTile(i, j).Unit = ship;
+                                var tile = yourMap.GetTile(i, j);
+                                tile.Unit = ship;
+
+                                ship.Publisher.RegisterSubscriber(tile);
+
                                 counter++;
                             }
 
@@ -300,6 +312,9 @@ namespace BattleShipClient
 
                                 yourMap.GetTile(i, j).Unit = ship;
                                 yourMap.GetTile(i + 1, j).Unit = ship;
+
+                                ship.Publisher.RegisterSubscriber(yourMap.GetTile(i, j));
+                                ship.Publisher.RegisterSubscriber(yourMap.GetTile(i + 1, j));
                                 counter++;
                                 unitOf2Masts = ship;
                             }
@@ -311,6 +326,9 @@ namespace BattleShipClient
 
                                 yourMap.GetTile(i, j).Unit = ship;
                                 yourMap.GetTile(i + 1, j).Unit = ship;
+
+                                ship.Publisher.RegisterSubscriber(yourMap.GetTile(i, j));
+                                ship.Publisher.RegisterSubscriber(yourMap.GetTile(i + 1, j));
                                 counter++;
                             }
                             /* before
@@ -342,6 +360,10 @@ namespace BattleShipClient
 
                                     yourMap.GetTile(i, j).Unit = ship;
                                     yourMap.GetTile(i, j + 1).Unit = ship;
+
+                                    ship.Publisher.RegisterSubscriber(yourMap.GetTile(i, j));
+                                    ship.Publisher.RegisterSubscriber(yourMap.GetTile(i, j + 1));
+
                                     counter++;
                                     unitOf2Masts = ship;
                                 }
@@ -354,6 +376,10 @@ namespace BattleShipClient
 
                                     yourMap.GetTile(i, j).Unit = ship;
                                     yourMap.GetTile(i, j + 1).Unit = ship;
+
+                                    ship.Publisher.RegisterSubscriber(yourMap.GetTile(i, j));
+                                    ship.Publisher.RegisterSubscriber(yourMap.GetTile(i, j + 1));
+
                                     counter++;
                                 }
                                 /* before
@@ -407,6 +433,11 @@ namespace BattleShipClient
                                 yourMap.GetTile(i, j).Unit = ship;
                                 yourMap.GetTile(i + 1, j).Unit = ship;
                                 yourMap.GetTile(i + 2, j).Unit = ship;
+
+                                ship.Publisher.RegisterSubscriber(yourMap.GetTile(i, j));
+                                ship.Publisher.RegisterSubscriber(yourMap.GetTile(i + 1, j));
+                                ship.Publisher.RegisterSubscriber(yourMap.GetTile(i + 2, j));
+
                                 counter++;
                                 unitOf3Masts = ship;
                             }
@@ -420,6 +451,11 @@ namespace BattleShipClient
                                 yourMap.GetTile(i, j).Unit = ship;
                                 yourMap.GetTile(i + 1, j).Unit = ship;
                                 yourMap.GetTile(i + 2, j).Unit = ship;
+
+                                ship.Publisher.RegisterSubscriber(yourMap.GetTile(i, j));
+                                ship.Publisher.RegisterSubscriber(yourMap.GetTile(i + 1, j));
+                                ship.Publisher.RegisterSubscriber(yourMap.GetTile(i + 2, j));
+
                                 counter++;
                             }
                             /* before
@@ -454,6 +490,11 @@ namespace BattleShipClient
                                     yourMap.GetTile(i, j).Unit = ship;
                                     yourMap.GetTile(i, j + 1).Unit = ship;
                                     yourMap.GetTile(i, j + 2).Unit = ship;
+
+                                    ship.Publisher.RegisterSubscriber(yourMap.GetTile(i, j));
+                                    ship.Publisher.RegisterSubscriber(yourMap.GetTile(i, j + 1));
+                                    ship.Publisher.RegisterSubscriber(yourMap.GetTile(i, j + 2));
+
                                     counter++;
                                     unitOf3Masts = ship;
                                 }
@@ -467,6 +508,11 @@ namespace BattleShipClient
                                     yourMap.GetTile(i, j).Unit = ship;
                                     yourMap.GetTile(i, j + 1).Unit = ship;
                                     yourMap.GetTile(i, j + 2).Unit = ship;
+
+                                    ship.Publisher.RegisterSubscriber(yourMap.GetTile(i, j));
+                                    ship.Publisher.RegisterSubscriber(yourMap.GetTile(i, j + 1));
+                                    ship.Publisher.RegisterSubscriber(yourMap.GetTile(i, j + 2));
+
                                     counter++;
                                 }
                             }
@@ -524,6 +570,12 @@ namespace BattleShipClient
                                 yourMap.GetTile(i + 1, j).Unit = ship;
                                 yourMap.GetTile(i + 2, j).Unit = ship;
                                 yourMap.GetTile(i + 3, j).Unit = ship;
+
+                                ship.Publisher.RegisterSubscriber(yourMap.GetTile(i, j));
+                                ship.Publisher.RegisterSubscriber(yourMap.GetTile(i + 1, j));
+                                ship.Publisher.RegisterSubscriber(yourMap.GetTile(i + 2, j));
+                                ship.Publisher.RegisterSubscriber(yourMap.GetTile(i + 3, j));
+
                                 counter++;
                                 unitOf4Masts = ship;
                             }
@@ -539,6 +591,11 @@ namespace BattleShipClient
                                 yourMap.GetTile(i + 1, j).Unit = ship;
                                 yourMap.GetTile(i + 2, j).Unit = ship;
                                 yourMap.GetTile(i + 3, j).Unit = ship;
+
+                                ship.Publisher.RegisterSubscriber(yourMap.GetTile(i, j));
+                                ship.Publisher.RegisterSubscriber(yourMap.GetTile(i + 1, j));
+                                ship.Publisher.RegisterSubscriber(yourMap.GetTile(i + 2, j));
+                                ship.Publisher.RegisterSubscriber(yourMap.GetTile(i + 3, j));
                                 counter++;
                             }
 
@@ -578,6 +635,12 @@ namespace BattleShipClient
                                     yourMap.GetTile(i, j + 1).Unit = ship;
                                     yourMap.GetTile(i, j + 2).Unit = ship;
                                     yourMap.GetTile(i, j + 3).Unit = ship;
+
+                                    ship.Publisher.RegisterSubscriber(yourMap.GetTile(i, j));
+                                    ship.Publisher.RegisterSubscriber(yourMap.GetTile(i, j + 1));
+                                    ship.Publisher.RegisterSubscriber(yourMap.GetTile(i, j + 2));
+                                    ship.Publisher.RegisterSubscriber(yourMap.GetTile(i, j + 3));
+
                                     counter++;
                                     unitOf4Masts = ship;
                                 }
@@ -593,6 +656,12 @@ namespace BattleShipClient
                                     yourMap.GetTile(i, j + 1).Unit = ship;
                                     yourMap.GetTile(i, j + 2).Unit = ship;
                                     yourMap.GetTile(i, j + 3).Unit = ship;
+
+                                    ship.Publisher.RegisterSubscriber(yourMap.GetTile(i, j));
+                                    ship.Publisher.RegisterSubscriber(yourMap.GetTile(i, j + 1));
+                                    ship.Publisher.RegisterSubscriber(yourMap.GetTile(i, j + 2));
+                                    ship.Publisher.RegisterSubscriber(yourMap.GetTile(i, j + 3));
+
                                     counter++;
                                 }
 
@@ -645,7 +714,7 @@ namespace BattleShipClient
             //check masts
             bool checkResult = false;
             yourMapTmp.ResetTiles();
-            checkResult=Check1Masts();
+            checkResult = Check1Masts();
             if (checkResult==false)
             {
                 MessageBox.Show("You have set wrong number of 1-masts", "Error");
@@ -806,7 +875,6 @@ namespace BattleShipClient
         void buttonClick(object sender, EventArgs e)
         {
             clickedButton = (Button)sender;//detect which button has been pressed
-            clickedButton.Enabled = false;
             int x = Int32.Parse(clickedButton.Name.Substring(0, 1)); //get x button co-ordinates
             int y = Int32.Parse(clickedButton.Name.Substring(1, 1)); //get y button co-ordinates
             //Send Shot
@@ -814,7 +882,7 @@ namespace BattleShipClient
             var damage = yourMap.Tiles.Where(q => q.HasUnit).SelectMany(q => q.Unit.Parts).Sum(q => q.Damage);
             message = (char)6 + " " + enemyNick + " " + x.ToString() + " " + y.ToString() + " " + damage + " <EOF>";
             Program.client.Send(message);
-            //Get answer form Program's thread       
+            //Get answer form Program's thread
         }
 
         private void Form1_Load(object sender, EventArgs e)

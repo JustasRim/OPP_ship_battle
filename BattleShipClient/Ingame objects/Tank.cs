@@ -8,6 +8,7 @@ namespace BattleShipClient.Ingame_objects
         public void Explode()
         {
             Parts.ForEach(q => q.Health = 0);
+            Publisher.Notify();
         }
 
         public void TakeCover()

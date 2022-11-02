@@ -18,12 +18,12 @@ namespace BattleShipClient.Ingame_objects.Builder
 
         public void AddHull()
         {
-            ship.Parts.Add(new Part("Metal hull", 0, 100, 20, -10));
+            ship.Parts.Add(new Part("Metal hull", 0, 500, 20, -10));
         }
 
         public void AddKeel()
         {
-            ship.Parts.Add(new Part("Metal keel", 0, 100, 40, -6));
+            ship.Parts.Add(new Part("Metal keel", 0, 300, 40, -6));
         }
 
         public void AddDamageStrategy()

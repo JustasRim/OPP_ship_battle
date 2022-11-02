@@ -73,6 +73,8 @@
     <Compile Include="Ingame objects\Factory\Map1Creator.cs" />
     <Compile Include="Ingame objects\Factory\Map2Creator.cs" />
     <Compile Include="Ingame objects\ITellInfo.cs" />
+    <Compile Include="Ingame objects\Observer\ISubscriber.cs" />
+    <Compile Include="Ingame objects\Observer\Publisher.cs" />
     <Compile Include="Ingame objects\Parts.cs" />
     <Compile Include="Ingame objects\Player.cs" />
     <Compile Include="Ingame objects\Bridge\PowerUpImplementor.cs" />

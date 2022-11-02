@@ -282,10 +282,12 @@ namespace BattleShipClient
                                     else
                                     {
                                         main.clickedButton.BackColor = Color.Crimson;
+                                        main.clickedButton.Enabled = false;
                                     }
 
                                     ((Panel)main.Controls.Find("PEnemy", true).FirstOrDefault()).Enabled = true;
-                                }; main.Invoke(inv);
+                                };
+                                main.Invoke(inv);
                                 break;
                             }
                         //SinkShip

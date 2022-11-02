@@ -19,6 +19,7 @@ namespace BattleShipClient.Ingame_objects
         public void Sink()
         {
             Parts.ForEach(q => q.Health = 0);
+            Publisher.Notify();
         }
 
         public override object DeepCopy()

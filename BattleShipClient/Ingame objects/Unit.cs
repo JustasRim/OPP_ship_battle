@@ -1,4 +1,5 @@
-﻿using BattleShipClient.Ingame_objects.Prototype;
+﻿using BattleShipClient.Ingame_objects.Observer;
+using BattleShipClient.Ingame_objects.Prototype;
 using BattleShipClient.Ingame_objects.Strategy;
 using System;
 using System.Collections.Generic;
@@ -23,6 +24,8 @@ namespace BattleShipClient.Ingame_objects
         public float DamageReduction { get; set; } = 0;
 
         public List<Part> Parts { get; set; } = new List<Part>();
+
+        public Publisher Publisher { get; set; }
 
         public PowerUpType PowerUpType = PowerUpType.None;
 
@@ -50,6 +53,7 @@ namespace BattleShipClient.Ingame_objects
 
         public Unit()
         {
+            Publisher = new Publisher();
             _damageContext = new DamageContext(new BaseDamageStrategy());
         }
 
@@ -61,6 +65,7 @@ namespace BattleShipClient.Ingame_objects
         public virtual object DeepCopy()
         {
             Unit copy = new Unit();
+            copy.Publisher = this.Publisher;
             copy._damageContext = this._damageContext;
             copy.PowerUpType = this.PowerUpType;
             copy.PowerUpValue = this.PowerUpValue;

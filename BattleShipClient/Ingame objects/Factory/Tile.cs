@@ -1,7 +1,11 @@
 using BattleShipClient.Ingame_objects;
+using BattleShipClient.Ingame_objects.Observer;
 using System.Drawing;
-public interface ITile
+using System.Windows.Forms;
+
+public interface ITile : ISubscriber
 {
+    Button Button { set; }
     Color Color { get; set; }
     int X { get; set; }
     int Y { get; set; }

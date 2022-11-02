@@ -23,7 +23,7 @@ namespace BattleShipClient.Ingame_objects.Builder
 
         public void AddKeel()
         {
-            ship.Parts.Add(new Part("Metal keel", 0, 100, 80,-40));
+            ship.Parts.Add(new Part("Metal keel", 0, 1000, 80,-40));
         }
 
         public Ship GetShip()
