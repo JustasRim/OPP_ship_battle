@@ -76,6 +76,7 @@
     <Compile Include="Ingame objects\Parts.cs" />
     <Compile Include="Ingame objects\Player.cs" />
     <Compile Include="Ingame objects\PowerUp.cs" />
+    <Compile Include="Ingame objects\Prototype\IPrototype.cs" />
     <Compile Include="Ingame objects\Shield.cs" />
     <Compile Include="Ingame objects\Ship.cs" />
     <Compile Include="Ingame objects\Adapter\ShipTankAdapter.cs" />

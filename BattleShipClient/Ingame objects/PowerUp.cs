@@ -1,4 +1,5 @@
 ﻿
+using BattleShipClient.Ingame_objects.Prototype;
 using System;
 
 namespace BattleShipClient.Ingame_objects
@@ -9,7 +10,7 @@ namespace BattleShipClient.Ingame_objects
         Invulnerability,
     }
 
-    public class PowerUp : ICloneable
+    public class PowerUp : IPrototype
     {
         public int RoundsLeft { get; set; }
         public PowerUpType Type{ get; set; }
@@ -19,10 +20,20 @@ namespace BattleShipClient.Ingame_objects
             return 0;
         }
 
-        public Object Clone()
+        public PowerUp(int roundsLeft, PowerUpType type)
+        {
+            this.RoundsLeft = roundsLeft;
+            this.Type = type;
+        }
+        public object DeepCopy()
+        {
+             PowerUp copy = new PowerUp(this.RoundsLeft, this.Type);
+            return copy;
+        }
+
+        public object ShallowCopy()
         {
             return (PowerUp)this.MemberwiseClone();
         }
-
     }
 }

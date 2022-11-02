@@ -1,10 +1,11 @@
-﻿using System;
+﻿using BattleShipClient.Ingame_objects.Prototype;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace BattleShipClient.Ingame_objects
 {
-    public class Unit : ICloneable
+    public class Unit : IPrototype
     {
         public int Health { get => Parts.Sum(q => q.Health); }
         public bool CanTakeDamage { get; set; }
@@ -51,17 +52,21 @@ namespace BattleShipClient.Ingame_objects
             DamageReduction = damageReduction;
         }
 
-        public Object Clone()
+        public object DeepCopy()
+        {
+            Unit copy = new Unit();
+            copy.CanTakeDamage = this.CanTakeDamage;
+            copy.DamageReduction = this.DamageReduction;
+            copy.Parts = new List<Part>();
+            copy.Parts.AddRange(this.Parts);
+            copy.PowerUps = new List<PowerUp>();
+            copy.PowerUps.AddRange(this.PowerUps);
+
+            return (Unit)copy;
+        }
+        public object ShallowCopy()
         {
             return (Unit)this.MemberwiseClone();
-        }
-
-        public Unit CopyDeep()
-        {
-            Unit copy = (Unit)this.Clone();
-            copy.PowerUps = new List<PowerUp>();
-            copy.PowerUps.AddRange(PowerUps);
-            return copy;
         }
     }
 
