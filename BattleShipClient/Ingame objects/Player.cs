@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BattleShipClient.Ingame_objects
 {
-    public class Player : ITellOnfo
+    public class Player
     {
    
         public string Name { get; set; }
@@ -23,9 +23,5 @@ namespace BattleShipClient.Ingame_objects
 
         }
 
-        public override string TellInfo()
-        {
-            return ($"Hello my name is name {this.Name}");
-        }
     }
 }
