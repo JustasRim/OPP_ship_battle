@@ -60,6 +60,18 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Ingame objects\AbstractFactory\AbstractFactory.cs" />
+    <Compile Include="Ingame objects\AbstractFactory\BattalionAFactory.cs" />
+    <Compile Include="Ingame objects\AbstractFactory\BattalionBShip.cs" />
+    <Compile Include="Ingame objects\AbstractFactory\BattalionAShip.cs" />
+    <Compile Include="Ingame objects\AbstractFactory\BattalionATank.cs" />
+    <Compile Include="Ingame objects\AbstractFactory\BattalionBTank.cs" />
+    <Compile Include="Ingame objects\AbstractFactory\BattalionBFactory.cs" />
+    <Compile Include="Ingame objects\AbstractFactory\BattalionB.cs" />
+    <Compile Include="Ingame objects\AbstractFactory\BattalionA.cs" />
+    <Compile Include="Ingame objects\AbstractFactory\Battalion.cs" />
+    <Compile Include="Ingame objects\AbstractFactory\Creator.cs" />
+    <Compile Include="Ingame objects\AbstractFactory\BattalionCreator.cs" />
     <Compile Include="Ingame objects\Adapter\IDieable.cs" />
     <Compile Include="Ingame objects\Builder\BattleShipBuilder.cs" />
     <Compile Include="Ingame objects\Builder\Director.cs" />

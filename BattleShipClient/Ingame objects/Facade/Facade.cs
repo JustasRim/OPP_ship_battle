@@ -1,4 +1,5 @@
-﻿using BattleShipClient.Ingame_objects.Adapter;
+﻿using BattleShipClient.Ingame_objects.AbstractFactory;
+using BattleShipClient.Ingame_objects.Adapter;
 using BattleShipClient.Ingame_objects.Builder;
 using BattleShipClient.Ingame_objects.Decorator;
 using System;
@@ -146,6 +147,16 @@ namespace BattleShipClient.Ingame_objects.Facade
                                 var destroyerBuilder = new DestroyerShipBuilder();
                                 director.Construct(destroyerBuilder);
                                 var ship = destroyerBuilder.GetShip();
+
+                                /*BattalionCreator battalionCreator = new BattalionCreator();
+                                var battalion = battalionCreator.CreateBattalion(1);
+                                var factory = battalion.GetAbstractFactory();
+                                var tank = factory.CreateTank();
+                                var testShip = factory.CreateShip();
+
+                                var createdTank = tank.GetName();
+                                var createdShip = testShip.GetName();*/                                
+
                                 yourMapTmp.GetTile(i, j).Unit = ship;
                                 var tile = yourMap.GetTile(i, j);
                                 tile.Unit = ship;

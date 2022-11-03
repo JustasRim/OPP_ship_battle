@@ -50,6 +50,10 @@ namespace BattleShipClient.Ingame_objects
         {
             return powerUp.GetPowerUpType();
         }
+        public string GetName()
+        {
+            return this.GetType().Name;
+        }
 
         public Unit()
         {
