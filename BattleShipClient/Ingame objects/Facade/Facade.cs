@@ -691,13 +691,18 @@ namespace BattleShipClient.Ingame_objects.Facade
         public bool DamageUnit(ITile tile, int damage)
         {
             var unit = tile.Unit;
-            unit.AddPowerUp(PowerUpType.Shield, 50);
+            Random rnd = new Random();
+            int value = rnd.Next(1, 100);
+            int type = rnd.Next(1, 3);
+            if (type == 1)
+                unit.AddPowerUp(PowerUpType.Shield, value);
+            else unit.AddPowerUp(PowerUpType.Evasion, value);
             if (unit.GetPowerUpType() != PowerUpType.None)
             {
                 if (unit.CanTakeDamage(damage))
                 {
-                    var dmg = unit.GetDamageTaken(damage);
-                    unit.TakeDamage(unit.GetDamageTaken(damage));
+                    var dmgTaken = unit.GetDamageTaken(damage);
+                    unit.TakeDamage(dmgTaken);
                 }
             }
             else
