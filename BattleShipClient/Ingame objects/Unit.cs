@@ -71,6 +71,7 @@ namespace BattleShipClient.Ingame_objects
             Unit copy = new Unit();
             copy.Publisher = this.Publisher;
             copy._damageContext = this._damageContext;
+            copy.powerUp = this.powerUp;
             copy.DamageReduction = this.DamageReduction;
             copy.Parts = new List<Part>();
             if (this.Parts != null)
