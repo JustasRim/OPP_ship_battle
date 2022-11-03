@@ -31,8 +31,8 @@ namespace BattleShipClient
         [STAThread]
         static void Main()
         {
-            TestPrototype();
-            TestDecorator();
+            //TestPrototype();
+            //TestDecorator();
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             //Application.Run(new Form1());
@@ -121,11 +121,16 @@ namespace BattleShipClient
                 Console.WriteLine(part.Name);
             }
 
-            var shipClone = (Ship)unitOne.DeepCopy();
+            var shipCloneDeep = (Unit)unitOne.DeepCopy();
+            var shipCloneShallow = (Unit)unitOne.ShallowCopy();
             Console.WriteLine("CLONED SHIP 1");
+            bool equalDeep = Object.ReferenceEquals(unitOne.Health, shipCloneDeep.Health);
+
+            bool equalShallow =  Object.ReferenceEquals(unitOne.Parts, shipCloneShallow.Parts);
+
             //Console.WriteLine($"Memory address {(Unit)shipClone}");
-            Console.WriteLine($"{shipClone.Health} {shipClone.DamageReduction}");
-            foreach (Part part in shipClone.Parts)
+            Console.WriteLine($"{shipCloneDeep.Health} {shipCloneDeep.DamageReduction}");
+            foreach (Part part in shipCloneDeep.Parts)
             {
                 Console.WriteLine(part.Name);
             }

@@ -20,6 +20,5 @@ namespace BattleShipClient.Ingame_objects.Decorator
         {
             message.messageText += text;
         }
-     
     }
 }

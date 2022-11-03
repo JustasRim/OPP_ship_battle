@@ -36,7 +36,7 @@ namespace BattleShipClient.Ingame_objects
         }
         public override object ShallowCopy()
         {
-            return (Tank)this.MemberwiseClone();
+            return (Ship)this.MemberwiseClone();
         }
     }
 
