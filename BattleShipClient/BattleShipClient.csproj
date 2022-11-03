@@ -60,7 +60,7 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Ingame objects\Adapter\IDieable.cs" />
+    <Compile Include="Ingame objects\Adapter\ISinkable.cs" />
     <Compile Include="Ingame objects\Builder\BattleShipBuilder.cs" />
     <Compile Include="Ingame objects\Builder\Director.cs" />
     <Compile Include="Ingame objects\Builder\IBuilder.cs" />
