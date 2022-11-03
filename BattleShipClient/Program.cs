@@ -316,7 +316,8 @@ namespace BattleShipClient
                                     {
                                         Parts = new List<Part> { new Part("Hull", 0, health, 0, 0) }
                                     };
-                                    main.enemyMap.GetTile(x, y).Unit = unit;
+                                    main.facade.GetTile(Ingame_objects.Facade.Facade.Maps.enemyMap, x, y).Unit = unit;
+                                    //main.enemyMap.GetTile(x, y).Unit = unit;
                                     if (unit.Health > 0)
                                     {
                                         main.clickedButton.BackColor = Color.Pink;
@@ -339,7 +340,8 @@ namespace BattleShipClient
                                 {
                                     int x = Int32.Parse(main.clickedButton.Name.Substring(0, 1)); //get x button co-ordinates
                                     int y = Int32.Parse(main.clickedButton.Name.Substring(1, 1)); //get y button co-ordinates
-                                    main.enemyMap.GetTile(x, y).Unit = new Unit();
+                                    //main.enemyMap.GetTile(x, y).Unit = new Unit();
+                                    main.facade.GetTile(Ingame_objects.Facade.Facade.Maps.enemyMap, x, y).Unit = new Unit();
                                     main.clickedButton.BackColor = Color.Tomato;
                                     ((Panel)main.Controls.Find("PEnemy", true).FirstOrDefault()).Enabled = true;
                                 }; main.Invoke(inv);
@@ -352,7 +354,8 @@ namespace BattleShipClient
                                 {
                                     int x = Int32.Parse(main.clickedButton.Name.Substring(0, 1)); //get x button co-ordinates
                                     int y = Int32.Parse(main.clickedButton.Name.Substring(1, 1)); //get y button co-ordinates
-                                    main.enemyMap.GetTile(x, y).Unit = new Unit();
+                                    //main.enemyMap.GetTile(x, y).Unit = new Unit();
+                                    main.facade.GetTile(Ingame_objects.Facade.Facade.Maps.enemyMap, x, y).Unit = new Unit(); 
                                     main.clickedButton.BackColor = Color.Crimson;
                                     ((Panel)main.Controls.Find("PEnemy", true).FirstOrDefault()).Enabled = false;
                                     MessageBox.Show("You win!", "Success!");
@@ -375,7 +378,7 @@ namespace BattleShipClient
                                         y = Int32.Parse(answer.Split(' ')[2]);
                                         int damage = Int32.Parse(answer.Split(' ')[3]);
                                         main.GetShotAndResponse(x, y, damage);
-                                        if (main.masts == 0)
+                                        if (main.facade.GetRemainingMastsCount() == 0)
                                         {
                                             ((Panel)main.Controls.Find("PEnemy", true).FirstOrDefault()).Enabled = false;
                                             message = (char)1 + " " + userLogin + " " + enemyNick + " <EOF>";

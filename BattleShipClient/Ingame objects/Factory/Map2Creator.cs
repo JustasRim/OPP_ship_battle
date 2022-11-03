@@ -7,7 +7,9 @@ public class Map2Creator : Map
         {
             for (int j = 0; j < 10; j++)
             {
-                if(j<5)
+                if (j ==5)
+                 Tiles.Add(new RockTile(i, j));
+                else if(j<5)
                  Tiles.Add(new GroundTile(i, j));
                 else
                  Tiles.Add(new WaterTile(i, j));
