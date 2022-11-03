@@ -7,17 +7,11 @@ using System.Linq;
 
 namespace BattleShipClient.Ingame_objects
 {
-    public enum PowerUpType
-    {
-        None,
-        Shield,
-        Evasion,
-    }
     public class Unit : IPrototype
     {
         protected DamageContext _damageContext;
 
-        protected PowerUpImplementor implementor;
+        protected PowerUp powerUp;
 
         public int Health { get => Parts.Sum(q => q.Health); }
 
@@ -27,28 +21,34 @@ namespace BattleShipClient.Ingame_objects
 
         public Publisher Publisher { get; set; }
 
-        public PowerUpType PowerUpType = PowerUpType.None;
-
-        public PowerUpImplementor PowerUpImplementor
+        public PowerUp PowerUp
         {
-            set { implementor = value; }
+            set { powerUp = value; }
         }
 
-        public int PowerUpValue = 0;
-
-        public void AddPowerUp(int value)
+        public void AddPowerUp(PowerUpType type, int value)
         {
-            PowerUpValue += value;
+            PowerUp newPowerUp = new Shield(value);
+            if (type == PowerUpType.Evasion)
+            {
+                newPowerUp = new Evasion(value);
+            }
+            this.powerUp = newPowerUp;
         }
 
-        public virtual bool CanTakeDamage()
+        public virtual bool CanTakeDamage(int damage)
         {
-            return implementor.CanTakeDamage(Health);
+            return powerUp.CanTakeDamage(damage);
         }
 
-        public virtual double GetDamageTaken(int damage)
+        public virtual int GetDamageTaken(int damage)
         {
-            return implementor.GetDamageTaken(damage);
+            return powerUp.GetDamageTaken(damage);
+        }
+
+        public virtual PowerUpType GetPowerUpType()
+        {
+            return powerUp.GetPowerUpType();
         }
 
         public Unit()
@@ -67,8 +67,6 @@ namespace BattleShipClient.Ingame_objects
             Unit copy = new Unit();
             copy.Publisher = this.Publisher;
             copy._damageContext = this._damageContext;
-            copy.PowerUpType = this.PowerUpType;
-            copy.PowerUpValue = this.PowerUpValue;
             copy.DamageReduction = this.DamageReduction;
             copy.Parts = new List<Part>();
             if (this.Parts != null)

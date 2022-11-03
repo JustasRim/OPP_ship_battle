@@ -3,14 +3,14 @@ using System;
 
 namespace BattleShipClient.Ingame_objects
 {
-    public class EvasionImplementor : PowerUpImplementor
+    public class Evasion : PowerUp
     {
-        private int CurrentEvasionValue = 0;
-        public EvasionImplementor(int value)
+        private readonly int CurrentEvasionValue = 0;
+        public Evasion(int value)
         {
             CurrentEvasionValue = value;
         }
-        public override bool CanTakeDamage(int health)
+        public override bool CanTakeDamage(int damage)
         {
             if (CurrentEvasionValue < 100)
             {
@@ -21,9 +21,13 @@ namespace BattleShipClient.Ingame_objects
             }
             return false;
         }
-        public override double GetDamageTaken(int damage)
+        public override int GetDamageTaken(int damage)
         {
             return damage;
+        }
+        public override PowerUpType GetPowerUpType()
+        {
+            return PowerUpType.Evasion;
         }
     }
 }

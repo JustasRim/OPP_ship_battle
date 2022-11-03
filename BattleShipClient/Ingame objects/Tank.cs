@@ -35,8 +35,6 @@ namespace BattleShipClient.Ingame_objects
         {
             Tank copy = new Tank();
             copy.DamageReduction = this.DamageReduction;
-            copy.PowerUpType = this.PowerUpType;
-            copy.PowerUpValue = this.PowerUpValue;
             copy.Parts = new List<Part>();
             if (this.Parts != null)
             {
