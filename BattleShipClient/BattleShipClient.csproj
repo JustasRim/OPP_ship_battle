@@ -74,7 +74,7 @@
     <Compile Include="Ingame objects\Decorator\EndDecorator.cs" />
     <Compile Include="Ingame objects\Decorator\WholeDecorator.cs" />
     <Compile Include="Ingame objects\Factory\GroundTile.cs" />
-    <Compile Include="Ingame objects\Bridge\EvasionImplementor.cs" />
+    <Compile Include="Ingame objects\Bridge\Evasion.cs" />
     <Compile Include="Ingame objects\Factory\Map.cs" />
     <Compile Include="Ingame objects\Factory\Map1Creator.cs" />
     <Compile Include="Ingame objects\Factory\Map2Creator.cs" />
@@ -83,9 +83,9 @@
     <Compile Include="Ingame objects\Observer\Publisher.cs" />
     <Compile Include="Ingame objects\Parts.cs" />
     <Compile Include="Ingame objects\Player.cs" />
-    <Compile Include="Ingame objects\Bridge\PowerUpImplementor.cs" />
+    <Compile Include="Ingame objects\Bridge\PowerUp.cs" />
     <Compile Include="Ingame objects\Prototype\IPrototype.cs" />
-    <Compile Include="Ingame objects\Bridge\ShieldImplementor.cs" />
+    <Compile Include="Ingame objects\Bridge\Shield.cs" />
     <Compile Include="Ingame objects\Ship.cs" />
     <Compile Include="Ingame objects\Adapter\ShipTankAdapter.cs" />
     <Compile Include="Ingame objects\Strategy\BaseDamageStrategy.cs" />

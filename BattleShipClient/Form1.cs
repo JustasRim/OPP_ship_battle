@@ -786,18 +786,14 @@ namespace BattleShipClient
             if (tile.HasUnit)
             {
                 var unit = tile.Unit;
-                //unit.PowerUpType = PowerUpType.Evasion;
-                unit.PowerUpType = PowerUpType.Shield;
-                unit.PowerUpValue = 100;
-                if (unit.PowerUpType != PowerUpType.None)
+                unit.AddPowerUp(PowerUpType.Shield, 50);
+                //unit.AddPowerUp(PowerUpType.Evasion, 50);
+                if (unit.GetPowerUpType() != PowerUpType.None)
                 {
-                    if (unit.PowerUpType == PowerUpType.Shield)
-                        unit.PowerUpImplementor = new ShieldImplementor(unit.PowerUpValue);
-                    if (unit.PowerUpType == PowerUpType.Evasion)
-                        unit.PowerUpImplementor = new EvasionImplementor(unit.PowerUpValue);
-                    if (unit.CanTakeDamage())
+                    if (unit.CanTakeDamage(damage))
                     {
-                        unit.TakeDamage((int)unit.GetDamageTaken(damage));
+                        var dmg = unit.GetDamageTaken(damage);
+                        unit.TakeDamage(unit.GetDamageTaken(damage));
                     }
                 }
                 else
