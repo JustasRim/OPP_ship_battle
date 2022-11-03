@@ -73,6 +73,8 @@
     <Compile Include="Ingame objects\Decorator\SignalMessage.cs" />
     <Compile Include="Ingame objects\Decorator\EndDecorator.cs" />
     <Compile Include="Ingame objects\Decorator\WholeDecorator.cs" />
+    <Compile Include="Ingame objects\Facade\Facade.cs" />
+    <Compile Include="Ingame objects\Factory\RockTile.cs" />
     <Compile Include="Ingame objects\Factory\GroundTile.cs" />
     <Compile Include="Ingame objects\Bridge\EvasionImplementor.cs" />
     <Compile Include="Ingame objects\Factory\Map.cs" />
