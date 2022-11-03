@@ -725,9 +725,5 @@ namespace BattleShipClient.Ingame_objects.Facade
         {
             tile.Unit = unit;
         }
-        public void GetShotAndResponse(int x, int y, int damage)
-        {
-            
-        }
     }
 }
