@@ -108,6 +108,7 @@
     <Compile Include="Ingame objects\Strategy\TankDamageStrategy.cs" />
     <Compile Include="Ingame objects\Tank.cs" />
     <Compile Include="Ingame objects\Factory\Tile.cs" />
+    <Compile Include="Ingame objects\Template method\WinCondition.cs" />
     <Compile Include="Ingame objects\Unit.cs" />
     <Compile Include="Ingame objects\Factory\WaterTile.cs" />
     <Compile Include="OfferingGame.cs">

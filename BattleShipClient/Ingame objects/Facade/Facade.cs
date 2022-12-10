@@ -2,6 +2,7 @@
 using BattleShipClient.Ingame_objects.Adapter;
 using BattleShipClient.Ingame_objects.Builder;
 using BattleShipClient.Ingame_objects.Decorator;
+using BattleShipClient.Ingame_objects.Template_method;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -27,6 +28,9 @@ namespace BattleShipClient.Ingame_objects.Facade
 
         Director director { get; set; }
 
+        bool gameWon { get; set; }
+        WinCondition winCondition { get; set; }
+
         public Facade()
         {
             yourMap = new Map2Creator();
@@ -34,6 +38,9 @@ namespace BattleShipClient.Ingame_objects.Facade
             enemyMap = new Map2Creator();
             director = new Director();
             masts = 20;
+            gameWon = false;
+            winCondition = new FirstDestroyed();
+            //winCondition = new AllDestroyed();
         }
 
         public Ship GetUnits(UnitTypes type)
@@ -697,6 +704,10 @@ namespace BattleShipClient.Ingame_objects.Facade
             if (type == 1)
                 unit.AddPowerUp(PowerUpType.Shield, value);
             else unit.AddPowerUp(PowerUpType.Evasion, value);
+            if (winCondition.GameWon(unit, damage, GetRemainingMastsCount()))
+            {
+                gameWon = true;
+            }
             if (unit.GetPowerUpType() != PowerUpType.None)
             {
                 if (unit.CanTakeDamage(damage))
@@ -740,6 +751,10 @@ namespace BattleShipClient.Ingame_objects.Facade
         public void AssignUnit(ITile tile, Unit unit)
         {
             tile.Unit = unit;
+        }
+        public bool IsGameWon()
+        {
+            return gameWon;
         }
     }
 }

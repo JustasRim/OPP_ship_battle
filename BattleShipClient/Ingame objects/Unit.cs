@@ -38,7 +38,9 @@ namespace BattleShipClient.Ingame_objects
 
         public virtual bool CanTakeDamage(int damage)
         {
-            return powerUp.CanTakeDamage(damage);
+            if (powerUp.GetPowerUpType() != PowerUpType.None)
+                return powerUp.CanTakeDamage(damage);
+            else return true;
         }
 
         public virtual int GetDamageTaken(int damage)

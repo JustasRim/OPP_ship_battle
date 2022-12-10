@@ -383,7 +383,7 @@ namespace BattleShipClient
                                         y = Int32.Parse(answer.Split(' ')[2]);
                                         int damage = Int32.Parse(answer.Split(' ')[3]);
                                         main.GetShotAndResponse(x, y, damage);
-                                        if (main.facade.GetRemainingMastsCount() == 0)
+                                        if (main.facade.IsGameWon())
                                         {
                                             ((Panel)main.Controls.Find("PEnemy", true).FirstOrDefault()).Enabled = false;
                                             message = (char)1 + " " + userLogin + " " + enemyNick + " <EOF>";
