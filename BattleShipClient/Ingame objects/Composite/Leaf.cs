@@ -1,10 +1,15 @@
 ﻿using BattleShipClient.Ingame_objects.Visitor;
 using System;
 
-namespace BattleShipClient.Ingame_objects.Composite
+namespace BattleShipClient.Ingame_objects.CompositePatrtern
 {
-    internal class Leaf : Component
+    public class Leaf : Component
     {
+        public Leaf(Element element)
+        {
+            this.element = element;
+        }
+
         public override void Add(Component c)
         {
             throw new System.NotImplementedException();

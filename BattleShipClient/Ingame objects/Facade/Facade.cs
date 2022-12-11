@@ -1,16 +1,9 @@
-﻿using BattleShipClient.Ingame_objects.AbstractFactory;
-using BattleShipClient.Ingame_objects.Adapter;
+﻿using BattleShipClient.Ingame_objects.Adapter;
 using BattleShipClient.Ingame_objects.Builder;
-using BattleShipClient.Ingame_objects.Decorator;
 using BattleShipClient.Ingame_objects.Template_method;
 using System;
+using BattleShipClient.Ingame_objects.CompositePatrtern;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using static BattleShipClient.Ingame_objects.Facade.Facade;
 
 namespace BattleShipClient.Ingame_objects.Facade
 {
@@ -19,17 +12,20 @@ namespace BattleShipClient.Ingame_objects.Facade
         Map2Creator yourMap { get; set; }
         Map2Creator yourMapTmp { get; set; }
         Map2Creator enemyMap { get; set; }
-
         int masts { get; set; }
         Ship unitOf1Masts { get; set; }
         Ship unitOf2Masts { get; set; }
         Ship unitOf3Masts { get; set; }
         Ship unitOf4Masts { get; set; }
-
         Director director { get; set; }
 
         bool gameWon { get; set; }
         WinCondition winCondition { get; set; }
+
+        Composite fleet;
+        List<Ship> flotilas;
+        List<Ship> squadrons;
+        List<Ship> single;
 
         public Facade()
         {
@@ -42,6 +38,28 @@ namespace BattleShipClient.Ingame_objects.Facade
             winCondition = new FirstDestroyed();
             //winCondition = new AllDestroyed();
         }
+
+        public void CreateCompositeFleet()
+        {
+            fleet = new Composite(unitOf4Masts);
+            var flotilla = new Composite(flotilas[0]);
+
+            var squadron1 = new Composite(squadrons[0]);
+            var squadron2 = new Leaf(squadrons[1]);
+            var squadron3 = new Leaf(squadrons[2]);
+
+            squadron1.Add(new Leaf(single[0]));
+            squadron1.Add(new Leaf(single[1]));
+            squadron1.Add(new Leaf(single[2]));
+
+            flotilla.Add(squadron1);
+            flotilla.Add(squadron2);
+            flotilla.Add(squadron3);
+
+            fleet.Add(new Leaf(flotilas[1]));
+            fleet.Add(flotilla);            
+        }
+
 
         public Ship GetUnits(UnitTypes type)
         {
@@ -171,6 +189,7 @@ namespace BattleShipClient.Ingame_objects.Facade
                                 ship.Publisher.RegisterSubscriber(tile);
                                 counter++;
                                 unitOf1Masts = ship;
+                                single.Add(ship);
                             }
                             else
                             {
@@ -180,7 +199,8 @@ namespace BattleShipClient.Ingame_objects.Facade
                                 tile.Unit = ship;
 
                                 ship.Publisher.RegisterSubscriber(tile);
-
+                                single.Remove(unitOf1Masts);
+                                single.Add(ship);
                                 counter++;
                             }
 
@@ -322,6 +342,7 @@ namespace BattleShipClient.Ingame_objects.Facade
                                 ship.Publisher.RegisterSubscriber(yourMap.GetTile(i + 1, j));
                                 counter++;
                                 unitOf2Masts = ship;
+                                squadrons.Add(ship);
                             }
                             else
                             {
@@ -335,6 +356,8 @@ namespace BattleShipClient.Ingame_objects.Facade
                                 ship.Publisher.RegisterSubscriber(yourMap.GetTile(i, j));
                                 ship.Publisher.RegisterSubscriber(yourMap.GetTile(i + 1, j));
                                 counter++;
+                                squadrons.Remove(unitOf2Masts);
+                                squadrons.Add(ship);
                             }
                             /* before
                             var destroyerBuilder = new DestroyerShipBuilder();
@@ -371,10 +394,11 @@ namespace BattleShipClient.Ingame_objects.Facade
 
                                     counter++;
                                     unitOf2Masts = ship;
+                                    squadrons.Add(ship);
                                 }
                                 else
                                 {
-                                    var ship = (Unit)unitOf2Masts.DeepCopy();
+                                    var ship = (Ship)unitOf2Masts.DeepCopy();
 
                                     yourMapTmp.GetTile(i, j).Unit = ship;
                                     yourMapTmp.GetTile(i, j + 1).Unit = ship;
@@ -386,6 +410,8 @@ namespace BattleShipClient.Ingame_objects.Facade
                                     ship.Publisher.RegisterSubscriber(yourMap.GetTile(i, j + 1));
 
                                     counter++;
+                                    squadrons.Remove(unitOf2Masts);
+                                    squadrons.Add(ship);
                                 }
                                 /* before
                                  var destroyerBuilder = new DestroyerShipBuilder();
@@ -445,6 +471,7 @@ namespace BattleShipClient.Ingame_objects.Facade
 
                                 counter++;
                                 unitOf3Masts = ship;
+                                flotilas.Add(ship);
                             }
                             else
                             {
@@ -461,6 +488,8 @@ namespace BattleShipClient.Ingame_objects.Facade
                                 ship.Publisher.RegisterSubscriber(yourMap.GetTile(i + 1, j));
                                 ship.Publisher.RegisterSubscriber(yourMap.GetTile(i + 2, j));
 
+                                flotilas.Remove(unitOf3Masts);
+                                flotilas.Add(ship);
                                 counter++;
                             }
                             /* before
@@ -502,6 +531,7 @@ namespace BattleShipClient.Ingame_objects.Facade
 
                                     counter++;
                                     unitOf3Masts = ship;
+                                    flotilas.Add(ship);
                                 }
                                 else
                                 {
@@ -517,7 +547,8 @@ namespace BattleShipClient.Ingame_objects.Facade
                                     ship.Publisher.RegisterSubscriber(yourMap.GetTile(i, j));
                                     ship.Publisher.RegisterSubscriber(yourMap.GetTile(i, j + 1));
                                     ship.Publisher.RegisterSubscriber(yourMap.GetTile(i, j + 2));
-
+                                    flotilas.Remove(unitOf3Masts);
+                                    flotilas.Add(ship);
                                     counter++;
                                 }
                             }
@@ -581,6 +612,7 @@ namespace BattleShipClient.Ingame_objects.Facade
                                 ship.Publisher.RegisterSubscriber(yourMap.GetTile(i + 2, j));
                                 ship.Publisher.RegisterSubscriber(yourMap.GetTile(i + 3, j));
 
+
                                 counter++;
                                 unitOf4Masts = ship;
                             }
@@ -601,6 +633,8 @@ namespace BattleShipClient.Ingame_objects.Facade
                                 ship.Publisher.RegisterSubscriber(yourMap.GetTile(i + 1, j));
                                 ship.Publisher.RegisterSubscriber(yourMap.GetTile(i + 2, j));
                                 ship.Publisher.RegisterSubscriber(yourMap.GetTile(i + 3, j));
+
+
                                 counter++;
                             }
 
@@ -645,8 +679,6 @@ namespace BattleShipClient.Ingame_objects.Facade
                                     ship.Publisher.RegisterSubscriber(yourMap.GetTile(i, j + 1));
                                     ship.Publisher.RegisterSubscriber(yourMap.GetTile(i, j + 2));
                                     ship.Publisher.RegisterSubscriber(yourMap.GetTile(i, j + 3));
-
-                                    counter++;
                                     unitOf4Masts = ship;
                                 }
                                 else
@@ -666,7 +698,6 @@ namespace BattleShipClient.Ingame_objects.Facade
                                     ship.Publisher.RegisterSubscriber(yourMap.GetTile(i, j + 1));
                                     ship.Publisher.RegisterSubscriber(yourMap.GetTile(i, j + 2));
                                     ship.Publisher.RegisterSubscriber(yourMap.GetTile(i, j + 3));
-
                                     counter++;
                                 }
 

@@ -1,8 +1,8 @@
 ﻿using BattleShipClient.Ingame_objects.Visitor;
 
-namespace BattleShipClient.Ingame_objects.Composite
+namespace BattleShipClient.Ingame_objects.CompositePatrtern
 {
-    internal abstract class Component
+    public abstract class Component
     {
         protected Element element;
         public abstract void Add(Component c);

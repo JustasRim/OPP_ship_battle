@@ -180,6 +180,8 @@ namespace BattleShipClient
             EndDecorator endDecorator = new EndDecorator(frontDecorator, signalMessage);
             WholeDecorator wholeDecorator = new WholeDecorator(endDecorator, signalMessage);
 
+            facade.CreateCompositeFleet();
+
             signalMessage.CreateEmptyMessage();         
             char comm = (char)0;
             wholeDecorator.CreateMessage(Program.userLogin + " " + Program.enemyNick);
