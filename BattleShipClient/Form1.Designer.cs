@@ -73,6 +73,9 @@
             this.button6 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
             this.BPlay = new System.Windows.Forms.Button();
+            this.orderToRepair = new System.Windows.Forms.Button();
+            this.delegateEngineers = new System.Windows.Forms.Button();
+            this.silentOrder = new System.Windows.Forms.Button();
             this.PMast.SuspendLayout();
             this.PMastSet.SuspendLayout();
             this.SuspendLayout();
@@ -593,11 +596,44 @@
             this.BPlay.UseVisualStyleBackColor = false;
             this.BPlay.Click += new System.EventHandler(this.playbuttonClick);
             // 
+            // orderToRepair
+            // 
+            this.orderToRepair.Location = new System.Drawing.Point(7, 12);
+            this.orderToRepair.Name = "orderToRepair";
+            this.orderToRepair.Size = new System.Drawing.Size(78, 44);
+            this.orderToRepair.TabIndex = 29;
+            this.orderToRepair.Text = "Order to repair";
+            this.orderToRepair.UseVisualStyleBackColor = true;
+            this.orderToRepair.Click += new System.EventHandler(this.orderToRepair_Click);
+            // 
+            // delegateEngineers
+            // 
+            this.delegateEngineers.Location = new System.Drawing.Point(91, 12);
+            this.delegateEngineers.Name = "delegateEngineers";
+            this.delegateEngineers.Size = new System.Drawing.Size(81, 44);
+            this.delegateEngineers.TabIndex = 30;
+            this.delegateEngineers.Text = "Delegate Engineers";
+            this.delegateEngineers.UseVisualStyleBackColor = true;
+            this.delegateEngineers.Click += new System.EventHandler(this.delegateEngineers_Click);
+            // 
+            // silentOrder
+            // 
+            this.silentOrder.Location = new System.Drawing.Point(181, 12);
+            this.silentOrder.Name = "silentOrder";
+            this.silentOrder.Size = new System.Drawing.Size(78, 44);
+            this.silentOrder.TabIndex = 31;
+            this.silentOrder.Text = "Issue Silent Order";
+            this.silentOrder.UseVisualStyleBackColor = true;
+            this.silentOrder.Click += new System.EventHandler(this.silentOrder_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(624, 441);
+            this.Controls.Add(this.silentOrder);
+            this.Controls.Add(this.delegateEngineers);
+            this.Controls.Add(this.orderToRepair);
             this.Controls.Add(this.BPlay);
             this.Controls.Add(this.PMastSet);
             this.Controls.Add(this.PMast);
@@ -662,6 +698,9 @@
         private System.Windows.Forms.Button button13;
         private System.Windows.Forms.Button button12;
         private System.Windows.Forms.Button button11;
+        private System.Windows.Forms.Button orderToRepair;
+        private System.Windows.Forms.Button delegateEngineers;
+        private System.Windows.Forms.Button silentOrder;
     }
 }
 

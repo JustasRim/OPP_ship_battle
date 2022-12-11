@@ -5,6 +5,7 @@ using BattleShipClient.Ingame_objects.Decorator;
 using BattleShipClient.Ingame_objects.Facade;
 using BattleShipClient.Ingame_objects.Prototype;
 using BattleShipClient.Ingame_objects.Strategy;
+using BattleShipClient.Ingame_objects.Visitor;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -334,6 +335,24 @@ namespace BattleShipClient
             }
             //User Go to EnemySelectionPanel
             DialogResult = DialogResult.Yes;
+        }
+
+        private void orderToRepair_Click(object sender, EventArgs e)
+        {
+            facade.fleet.Visit(new RepairVisitor());
+            orderToRepair.Enabled = false;
+        }
+
+        private void delegateEngineers_Click(object sender, EventArgs e)
+        {
+            facade.fleet.Visit(new ArmorVisitor());
+            delegateEngineers.Enabled = false;
+        }
+
+        private void silentOrder_Click(object sender, EventArgs e)
+        {
+            facade.fleet.Visit(new DamageReductionVisitor());
+            silentOrder.Enabled = false;
         }
     }
 }

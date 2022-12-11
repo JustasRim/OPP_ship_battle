@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 
 namespace BattleShipClient.Ingame_objects.Visitor
 {
@@ -7,15 +8,15 @@ namespace BattleShipClient.Ingame_objects.Visitor
         public void Visit(Element element)
         {
             var unit = element as Unit;
-            if (unit != null)
+            if (unit == null)
             {
                 return;
             }
 
-            Console.Write($"Adding damage reduction, current value = {unit.DamageReduction}");
+            Debug.WriteLine($"Adding damage reduction, current value = {unit.DamageReduction}");
             unit.DamageReduction *= 1.5f;
 
-            Console.Write($"Damega reduction after increase is {unit.DamageReduction}");
+            Debug.WriteLine($"Damega reduction after increase is {unit.DamageReduction}");
         }
     }
 }

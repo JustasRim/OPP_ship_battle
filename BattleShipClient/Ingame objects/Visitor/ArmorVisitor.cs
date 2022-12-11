@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 
 namespace BattleShipClient.Ingame_objects.Visitor
 {
@@ -7,15 +8,15 @@ namespace BattleShipClient.Ingame_objects.Visitor
         public void Visit(Element element)
         {
             var unit = element as Unit;
-            if (unit != null)
+            if (unit == null)
             {
                 return;
             }
 
-            Console.Write($"Adding armour, current armour");
+            Debug.WriteLine($"Adding armor, current armor");
             foreach (var part in unit.Parts)
             {
-                if (part != null)
+                if (part == null)
                 {
                     continue;
                 }
@@ -23,7 +24,7 @@ namespace BattleShipClient.Ingame_objects.Visitor
                 part.Armor *= 3;
             }
 
-            Console.Write($"Armour has been added");
+            Debug.WriteLine($"armor has been added");
         }
     }
 }
