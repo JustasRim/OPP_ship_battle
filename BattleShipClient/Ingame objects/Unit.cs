@@ -1,13 +1,13 @@
 ﻿using BattleShipClient.Ingame_objects.Observer;
 using BattleShipClient.Ingame_objects.Prototype;
 using BattleShipClient.Ingame_objects.Strategy;
-using System;
+using BattleShipClient.Ingame_objects.Visitor;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace BattleShipClient.Ingame_objects
 {
-    public class Unit : IPrototype
+    public class Unit : Element, IPrototype
     {
         protected DamageContext _damageContext;
 
@@ -86,6 +86,11 @@ namespace BattleShipClient.Ingame_objects
         public virtual object ShallowCopy()
         {
             return (Unit)this.MemberwiseClone();
+        }
+
+        public override void Accept(IVisitor visitor)
+        {
+            visitor.Visit(this);
         }
     }
 

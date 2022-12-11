@@ -77,6 +77,9 @@
     <Compile Include="Ingame objects\Builder\Director.cs" />
     <Compile Include="Ingame objects\Builder\IBuilder.cs" />
     <Compile Include="Ingame objects\Builder\DestroyerShipBuilder.cs" />
+    <Compile Include="Ingame objects\Composite\Component.cs" />
+    <Compile Include="Ingame objects\Composite\Composite.cs" />
+    <Compile Include="Ingame objects\Composite\Leaf.cs" />
     <Compile Include="Ingame objects\Decorator\Decorator.cs" />
     <Compile Include="Ingame objects\Decorator\FrontDecorator.cs" />
     <Compile Include="Ingame objects\Decorator\Component.cs" />
@@ -111,6 +114,11 @@
     <Compile Include="Ingame objects\Template method\WinCondition.cs" />
     <Compile Include="Ingame objects\Unit.cs" />
     <Compile Include="Ingame objects\Factory\WaterTile.cs" />
+    <Compile Include="Ingame objects\Visitor\ArmorVisitor.cs" />
+    <Compile Include="Ingame objects\Visitor\DamageReductionVisitor.cs" />
+    <Compile Include="Ingame objects\Visitor\Element.cs" />
+    <Compile Include="Ingame objects\Visitor\RepairVisitor.cs" />
+    <Compile Include="Ingame objects\Visitor\Visitor.cs" />
     <Compile Include="OfferingGame.cs">
       <SubType>Form</SubType>
     </Compile>
