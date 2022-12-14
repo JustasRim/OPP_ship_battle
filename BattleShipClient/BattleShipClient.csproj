@@ -100,6 +100,9 @@
     <Compile Include="Ingame objects\Bridge\PowerUp.cs" />
     <Compile Include="Ingame objects\Prototype\IPrototype.cs" />
     <Compile Include="Ingame objects\Bridge\Shield.cs" />
+    <Compile Include="Ingame objects\Proxy\ISendMessage.cs" />
+    <Compile Include="Ingame objects\Proxy\RealSendMessage.cs" />
+    <Compile Include="Ingame objects\Proxy\ProxySendMessage.cs" />
     <Compile Include="Ingame objects\Ship.cs" />
     <Compile Include="Ingame objects\Adapter\ShipTankAdapter.cs" />
     <Compile Include="Ingame objects\Strategy\BaseDamageStrategy.cs" />

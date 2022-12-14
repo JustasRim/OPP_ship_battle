@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BattleShipClient.Ingame_objects.Proxy;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -20,7 +21,8 @@ namespace BattleShipClient
         //If I have set ships and click Start Game
         bool iAmReady = false;
         //If I'am playing game
-        bool iamBusy = false; 
+        bool iamBusy = false;
+        bool isAuthorized = true;
         public SynchronousSocketClient(string AddressIP)
         {
             IPEndPoint serverRemoteEP = new IPEndPoint(IPAddress.Parse(AddressIP), 11000);
@@ -81,29 +83,8 @@ namespace BattleShipClient
         }
         public void Send(String data)
         {
-            try
-            {
-                // Encode the data string into a byte array.
-                byte[] msg = Encoding.ASCII.GetBytes(data);
-
-                // Send the data through the socket.
-                int bytesSent = socket.Send(msg);
-            }
-            catch (ArgumentNullException ane)
-            {
-                Console.WriteLine("ArgumentNullException : {0}", ane.ToString());
-                throw;
-            }
-            catch (SocketException se)
-            {
-                Console.WriteLine("SocketException : {0}", se.ToString());
-                throw;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Unexpected exception : {0}", e.ToString());
-                throw;
-            }
+            var proxy = new ProxySendMessage(isAuthorized, data, socket);
+            proxy.Send();
         }
 
         public void Disconnect()
@@ -131,5 +112,9 @@ namespace BattleShipClient
             }
         }
         //Messages to send
+        public void ChangeAuthValue()
+        {
+            this.isAuthorized = !this.isAuthorized;
+        }
     }
 }

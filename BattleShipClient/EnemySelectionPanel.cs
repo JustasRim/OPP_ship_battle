@@ -56,6 +56,7 @@ namespace BattleShipClient
             //Send Getoffers communique
             char comm = (char)7;
             string message = comm + " " + Program.userLogin + " <EOF>"; //enemies except me
+            //Program.client.ChangeAuthValue();
             Program.client.Send(message);
             //Receive answer in program;s thread          
         }
