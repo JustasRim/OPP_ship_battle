@@ -2,45 +2,43 @@
 {
     public class WinCondition
     {
-        public virtual bool GameWon(Unit hitUnit, int damage, int remainingUnits)
+        public bool UnitCanTakeDamage(Unit hitUnit, int damage)
+        {
+            return hitUnit.CanTakeDamage(damage);
+        }
+
+        public virtual bool PassesWinCondition(Unit hitUnit, int damage, int remainingUnits)
         {
             return false;
+        }
+
+        public bool GameWon(Unit hitUnit, int damage, int remainingUnits)
+        {
+            if (UnitCanTakeDamage(hitUnit, damage))
+            {
+                return PassesWinCondition(hitUnit, damage, remainingUnits);
+            }
+            else return false;
         }
     }
 
     public class FirstDestroyed : WinCondition
     {
-        public sealed override bool GameWon(Unit hitUnit, int damage, int remainingUnits)
+        public sealed override bool PassesWinCondition(Unit hitUnit, int damage, int remainingUnits)
         {
-            if (hitUnit.CanTakeDamage(damage))
-            {
-                var dmgTaken = hitUnit.GetDamageTaken(damage);
+            var dmgTaken = hitUnit.GetDamageTaken(damage);
 
-                if (hitUnit.Health - dmgTaken <= 0)
-                {
-                    return true;
-                }
-                else return false;
-            }
-            else return false;
+            return (hitUnit.Health - dmgTaken <= 0);
         }
     }
 
     public class AllDestroyed : WinCondition
     {
-        public sealed override bool GameWon(Unit hitUnit, int damage, int remainingUnits)
+        public sealed override bool PassesWinCondition(Unit hitUnit, int damage, int remainingUnits)
         {
-            if (hitUnit.CanTakeDamage(damage))
-            {
-                var dmgTaken = hitUnit.GetDamageTaken(damage);
+            var dmgTaken = hitUnit.GetDamageTaken(damage);
 
-                if (hitUnit.Health - dmgTaken <= 0 && remainingUnits == 1)
-                {
-                    return true;
-                }
-                else return false;
-            }
-            else return false;
+            return (hitUnit.Health - dmgTaken <= 0 && remainingUnits == 1);
         }
     }
 }
