@@ -4,6 +4,7 @@ using BattleShipClient.Ingame_objects.Builder;
 using BattleShipClient.Ingame_objects.Decorator;
 using BattleShipClient.Ingame_objects.Facade;
 using BattleShipClient.Ingame_objects.Prototype;
+using BattleShipClient.Ingame_objects.State;
 using BattleShipClient.Ingame_objects.Strategy;
 using BattleShipClient.Ingame_objects.Visitor;
 using System;
@@ -14,16 +15,24 @@ using System.Net.Security;
 using System.Reflection;
 using System.Security.Cryptography.X509Certificates;
 using System.Windows.Forms;
+using static System.Windows.Forms.AxHost;
 
 namespace BattleShipClient
 {
-    public partial class Form1 : Form
+    public partial class Form1 : Form, IStateCor
     {
         string enemyNick;
         public bool enemyGiveUpBeforeStart = false;
         public bool normalEnd = false;
         public Button clickedButton;
         public Facade facade = new Facade();
+        public IStateCor _stateCor = null;
+
+        public void SetState(IStateCor state)
+        {
+            _stateCor = state;
+        }
+
         //mast not sunk
         //public int masts = 20;
         public Form1(string enemyNick)
@@ -31,6 +40,8 @@ namespace BattleShipClient
             InitializeComponent();
             DoubleBuffered = true;
             this.enemyNick = enemyNick;
+            _stateCor = new ZeroState(this);
+
         }
 
         List<Button> selectedButtons = new List<Button>();
@@ -152,27 +163,39 @@ namespace BattleShipClient
             //checkResult = Check1Masts();
             if (checkResult==false)
             {
-                MessageBox.Show("You have set wrong number of 1-masts", "Error");
+                SetState(new OneState(this));
+                _stateCor.Handle();
+                //SetState(new ZeroState(this));
+                //MessageBox.Show("You have set wrong number of 1-masts", "Error");
                 return;
             }
             checkResult = facade.Check2Masts();
             //checkResult = Check2Masts();
             if (checkResult == false)
             {
-                MessageBox.Show("You have set wrong number of 2-masts", "Error");
+                SetState(new TwoState(this));
+                _stateCor.Handle();
+                //SetState(new ZeroState(this));
+                //MessageBox.Show("You have set wrong number of 2-masts", "Error");
                 return;
             }
             checkResult = facade.Check3Masts();
             //checkResult = Check3Masts();
             if (checkResult == false)
             {
-                MessageBox.Show("You have set wrong number of 3-masts", "Error");
+                SetState(new ThreeState(this));
+                _stateCor.Handle();
+               // SetState(new ZeroState());
+                // MessageBox.Show("You have set wrong number of 3-masts", "Error");
                 return;
             }
             checkResult = facade.Check4Masts();
             if (checkResult == false)
             {
-                MessageBox.Show("You have set wrong number of 4-masts", "Error");
+                SetState(new FourState(this));
+                _stateCor.Handle();
+                //SetState(new ZeroState());
+                //MessageBox.Show("You have set wrong number of 4-masts", "Error");
                 return;
             }
         
@@ -362,5 +385,12 @@ namespace BattleShipClient
             facade.fleet.Visit(new DamageReductionVisitor());
             silentOrder.Enabled = false;
         }
+
+        void IStateCor.Handle()
+        {
+            return;
+        }
+
+        
     }
 }
