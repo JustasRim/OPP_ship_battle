@@ -109,6 +109,12 @@
     <Compile Include="Ingame objects\Proxy\ProxySendMessage.cs" />
     <Compile Include="Ingame objects\Ship.cs" />
     <Compile Include="Ingame objects\Adapter\ShipTankAdapter.cs" />
+    <Compile Include="Ingame objects\State\IStateCor.cs" />
+    <Compile Include="Ingame objects\State\OneState.cs" />
+    <Compile Include="Ingame objects\State\FourState.cs" />
+    <Compile Include="Ingame objects\State\ThreeState.cs" />
+    <Compile Include="Ingame objects\State\TwoState.cs" />
+    <Compile Include="Ingame objects\State\ZeroState.cs" />
     <Compile Include="Ingame objects\Strategy\BaseDamageStrategy.cs" />
     <Compile Include="Ingame objects\Strategy\BattleShipDamageStrategy.cs" />
     <Compile Include="Ingame objects\Strategy\DamageContext.cs" />
