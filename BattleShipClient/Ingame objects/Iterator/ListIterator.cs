@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,12 +14,14 @@ namespace BattleShipClient.Ingame_objects.Iterator
 
         public T getNext()
         {
+            Debug.WriteLine($"ListIterator --- Getting next element of list");
             return _list[_current++];
         }
 
         public bool hasMore()
         {
-            return(_list.Count > _current);
+            Debug.WriteLine($"ListIterator --- Checking if list has more elements");
+            return (_list.Count > _current);
         }
 
         public ListIterator(List<T> collection)
