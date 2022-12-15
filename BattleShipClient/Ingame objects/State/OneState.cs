@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 namespace BattleShipClient.Ingame_objects.State
 {
-    internal class OneState : IStateCor
+    public class OneState : IStateCor
     {
         private Form1 _form1 = null;
 
