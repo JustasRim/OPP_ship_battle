@@ -1,6 +1,7 @@
 ﻿using BattleShipClient.Ingame_objects;
 using BattleShipClient.Ingame_objects.Builder;
 using BattleShipClient.Ingame_objects.Decorator;
+using BattleShipClient.Ingame_objects.Iterator;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -77,7 +78,6 @@ namespace BattleShipClient
         public static void TestDecorator()
         {        
             var message = new Message();
-
             Console.WriteLine("-----------------------");
             message.CreateEmptyMessage();
 

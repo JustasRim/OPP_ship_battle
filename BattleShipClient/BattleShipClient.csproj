@@ -97,6 +97,14 @@
     <Compile Include="Ingame objects\Interpreter\Expression.cs" />
     <Compile Include="Ingame objects\Interpreter\HealthExpression.cs" />
     <Compile Include="Ingame objects\Interpreter\NumberExpression.cs" />
+    <Compile Include="Ingame objects\Iterator\LinkedListCollection.cs" />
+    <Compile Include="Ingame objects\Iterator\ICollections.cs" />
+    <Compile Include="Ingame objects\Iterator\IIterator.cs" />
+    <Compile Include="Ingame objects\Iterator\ArrayCollection.cs" />
+    <Compile Include="Ingame objects\Iterator\ListCollection.cs" />
+    <Compile Include="Ingame objects\Iterator\ArrayIterator.cs" />
+    <Compile Include="Ingame objects\Iterator\LinkedListIterator.cs" />
+    <Compile Include="Ingame objects\Iterator\ListIterator.cs" />
     <Compile Include="Ingame objects\Observer\ISubscriber.cs" />
     <Compile Include="Ingame objects\Observer\Publisher.cs" />
     <Compile Include="Ingame objects\Parts.cs" />

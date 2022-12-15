@@ -291,9 +291,17 @@ namespace BattleShipClient
             int y = Int32.Parse(clickedButton.Name.Substring(1, 1)); //get y button co-ordinates
             //Send Shot
             string message = "";
-            var yourMap = facade.GetMap(Facade.Maps.yourMap);
-            var damage = yourMap.Tiles.Where(q => q.HasUnit).SelectMany(q => q.Unit.Parts).Sum(q => q.Damage);
-            
+            var damage = 0;
+            var iterator = facade.GetMap(Facade.Maps.yourMap).Tiles.createIterator();
+            while(iterator.hasMore())
+            {
+                var tile = iterator.getNext();
+                if (tile.HasUnit)
+                {
+                    var unitDamage = tile.Unit.Parts.Sum(q => q.Damage);
+                    damage += unitDamage;
+                }
+            }
             message = (char)6 + " " + enemyNick + " " + x.ToString() + " " + y.ToString() + " " + damage + " <EOF>";
             SignalMessage signalMessage = new SignalMessage();
             signalMessage.CreateEmptyMessage();

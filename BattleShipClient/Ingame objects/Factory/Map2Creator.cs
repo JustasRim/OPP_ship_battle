@@ -18,6 +18,11 @@ public class Map2Creator : Map
     }
     public override ITile GetTile(int x, int y)
     {
-        return (Tiles[x * 10 + y]);
+        var iterator = Tiles.createIterator();
+        for (int i = 0; i < x * 10 + y; i++)
+        {
+            iterator.getNext();
+        }
+        return iterator.getNext();
     }
 }
