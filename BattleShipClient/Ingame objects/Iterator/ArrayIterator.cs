@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BattleShipClient.Ingame_objects.Iterator
 {
-    public class ArrayIterator<T> : IIterator<T> 
+    public class ArrayIterator<T>
     {
         T[] _list = new T[16];
         int _current = 0;

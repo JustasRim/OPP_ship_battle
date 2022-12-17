@@ -35,8 +35,8 @@ namespace BattleShipClient.Ingame_objects.Facade
             director = new Director();
             masts = 20;
             gameWon = false;
-            winCondition = new FirstDestroyed();
-            //winCondition = new AllDestroyed();
+            //winCondition = new FirstDestroyed();
+            winCondition = new AllDestroyed();
         }
 
         public void CreateCompositeFleet()

@@ -39,7 +39,6 @@
             this.BMastx33 = new System.Windows.Forms.Button();
             this.Lx2 = new System.Windows.Forms.Label();
             this.BMastx41 = new System.Windows.Forms.Button();
-            this.BMastx42 = new System.Windows.Forms.Button();
             this.BMastx44 = new System.Windows.Forms.Button();
             this.BMastx43 = new System.Windows.Forms.Button();
             this.Lx1 = new System.Windows.Forms.Label();
@@ -72,10 +71,11 @@
             this.button4 = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
-            this.BPlay = new System.Windows.Forms.Button();
             this.orderToRepair = new System.Windows.Forms.Button();
             this.delegateEngineers = new System.Windows.Forms.Button();
             this.silentOrder = new System.Windows.Forms.Button();
+            this.BPlay = new System.Windows.Forms.Button();
+            this.BMastx42 = new System.Windows.Forms.Button();
             this.PMast.SuspendLayout();
             this.PMastSet.SuspendLayout();
             this.SuspendLayout();
@@ -186,17 +186,6 @@
             this.BMastx41.Size = new System.Drawing.Size(15, 15);
             this.BMastx41.TabIndex = 19;
             this.BMastx41.UseVisualStyleBackColor = false;
-            // 
-            // BMastx42
-            // 
-            this.BMastx42.BackColor = System.Drawing.Color.MediumBlue;
-            this.BMastx42.Enabled = false;
-            this.BMastx42.FlatAppearance.BorderColor = System.Drawing.Color.CornflowerBlue;
-            this.BMastx42.Location = new System.Drawing.Point(29, 166);
-            this.BMastx42.Name = "BMastx42";
-            this.BMastx42.Size = new System.Drawing.Size(15, 15);
-            this.BMastx42.TabIndex = 20;
-            this.BMastx42.UseVisualStyleBackColor = false;
             // 
             // BMastx44
             // 
@@ -583,19 +572,6 @@
             this.button5.TabIndex = 36;
             this.button5.UseVisualStyleBackColor = false;
             // 
-            // BPlay
-            // 
-            this.BPlay.BackColor = System.Drawing.Color.IndianRed;
-            this.BPlay.Font = new System.Drawing.Font("Segoe Print", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.BPlay.ForeColor = System.Drawing.Color.White;
-            this.BPlay.Location = new System.Drawing.Point(533, 381);
-            this.BPlay.Name = "BPlay";
-            this.BPlay.Size = new System.Drawing.Size(75, 37);
-            this.BPlay.TabIndex = 28;
-            this.BPlay.Text = "Play";
-            this.BPlay.UseVisualStyleBackColor = false;
-            this.BPlay.Click += new System.EventHandler(this.playbuttonClick);
-            // 
             // orderToRepair
             // 
             this.orderToRepair.Location = new System.Drawing.Point(7, 12);
@@ -625,6 +601,30 @@
             this.silentOrder.Text = "Issue Silent Order";
             this.silentOrder.UseVisualStyleBackColor = true;
             this.silentOrder.Click += new System.EventHandler(this.silentOrder_Click);
+            // 
+            // BPlay
+            // 
+            this.BPlay.BackColor = System.Drawing.Color.IndianRed;
+            this.BPlay.Font = new System.Drawing.Font("Segoe Print", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.BPlay.ForeColor = System.Drawing.Color.White;
+            this.BPlay.Location = new System.Drawing.Point(533, 381);
+            this.BPlay.Name = "BPlay";
+            this.BPlay.Size = new System.Drawing.Size(75, 37);
+            this.BPlay.TabIndex = 28;
+            this.BPlay.Text = "Play";
+            this.BPlay.UseVisualStyleBackColor = false;
+            this.BPlay.Click += new System.EventHandler(this.playbuttonClick);
+            // 
+            // BMastx42
+            // 
+            this.BMastx42.BackColor = System.Drawing.Color.MediumBlue;
+            this.BMastx42.Enabled = false;
+            this.BMastx42.FlatAppearance.BorderColor = System.Drawing.Color.CornflowerBlue;
+            this.BMastx42.Location = new System.Drawing.Point(29, 166);
+            this.BMastx42.Name = "BMastx42";
+            this.BMastx42.Size = new System.Drawing.Size(15, 15);
+            this.BMastx42.TabIndex = 20;
+            this.BMastx42.UseVisualStyleBackColor = false;
             // 
             // Form1
             // 

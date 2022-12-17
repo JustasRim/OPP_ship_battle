@@ -7,17 +7,18 @@ public class Map1Creator : Map
         {
             for (int j = 0; j < 10; j++)
             {
-                Tiles.Add(new GroundTile(i, j));
+                //Tiles.Add(new GroundTile(i, j));
             }
         }
     }
     public override ITile GetTile(int x, int y)
     {
-        var iterator = Tiles.createIterator();
-        for (int i = 0; i < x * 10 + y; i++)
-        {
-            iterator.getNext();
-        }
-        return iterator.getNext();
+        return (Tiles[x * 10 + y]);
+        //var iterator = Tiles.createIterator();
+        //for (int i = 0; i < x * 10 + y; i++)
+        //{
+        //    iterator.getNext();
+        //}
+        //return iterator.getNext();
     }
 }

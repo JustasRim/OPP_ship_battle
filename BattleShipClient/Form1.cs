@@ -3,6 +3,7 @@ using BattleShipClient.Ingame_objects.Adapter;
 using BattleShipClient.Ingame_objects.Builder;
 using BattleShipClient.Ingame_objects.Decorator;
 using BattleShipClient.Ingame_objects.Facade;
+using BattleShipClient.Ingame_objects.Iterator;
 using BattleShipClient.Ingame_objects.Prototype;
 using BattleShipClient.Ingame_objects.State;
 using BattleShipClient.Ingame_objects.Strategy;
@@ -73,7 +74,8 @@ namespace BattleShipClient
                         {
                             //var tile = map.GetTile(i - 1, j - 1);
                             var tile = facade.GetTile(map, i - 1, j - 1);
-                            button.BackColor = tile.Color;
+                            button.BackColor = tile.TileColor;
+                            //button.Image = tile.TileImage;
                             tile.Button = button;
                             button.Click += new System.EventHandler(this.setMastbuttonClick);
                         }
@@ -81,7 +83,8 @@ namespace BattleShipClient
                         {
                             //var tile = map.GetTile(i - 1, j - 1);
                             var tile = facade.GetTile(map, i - 1, j - 1);
-                            button.BackColor = tile.Color;
+                            button.BackColor = tile.TileColor;
+                            //button.Image = tile.TileImage;
                             tile.Button = button;
                             button.Click += new System.EventHandler(this.buttonClick);
                         }
@@ -217,29 +220,59 @@ namespace BattleShipClient
             clickedButton.Enabled = false;      
         }
 
-        public void GetShotAndResponse(int x, int y, int damage)
+        public void GetShotAndResponse(int y, int x, int damage)
         {
             Panel panel = (Panel)this.Controls.Find("PYou", true).FirstOrDefault();
-            Button button = (Button)panel.Controls.Find(x.ToString() + y.ToString(), true).FirstOrDefault();
             
+            var tiles = facade.GetMap(Facade.Maps.yourMap).Tiles;
+            var iterator = new ListIterator<ITile>(tiles, x, y);
+            var all_tiles = new List<ITile>();
+            for (int i = 0; i < 2; i++)
+            {
+                all_tiles.AddRange(iterator.getNext());
+            }
             SignalMessage signalMessage = new SignalMessage();
             signalMessage.CreateEmptyMessage();
 
             FrontDecorator frontDecorator = new FrontDecorator(signalMessage, signalMessage);
             EndDecorator endDecorator = new EndDecorator(frontDecorator, signalMessage);
             WholeDecorator wholeDecorator = new WholeDecorator(endDecorator, signalMessage);
-
-            var tile = facade.GetTile(Facade.Maps.yourMap, x, y);
-            if (tile.HasUnit)
+            var hasUnit = false;
+            //var tile = facade.GetTile(Facade.Maps.yourMap, x, y);
+            foreach (var tile in all_tiles)
             {
-                var hasUnitDied = facade.DamageUnit(tile, damage);
+                Button button = (Button)panel.Controls.Find(tile.X.ToString() + tile.Y.ToString(), true).FirstOrDefault();
+                if (tile.HasUnit)
+                {
+                    hasUnit = true;
+                    var hasUnitDied = facade.DamageUnit(tile, damage);
 
-                if (hasUnitDied)
-                    button.BackColor = Color.Tomato;
+                    if (hasUnitDied)
+                        button.BackColor = Color.Tomato;
+                    else
+                        button.BackColor = Color.Purple;
+
+                    Application.DoEvents();
+                    wholeDecorator.CreateMessage((char)5 + " " + enemyNick + " " + tile.Unit.Health + " <EOF>");
+                    Program.client.Send(wholeDecorator.ReturnMessage());
+                }
                 else
-                    button.BackColor = Color.Purple;
+                {
+                    button.BackColor = Color.Silver;
+                    //button.BackColor = Color.Red;
+                }
+               
+            }
+            if(!hasUnit)
+            {
+                wholeDecorator.CreateMessage((char)4 + " " + enemyNick + " <EOF>");
+                Program.client.Send(wholeDecorator.ReturnMessage());
 
-                Application.DoEvents();
+                //Your turn
+                ((Panel)this.Controls.Find("PEnemy", true).FirstOrDefault()).Enabled = true;
+            }
+            else
+            {
                 if (facade.GetRemainingMastsCount() == 0)
                 {
                     Application.DoEvents();
@@ -247,20 +280,9 @@ namespace BattleShipClient
                 }
                 else
                 {
-                    wholeDecorator.CreateMessage((char)5 + " " + enemyNick + " " + tile.Unit.Health + " <EOF>");
-                    Program.client.Send(wholeDecorator.ReturnMessage());
                     //Your turn
                     ((Panel)this.Controls.Find("PEnemy", true).FirstOrDefault()).Enabled = false;
                 }
-            }
-            else//Send Miss
-            {
-                wholeDecorator.CreateMessage((char)4 + " " + enemyNick + " <EOF>");
-                Program.client.Send(wholeDecorator.ReturnMessage());
-                button.BackColor = Color.Silver;
-
-                //Your turn
-                ((Panel)this.Controls.Find("PEnemy", true).FirstOrDefault()).Enabled = true;
             }
             Application.DoEvents();
         }
@@ -292,7 +314,8 @@ namespace BattleShipClient
             }
             else
             {
-                clickedButton.BackColor = facade.GetTile(Facade.Maps.yourMap, x, y).Color;
+                clickedButton.BackColor = facade.GetTile(Facade.Maps.yourMap, x, y).TileColor;
+                //clickedButton.Image = facade.GetTile(Facade.Maps.yourMap, x, y).TileImage;
                 //enable corners
                 DisableOrEnableAllCorners((Panel)clickedButton.Parent, x, y, true);
                 //remove from dictionary
@@ -314,17 +337,8 @@ namespace BattleShipClient
             int y = Int32.Parse(clickedButton.Name.Substring(1, 1)); //get y button co-ordinates
             //Send Shot
             string message = "";
-            var damage = 0;
-            var iterator = facade.GetMap(Facade.Maps.yourMap).Tiles.createIterator();
-            while(iterator.hasMore())
-            {
-                var tile = iterator.getNext();
-                if (tile.HasUnit)
-                {
-                    var unitDamage = tile.Unit.Parts.Sum(q => q.Damage);
-                    damage += unitDamage;
-                }
-            }
+            var yourMap = facade.GetMap(Facade.Maps.yourMap);
+            var damage = yourMap.Tiles.Where(q => q.HasUnit).SelectMany(q => q.Unit.Parts).Sum(q => q.Damage);
             message = (char)6 + " " + enemyNick + " " + x.ToString() + " " + y.ToString() + " " + damage + " <EOF>";
             SignalMessage signalMessage = new SignalMessage();
             signalMessage.CreateEmptyMessage();

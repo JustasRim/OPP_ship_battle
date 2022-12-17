@@ -4,11 +4,12 @@ using BattleShipClient.Ingame_objects.Observer;
 using System.Drawing;
 using System.Windows.Forms;
 
-public interface ITile : ISubscriber
+public interface ITileOld : ISubscriber
 {
     Button Button { set; }
-    Image TileImage { set; get; }
     Color TileColor { set; get; }
+    Image TileImage { get; set; }
+    Image UpdateImage { get; set; }
     int X { get; set; }
     int Y { get; set; }
     bool HasUnit { get; }

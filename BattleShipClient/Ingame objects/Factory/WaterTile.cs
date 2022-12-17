@@ -3,27 +3,28 @@ using BattleShipClient.Ingame_objects.Observer;
 using System.Drawing;
 using System.Windows.Forms;
 
-class WaterTile : ITile
+public class WaterTile : ITileOld
 {
-    public Color Color
-    {
-        get { return Color.LightCyan; }
-        set { }
-    }
+    public Image TileImage { get; set; }
+    public Image UpdateImage { get; set; }
+    public Color TileColor { get; set; }
     public bool HasUnit { get => Unit != null; }
     public int X { get; set; }
     public int Y { get; set; }
     public Unit Unit { get; set; }
     public Button Button { set; private get; }
 
-    public WaterTile(int x, int y)
+    public WaterTile(int x, int y, Image baseTile, Image afterUpdate)
     {
         X = x;
         Y = y;
+        TileImage = baseTile;
+        UpdateImage = afterUpdate;
+        TileColor = Color.LightBlue;
     }
 
     public void Update()
     {
-        Button.BackColor = Color.Crimson;
+        Button.Image = UpdateImage;
     }
 }

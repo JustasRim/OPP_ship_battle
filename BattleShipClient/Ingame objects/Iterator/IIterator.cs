@@ -8,7 +8,7 @@ namespace BattleShipClient.Ingame_objects.Iterator
 {
     interface IIterator<T>
     {
-        T getNext();
+        List<T> getNext();
         bool hasMore();
     }
 }

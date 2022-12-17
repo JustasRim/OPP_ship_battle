@@ -17,10 +17,10 @@ namespace BattleShipClient.Ingame_objects.Iterator
             _list.Add(obj);
         }
 
-        public ListIterator<T> createIterator()
+        public ListIterator<T> createIterator(int x, int y)
         {
             Debug.WriteLine($"Creating ListCollection Iterator");
-            return new ListIterator<T>(_list);
+            return new ListIterator<T>(_list, x, y);
         }
     }
 }

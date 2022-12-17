@@ -8,7 +8,7 @@ namespace BattleShipClient.Ingame_objects.Iterator
 {
     public interface ICollectionList<T>
     {
-        ListIterator<T> createIterator();
+        ListIterator<T> createIterator(int x, int y);
     }
     public interface ICollectionArray<T>
     {

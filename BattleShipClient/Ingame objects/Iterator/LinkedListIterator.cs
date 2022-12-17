@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BattleShipClient.Ingame_objects.Iterator
 {
-    public class LinkedListIterator<T> : IIterator<T> 
+    public class LinkedListIterator<T> 
     {
         LinkedList<T> _list = new LinkedList<T>();
         int _current = 0;

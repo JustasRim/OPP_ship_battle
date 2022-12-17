@@ -37,6 +37,9 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -93,6 +96,10 @@
     <Compile Include="Ingame objects\Factory\Map.cs" />
     <Compile Include="Ingame objects\Factory\Map1Creator.cs" />
     <Compile Include="Ingame objects\Factory\Map2Creator.cs" />
+    <Compile Include="Ingame objects\Factory\TileOld.cs" />
+    <Compile Include="Ingame objects\FlyWeight\Tile.cs" />
+    <Compile Include="Ingame objects\FlyWeight\TileImages.cs" />
+    <Compile Include="Ingame objects\FlyWeight\TileColors.cs" />
     <Compile Include="Ingame objects\Interpreter\DamageExpression.cs" />
     <Compile Include="Ingame objects\Interpreter\Expression.cs" />
     <Compile Include="Ingame objects\Interpreter\HealthExpression.cs" />
@@ -177,6 +184,7 @@
     <EmbeddedResource Include="ServerConnectionPanel.resx">
       <DependentUpon>ServerConnectionPanel.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -200,6 +208,8 @@
     <None Include="aloneCaptain.jpg" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\1154935.png" />
+    <None Include="Resources\shipicon.png" />
     <Content Include="sharkicon.ico" />
   </ItemGroup>
   <ItemGroup />
