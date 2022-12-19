@@ -308,9 +308,6 @@ namespace BattleShipClient
                 //check left neigbours
                 if ((leftNo + rightNo < 4) && (upNo + downNo < 4))
                 {
-                    //originator.setLine(facade.GetTile(Facade.Maps.yourMap, x, y), x, y, clickedButton, selectedButtons);
-                    //careTaker.addMemento(originator.save());
-
                     clickedButton.BackColor = Color.MediumBlue;
                     //add to dictionary
                     selectedButtons.Add(clickedButton);
@@ -322,19 +319,10 @@ namespace BattleShipClient
 
                     originator.setElements(facade.GetTile(Facade.Maps.yourMap, x, y),x,y,clickedButton,selectedButtons);
                     careTaker.addMemento(originator.save());
-
-
-                    //issaugau facade/facede map
-                    //facade.GetTile(Facade.Maps.yourMap, x, y) = ITile int?
-                    //----------------------------------------------------------------
-
                 }
             }
             else
             {
-                //originator.setLine(facade.GetTile(Facade.Maps.yourMap, x, y), x, y, clickedButton, selectedButtons);
-                //careTaker.addMemento(originator.save());
-
                 clickedButton.BackColor = facade.GetTile(Facade.Maps.yourMap, x, y).TileColor;
                 //clickedButton.Image = facade.GetTile(Facade.Maps.yourMap, x, y).TileImage;
                 //enable corners
@@ -368,8 +356,7 @@ namespace BattleShipClient
             signalMessage.CreateEmptyMessage();
             FrontDecorator frontDecorator = new FrontDecorator(signalMessage, signalMessage);
             frontDecorator.CreateMessage((char)6 + " " + enemyNick + " " + x.ToString() + " " + y.ToString() + " " + damage + " <EOF>");
-            Program.client.Send(frontDecorator.ReturnMessage());
-           
+            Program.client.Send(frontDecorator.ReturnMessage());          
             //Get answer form Program's thread       
         }
 
