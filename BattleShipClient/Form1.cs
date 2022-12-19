@@ -426,37 +426,48 @@ namespace BattleShipClient
 
         private void undoUnit_Click(object sender, EventArgs e)
         {
-            
-           // selectedButtons = originator.getElements().Item5;
-
-
             if (originator.getElements().Item1.Unit == null)
             {
                 facade.AssignUnit(facade.GetTile(Facade.Maps.yourMap, originator.getElements().Item2, originator.getElements().Item3), new Unit());
                 originator.getElements().Item4.BackColor = Color.MediumBlue;
 
-                //DisableOrEnableAllCorners((Panel)originator.getElements().Item4.Parent, originator.getElements().Item2, originator.getElements().Item3, false);
-                // DisableOrEnableAllCorners((Panel)btn.Parent, Int32.Parse(btn.Name[0].ToString()), Int32.Parse(btn.Name[1].ToString()), false);
-
+                originator.getElements().Item5.Add(originator.getElements().Item4);
+                //disable corners
                 foreach (Button btn in originator.getElements().Item5)
                 {
                     DisableOrEnableAllCorners((Panel)btn.Parent, Int32.Parse(btn.Name[0].ToString()), Int32.Parse(btn.Name[1].ToString()), false);
                 }
-
             }
             else
             {
                 facade.AssignUnit(facade.GetTile(Facade.Maps.yourMap, originator.getElements().Item2, originator.getElements().Item3), null);
-                originator.getElements().Item4.BackColor = Color.LightBlue;
+                
+               
+
+                if (originator.getElements().Item3 > 4)
+                {
+                    originator.getElements().Item4.BackColor = Color.LightBlue;
+                }
+                else if (originator.getElements().Item3 == 5)
+                {
+                    originator.getElements().Item4.BackColor = Color.Gray;
+                }
+                else
+                {
+                    originator.getElements().Item4.BackColor = Color.Green;
+                }
+ 
+
+                DisableOrEnableAllCorners((Panel)originator.getElements().Item4.Parent, originator.getElements().Item2, originator.getElements().Item3, true);
+                //remove from dictionary
+                originator.getElements().Item5.Remove(originator.getElements().Item4);
+                //disable corners for buttons in dictionary
                 foreach (Button btn in originator.getElements().Item5)
                 {
                     DisableOrEnableAllCorners((Panel)btn.Parent, Int32.Parse(btn.Name[0].ToString()), Int32.Parse(btn.Name[1].ToString()), false);
                 }
             }
-
-
-            
-           
+            originator.restore(careTaker.undo());
         }
 
         void IStateCor.Handle()
