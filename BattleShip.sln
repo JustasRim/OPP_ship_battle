@@ -7,9 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BattleShipClient", "BattleS
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BattleShipServer", "BattleShipServer\BattleShipServer.csproj", "{43857CDC-0727-49C1-9C68-BB85DE757F96}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Benchmark", "Benchmark\Benchmark.csproj", "{EAE191CA-CA60-4B39-BFEA-266D8C36D65D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Benchmark", "Benchmark\Benchmark.csproj", "{EAE191CA-CA60-4B39-BFEA-266D8C36D65D}"
 	ProjectSection(ProjectDependencies) = postProject
 		{2FB6473B-3954-4EE8-B529-E1DA4EA9B978} = {2FB6473B-3954-4EE8-B529-E1DA4EA9B978}
+		{43857CDC-0727-49C1-9C68-BB85DE757F96} = {43857CDC-0727-49C1-9C68-BB85DE757F96}
 	EndProjectSection
 EndProject
 Global

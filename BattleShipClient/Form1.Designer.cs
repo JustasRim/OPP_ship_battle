@@ -43,6 +43,7 @@
             this.BMastx43 = new System.Windows.Forms.Button();
             this.Lx1 = new System.Windows.Forms.Label();
             this.PMast = new System.Windows.Forms.Panel();
+            this.BMastx42 = new System.Windows.Forms.Button();
             this.PMastSet = new System.Windows.Forms.Panel();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -75,7 +76,7 @@
             this.delegateEngineers = new System.Windows.Forms.Button();
             this.silentOrder = new System.Windows.Forms.Button();
             this.BPlay = new System.Windows.Forms.Button();
-            this.BMastx42 = new System.Windows.Forms.Button();
+            this.UndoUnit = new System.Windows.Forms.Button();
             this.PMast.SuspendLayout();
             this.PMastSet.SuspendLayout();
             this.SuspendLayout();
@@ -240,6 +241,17 @@
             this.PMast.Size = new System.Drawing.Size(78, 207);
             this.PMast.TabIndex = 26;
             this.PMast.Visible = false;
+            // 
+            // BMastx42
+            // 
+            this.BMastx42.BackColor = System.Drawing.Color.MediumBlue;
+            this.BMastx42.Enabled = false;
+            this.BMastx42.FlatAppearance.BorderColor = System.Drawing.Color.CornflowerBlue;
+            this.BMastx42.Location = new System.Drawing.Point(29, 166);
+            this.BMastx42.Name = "BMastx42";
+            this.BMastx42.Size = new System.Drawing.Size(15, 15);
+            this.BMastx42.TabIndex = 20;
+            this.BMastx42.UseVisualStyleBackColor = false;
             // 
             // PMastSet
             // 
@@ -615,22 +627,22 @@
             this.BPlay.UseVisualStyleBackColor = false;
             this.BPlay.Click += new System.EventHandler(this.playbuttonClick);
             // 
-            // BMastx42
+            // UndoUnit
             // 
-            this.BMastx42.BackColor = System.Drawing.Color.MediumBlue;
-            this.BMastx42.Enabled = false;
-            this.BMastx42.FlatAppearance.BorderColor = System.Drawing.Color.CornflowerBlue;
-            this.BMastx42.Location = new System.Drawing.Point(29, 166);
-            this.BMastx42.Name = "BMastx42";
-            this.BMastx42.Size = new System.Drawing.Size(15, 15);
-            this.BMastx42.TabIndex = 20;
-            this.BMastx42.UseVisualStyleBackColor = false;
+            this.UndoUnit.Location = new System.Drawing.Point(265, 12);
+            this.UndoUnit.Name = "UndoUnit";
+            this.UndoUnit.Size = new System.Drawing.Size(78, 44);
+            this.UndoUnit.TabIndex = 32;
+            this.UndoUnit.Text = "Undo Unit";
+            this.UndoUnit.UseVisualStyleBackColor = true;
+            this.UndoUnit.Click += new System.EventHandler(this.undoUnit_Click);        
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(624, 441);
+            this.Controls.Add(this.UndoUnit);
             this.Controls.Add(this.silentOrder);
             this.Controls.Add(this.delegateEngineers);
             this.Controls.Add(this.orderToRepair);
@@ -701,6 +713,7 @@
         private System.Windows.Forms.Button orderToRepair;
         private System.Windows.Forms.Button delegateEngineers;
         private System.Windows.Forms.Button silentOrder;
+        private System.Windows.Forms.Button UndoUnit;
     }
 }
 

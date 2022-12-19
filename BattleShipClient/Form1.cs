@@ -4,6 +4,7 @@ using BattleShipClient.Ingame_objects.Builder;
 using BattleShipClient.Ingame_objects.Decorator;
 using BattleShipClient.Ingame_objects.Facade;
 using BattleShipClient.Ingame_objects.Iterator;
+using BattleShipClient.Ingame_objects.MementoPattern;
 using BattleShipClient.Ingame_objects.Prototype;
 using BattleShipClient.Ingame_objects.State;
 using BattleShipClient.Ingame_objects.Strategy;
@@ -11,6 +12,7 @@ using BattleShipClient.Ingame_objects.Visitor;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Text;
 using System.Linq;
 using System.Net.Security;
 using System.Reflection;
@@ -28,6 +30,8 @@ namespace BattleShipClient
         public Button clickedButton;
         public Facade facade = new Facade();
         public IStateCor _stateCor = null;
+        Originator originator;
+        CareTaker careTaker;
 
         public void SetState(IStateCor state)
         {
@@ -42,11 +46,12 @@ namespace BattleShipClient
             DoubleBuffered = true;
             this.enemyNick = enemyNick;
             _stateCor = new ZeroState(this);
-
+            originator = new Originator();
+            careTaker = new CareTaker();
         }
 
         List<Button> selectedButtons = new List<Button>();
-        
+
         private void GenerateMap(string name, int xStartPos, int yStartPos, Facade.Maps map)
         {
             Panel buttonPanel = new Panel();
@@ -303,17 +308,33 @@ namespace BattleShipClient
                 //check left neigbours
                 if ((leftNo + rightNo < 4) && (upNo + downNo < 4))
                 {
+                    //originator.setLine(facade.GetTile(Facade.Maps.yourMap, x, y), x, y, clickedButton, selectedButtons);
+                    //careTaker.addMemento(originator.save());
+
                     clickedButton.BackColor = Color.MediumBlue;
                     //add to dictionary
                     selectedButtons.Add(clickedButton);
                     //disable corners
                     DisableOrEnableAllCorners((Panel)clickedButton.Parent, x, y, false);
                     //set true in game table
+                    
                     facade.AssignUnit(facade.GetTile(Facade.Maps.yourMap, x, y), new Unit());
+
+                    originator.setElements(facade.GetTile(Facade.Maps.yourMap, x, y),x,y,clickedButton,selectedButtons);
+                    careTaker.addMemento(originator.save());
+
+
+                    //issaugau facade/facede map
+                    //facade.GetTile(Facade.Maps.yourMap, x, y) = ITile int?
+                    //----------------------------------------------------------------
+
                 }
             }
             else
             {
+                //originator.setLine(facade.GetTile(Facade.Maps.yourMap, x, y), x, y, clickedButton, selectedButtons);
+                //careTaker.addMemento(originator.save());
+
                 clickedButton.BackColor = facade.GetTile(Facade.Maps.yourMap, x, y).TileColor;
                 //clickedButton.Image = facade.GetTile(Facade.Maps.yourMap, x, y).TileImage;
                 //enable corners
@@ -327,6 +348,9 @@ namespace BattleShipClient
                 }
                 //set false in game table
                 facade.AssignUnit(facade.GetTile(Facade.Maps.yourMap, x, y), null);
+
+                originator.setElements(facade.GetTile(Facade.Maps.yourMap, x, y),x,y, clickedButton, selectedButtons);
+                careTaker.addMemento(originator.save());
             }
         }
 
@@ -398,6 +422,41 @@ namespace BattleShipClient
         {
             facade.fleet.Visit(new DamageReductionVisitor());
             silentOrder.Enabled = false;
+        }
+
+        private void undoUnit_Click(object sender, EventArgs e)
+        {
+            
+           // selectedButtons = originator.getElements().Item5;
+
+
+            if (originator.getElements().Item1.Unit == null)
+            {
+                facade.AssignUnit(facade.GetTile(Facade.Maps.yourMap, originator.getElements().Item2, originator.getElements().Item3), new Unit());
+                originator.getElements().Item4.BackColor = Color.MediumBlue;
+
+                //DisableOrEnableAllCorners((Panel)originator.getElements().Item4.Parent, originator.getElements().Item2, originator.getElements().Item3, false);
+                // DisableOrEnableAllCorners((Panel)btn.Parent, Int32.Parse(btn.Name[0].ToString()), Int32.Parse(btn.Name[1].ToString()), false);
+
+                foreach (Button btn in originator.getElements().Item5)
+                {
+                    DisableOrEnableAllCorners((Panel)btn.Parent, Int32.Parse(btn.Name[0].ToString()), Int32.Parse(btn.Name[1].ToString()), false);
+                }
+
+            }
+            else
+            {
+                facade.AssignUnit(facade.GetTile(Facade.Maps.yourMap, originator.getElements().Item2, originator.getElements().Item3), null);
+                originator.getElements().Item4.BackColor = Color.LightBlue;
+                foreach (Button btn in originator.getElements().Item5)
+                {
+                    DisableOrEnableAllCorners((Panel)btn.Parent, Int32.Parse(btn.Name[0].ToString()), Int32.Parse(btn.Name[1].ToString()), false);
+                }
+            }
+
+
+            
+           
         }
 
         void IStateCor.Handle()
