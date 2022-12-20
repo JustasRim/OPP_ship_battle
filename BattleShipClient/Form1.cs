@@ -1,6 +1,7 @@
 ﻿using BattleShipClient.Ingame_objects;
 using BattleShipClient.Ingame_objects.Adapter;
 using BattleShipClient.Ingame_objects.Builder;
+using BattleShipClient.Ingame_objects.ChainOfResponsibility;
 using BattleShipClient.Ingame_objects.Decorator;
 using BattleShipClient.Ingame_objects.Facade;
 using BattleShipClient.Ingame_objects.Iterator;
@@ -32,6 +33,7 @@ namespace BattleShipClient
         public IStateCor _stateCor = null;
         Originator originator;
         CareTaker careTaker;
+        Facade tempfac;
 
         public void SetState(IStateCor state)
         {
@@ -164,49 +166,75 @@ namespace BattleShipClient
         }
         void playbuttonClick(object sender, EventArgs e)
         {
+            
+
             clickedButton = (Button)sender;
+
             facade.ResetTiles(Facade.Maps.yourMapTmp);
             //yourMapTmp.ResetTiles();
-            var checkResult = facade.Check1Masts();
-            //checkResult = Check1Masts();
-            if (checkResult==false)
-            {
-                SetState(new OneState(this));
-                _stateCor.Handle();
-                //SetState(new ZeroState(this));
-                //MessageBox.Show("You have set wrong number of 1-masts", "Error");
+
+            ICheck checkOne = new CheckUnitOfSize1();
+            ICheck checkTwo = new CheckUnitOfSize2();
+            ICheck checkThree = new CheckUnitOfSize3();
+            ICheck checkFour = new CheckUnitOfSize4();
+
+            checkOne.Successor = checkTwo;
+            checkTwo.Successor = checkThree;
+            checkThree.Successor = checkFour;
+
+            checkOne.Check(facade);
+
+            if (facade.noError == false)
                 return;
-            }
-            checkResult = facade.Check2Masts();
-            //checkResult = Check2Masts();
-            if (checkResult == false)
-            {
-                SetState(new TwoState(this));
-                _stateCor.Handle();
+            /*
+            if (facade.Check1Masts() == false)
+                return;
+
+            if (facade.Check2Masts() == false)
+                return;
+
+            if (facade.Check3Masts() == false)
+                return;
+
+            if (facade.Check4Masts() == false)
+                return;
+            
+            //var checkResult2 = facade.Check2Masts();
+          //  if (checkResult2 == false)
+           // {
+                // SetState(new TwoState(this));
+                //_stateCor.Handle();
                 //SetState(new ZeroState(this));
                 //MessageBox.Show("You have set wrong number of 2-masts", "Error");
+            //    return;
+           // }
+           // var checkResult = facade.Check1Masts();
+           // if (checkResult==false)
+           // {
+               // SetState(new OneState(this));
+                //_stateCor.Handle();
+                //SetState(new ZeroState(this));
+                //MessageBox.Show("You have set wrong number of 1-masts", "Error");
+            //    return;
+           // }
+            
+            var checkResult3 = facade.Check3Masts();
+            if (checkResult3==false)
+            {
                 return;
             }
-            checkResult = facade.Check3Masts();
-            //checkResult = Check3Masts();
-            if (checkResult == false)
+            var checkResult4 = facade.Check4Masts();
+            if (checkResult4==false)
             {
-                SetState(new ThreeState(this));
-                _stateCor.Handle();
-               // SetState(new ZeroState());
-                // MessageBox.Show("You have set wrong number of 3-masts", "Error");
-                return;
-            }
-            checkResult = facade.Check4Masts();
-            if (checkResult == false)
-            {
-                SetState(new FourState(this));
-                _stateCor.Handle();
+               // SetState(new FourState(this));
+               // _stateCor.Handle();
                 //SetState(new ZeroState());
                 //MessageBox.Show("You have set wrong number of 4-masts", "Error");
                 return;
             }
-        
+            */
+            
+
             var signalMessage = new SignalMessage();
             FrontDecorator frontDecorator = new FrontDecorator(signalMessage, signalMessage);
             EndDecorator endDecorator = new EndDecorator(frontDecorator, signalMessage);

@@ -39,7 +39,5 @@ namespace BattleShipClient.Ingame_objects.MementoPattern
             this.buttonState = buttonState;
             this.selectedButtonsState = selectedButtonsState;
         }
-
-
     }
 }

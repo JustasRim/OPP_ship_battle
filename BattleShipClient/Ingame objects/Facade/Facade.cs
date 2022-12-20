@@ -18,7 +18,8 @@ namespace BattleShipClient.Ingame_objects.Facade
         Ship unitOf3Masts { get; set; }
         Ship unitOf4Masts { get; set; }
         Director director { get; set; }
-
+        
+        public bool noError { get; set; }
         bool gameWon { get; set; }
         WinCondition winCondition { get; set; }
 
@@ -35,6 +36,7 @@ namespace BattleShipClient.Ingame_objects.Facade
             director = new Director();
             masts = 20;
             gameWon = false;
+            noError = false;
             //winCondition = new FirstDestroyed();
             winCondition = new AllDestroyed();
         }
@@ -42,6 +44,7 @@ namespace BattleShipClient.Ingame_objects.Facade
         public void CreateCompositeFleet()
         {
             fleet = new Composite(unitOf4Masts);
+
             var flotilla = new Composite(flotilas[0]);
 
             var squadron1 = new Composite(squadrons[0]);

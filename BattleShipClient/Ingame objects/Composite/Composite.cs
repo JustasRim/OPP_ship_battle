@@ -7,6 +7,10 @@ namespace BattleShipClient.Ingame_objects.CompositePatrtern
     {
         readonly List<Component> children = new List<Component>();
 
+        public Composite()
+        {
+
+        }
         public Composite(Element element)
         {
             this.element = element;
