@@ -13,6 +13,7 @@ namespace BattleShipClient.Ingame_objects.ChainOfResponsibility
 
         public void Check(Facade.Facade facade)
         {
+            Console.WriteLine("Checking masts size of 4");
             if (facade.Check4Masts() == false)
             {
                 MessageBox.Show("You have set wrong number of 4-masts", "Error");
